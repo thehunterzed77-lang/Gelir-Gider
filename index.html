@@ -11,185 +11,145 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#222
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #222;
+.header{
+    background:#111;
+    color:white;
+    padding:20px;
+    text-align:center
 }
 
-.header {
-    background: #111;
-    color: white;
-    padding: 20px;
-    text-align: center;
+.container{
+    max-width:1000px;
+    margin:25px auto;
+    padding:15px
 }
 
-.container {
-    max-width: 1000px;
-    margin: 25px auto;
-    padding: 15px;
+.card{
+    background:white;
+    padding:22px;
+    border-radius:14px;
+    margin-bottom:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08)
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.auth{
+    max-width:450px;
+    margin:60px auto
 }
 
-.auth {
-    max-width: 450px;
-    margin: 50px auto;
+input,select{
+    width:100%;
+    padding:13px;
+    margin:6px 0;
+    border:1px solid #ddd;
+    border-radius:9px;
+    font-size:16px
 }
 
-input,
-select {
-    width: 100%;
-    padding: 13px;
-    margin: 6px 0;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    font-size: 16px;
+button{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border:0;
+    border-radius:9px;
+    background:#111;
+    color:white;
+    font-size:16px;
+    cursor:pointer
 }
 
-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 9px;
-    background: #111;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+.secondary{background:#666}
+.danger{background:#d93636}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px
 }
 
-button:hover {
-    background: #333;
+.box{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08)
 }
 
-.secondary {
-    background: #666;
+.income{color:#159447}
+.expense{color:#d93636}
+.balance{color:#2864d7}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px
 }
 
-.danger {
-    background: #d93636;
+.transaction{
+    display:grid;
+    grid-template-columns:1fr 120px 120px 70px;
+    gap:10px;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee
 }
 
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+.amount-income{
+    color:#159447;
+    font-weight:bold
 }
 
-.box {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.amount-expense{
+    color:#d93636;
+    font-weight:bold
 }
 
-.income {
-    color: #159447;
+.delete{
+    background:#d93636;
+    margin:0;
+    padding:8px;
+    font-size:13px
 }
 
-.expense {
-    color: #d93636;
+.chart-container{
+    max-width:450px;
+    margin:auto
 }
 
-.balance {
-    color: #2864d7;
+.hidden{display:none}
+
+.message{
+    text-align:center;
+    margin-top:10px
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.user-info{
+    text-align:right;
+    margin-bottom:15px
 }
 
-.transaction {
-    display: grid;
-    grid-template-columns: 1fr 120px 120px 70px;
-    gap: 10px;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.transaction:last-child {
-    border-bottom: none;
-}
-
-.amount-income {
-    color: #159447;
-    font-weight: bold;
-}
-
-.amount-expense {
-    color: #d93636;
-    font-weight: bold;
-}
-
-.delete {
-    background: #d93636;
-    margin: 0;
-    padding: 8px;
-    font-size: 13px;
-}
-
-.chart-container {
-    max-width: 450px;
-    margin: auto;
-}
-
-.user-info {
-    text-align: right;
-    margin-bottom: 15px;
-}
-
-.hidden {
-    display: none;
-}
-
-.message {
-    text-align: center;
-    margin-top: 10px;
-    color: #d93636;
-}
-
-@media (max-width: 700px) {
-
-    .summary {
-        grid-template-columns: 1fr;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .transaction {
-        grid-template-columns: 1fr;
-        gap: 6px;
-    }
-
-    .user-info {
-        text-align: center;
-    }
+@media(max-width:700px){
+    .summary{grid-template-columns:1fr}
+    .form-grid{grid-template-columns:1fr}
+    .transaction{grid-template-columns:1fr}
+    .user-info{text-align:center}
 }
 </style>
 </head>
 
 <body>
 
-<!-- GİRİŞ -->
+<!-- GİRİŞ EKRANI -->
 
 <div id="authScreen">
 
@@ -232,7 +192,7 @@ button:hover {
 </div>
 
 
-<!-- UYGULAMA -->
+<!-- ANA UYGULAMA -->
 
 <div id="appScreen" class="hidden">
 
@@ -254,7 +214,7 @@ button:hover {
             <button
                 onclick="logout()"
                 class="secondary"
-                style="width:auto;padding:9px 15px;"
+                style="width:auto;padding:9px 15px"
             >
                 Çıkış Yap
             </button>
@@ -271,8 +231,8 @@ button:hover {
                 <h3>Toplam Gelir</h3>
 
                 <h2
-                    class="income"
                     id="totalIncome"
+                    class="income"
                 >
                     ₺0,00
                 </h2>
@@ -285,8 +245,8 @@ button:hover {
                 <h3>Toplam Gider</h3>
 
                 <h2
-                    class="expense"
                     id="totalExpense"
+                    class="expense"
                 >
                     ₺0,00
                 </h2>
@@ -299,8 +259,8 @@ button:hover {
                 <h3>Kalan Bakiye</h3>
 
                 <h2
-                    class="balance"
                     id="balance"
+                    class="balance"
                 >
                     ₺0,00
                 </h2>
@@ -310,7 +270,7 @@ button:hover {
         </div>
 
 
-        <!-- İŞLEM EKLE -->
+        <!-- YENİ İŞLEM -->
 
         <div class="card">
 
@@ -333,17 +293,17 @@ button:hover {
 
                 <select id="category">
 
-                    <option value="Maaş">Maaş</option>
-                    <option value="Ek Gelir">Ek Gelir</option>
-                    <option value="Fatura">Fatura</option>
-                    <option value="Market">Market</option>
-                    <option value="Kira">Kira</option>
-                    <option value="Yakıt">Yakıt</option>
-                    <option value="Alışveriş">Alışveriş</option>
-                    <option value="Ulaşım">Ulaşım</option>
-                    <option value="Eğlence">Eğlence</option>
-                    <option value="Sağlık">Sağlık</option>
-                    <option value="Diğer">Diğer</option>
+                    <option>Maaş</option>
+                    <option>Ek Gelir</option>
+                    <option>Fatura</option>
+                    <option>Market</option>
+                    <option>Kira</option>
+                    <option>Yakıt</option>
+                    <option>Alışveriş</option>
+                    <option>Ulaşım</option>
+                    <option>Eğlence</option>
+                    <option>Sağlık</option>
+                    <option>Diğer</option>
 
                 </select>
 
@@ -378,7 +338,7 @@ button:hover {
         </div>
 
 
-        <!-- FİLTRE -->
+        <!-- AY FİLTRESİ -->
 
         <div class="card">
 
@@ -432,24 +392,16 @@ button:hover {
 
 <script>
 
-/* SUPABASE */
+/* SUPABASE BAĞLANTISI */
 
 const SUPABASE_URL =
     "https://dvyitgovuciergwlbigj.supabase.co";
 
-
-/*
-    BURAYA SUPABASE'DEN
-    KOPYALADIĞIN PUBLISHABLE KEY'İ
-    YAPIŞTIR.
-*/
-
 const SUPABASE_KEY =
     "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
 
-
 const supabaseClient =
-    supabase.createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
@@ -458,17 +410,15 @@ const supabaseClient =
 let financeChart = null;
 
 
-/* TARİH */
+/* BUGÜNÜ SEÇ */
 
 document.getElementById("date").value =
-    new Date()
-        .toISOString()
-        .split("T")[0];
+    new Date().toISOString().split("T")[0];
 
 
-/* KAYIT */
+/* KAYIT OL */
 
-async function register() {
+async function register(){
 
     const email =
         document.getElementById("email").value.trim();
@@ -477,9 +427,9 @@ async function register() {
         document.getElementById("password").value;
 
 
-    if (!email || !password) {
+    if(!email || !password){
 
-        showAuthMessage(
+        showMessage(
             "E-posta ve şifre gir."
         );
 
@@ -487,9 +437,9 @@ async function register() {
     }
 
 
-    if (password.length < 6) {
+    if(password.length < 6){
 
-        showAuthMessage(
+        showMessage(
             "Şifre en az 6 karakter olmalı."
         );
 
@@ -497,19 +447,18 @@ async function register() {
     }
 
 
-    const { error } =
+    const {error} =
         await supabaseClient.auth.signUp({
 
-            email: email,
-
-            password: password
+            email:email,
+            password:password
 
         });
 
 
-    if (error) {
+    if(error){
 
-        showAuthMessage(
+        showMessage(
             error.message
         );
 
@@ -517,7 +466,7 @@ async function register() {
     }
 
 
-    showAuthMessage(
+    showMessage(
         "Hesap oluşturuldu. E-posta doğrulaması gerekiyorsa mailini kontrol et.",
         true
     );
@@ -527,7 +476,7 @@ async function register() {
 
 /* GİRİŞ */
 
-async function login() {
+async function login(){
 
     const email =
         document.getElementById("email").value.trim();
@@ -536,9 +485,9 @@ async function login() {
         document.getElementById("password").value;
 
 
-    if (!email || !password) {
+    if(!email || !password){
 
-        showAuthMessage(
+        showMessage(
             "E-posta ve şifre gir."
         );
 
@@ -546,19 +495,18 @@ async function login() {
     }
 
 
-    const { data, error } =
+    const {data,error} =
         await supabaseClient.auth.signInWithPassword({
 
-            email: email,
-
-            password: password
+            email:email,
+            password:password
 
         });
 
 
-    if (error) {
+    if(error){
 
-        showAuthMessage(
+        showMessage(
             error.message
         );
 
@@ -566,16 +514,14 @@ async function login() {
     }
 
 
-    showApp(
-        data.user
-    );
+    showApp(data.user);
 
 }
 
 
 /* ÇIKIŞ */
 
-async function logout() {
+async function logout(){
 
     await supabaseClient.auth.signOut();
 
@@ -592,20 +538,16 @@ async function logout() {
 
 /* OTURUM KONTROL */
 
-async function checkSession() {
+async function checkSession(){
 
-    const {
-        data: {
-            session
-        }
-    } =
+    const {data} =
         await supabaseClient.auth.getSession();
 
 
-    if (session) {
+    if(data.session){
 
         showApp(
-            session.user
+            data.session.user
         );
 
     }
@@ -615,23 +557,20 @@ async function checkSession() {
 
 /* UYGULAMAYI GÖSTER */
 
-function showApp(user) {
+function showApp(user){
 
     document
         .getElementById("authScreen")
         .classList.add("hidden");
 
-
     document
         .getElementById("appScreen")
         .classList.remove("hidden");
-
 
     document
         .getElementById("userEmail")
         .textContent =
         user.email;
-
 
     loadTransactions();
 
@@ -640,20 +579,18 @@ function showApp(user) {
 
 /* MESAJ */
 
-function showAuthMessage(
-    message,
-    success = false
-) {
+function showMessage(
+    text,
+    success=false
+){
 
     const element =
         document.getElementById(
             "authMessage"
         );
 
-
     element.textContent =
-        message;
-
+        text;
 
     element.style.color =
         success
@@ -665,17 +602,17 @@ function showAuthMessage(
 
 /* İŞLEM EKLE */
 
-async function addTransaction() {
+async function addTransaction(){
 
-    const {
-        data: {
-            user
-        }
-    } =
+    const {data} =
         await supabaseClient.auth.getUser();
 
 
-    if (!user) {
+    const user =
+        data.user;
+
+
+    if(!user){
 
         alert(
             "Önce giriş yapmalısın."
@@ -717,12 +654,12 @@ async function addTransaction() {
         ).value;
 
 
-    if (
+    if(
         !description ||
         !amount ||
         amount <= 0 ||
         !date
-    ) {
+    ){
 
         alert(
             "Lütfen tüm alanları doldur."
@@ -732,27 +669,27 @@ async function addTransaction() {
     }
 
 
-    const { error } =
+    const {error} =
         await supabaseClient
             .from("transactions")
             .insert({
 
-                user_id: user.id,
+                user_id:user.id,
 
-                type: type,
+                type:type,
 
-                category: category,
+                category:category,
 
-                description: description,
+                description:description,
 
-                amount: amount,
+                amount:amount,
 
-                transaction_date: date
+                transaction_date:date
 
             });
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Kayıt eklenemedi: " +
@@ -778,19 +715,19 @@ async function addTransaction() {
 }
 
 
-/* İŞLEMLERİ YÜKLE */
+/* VERİLERİ GETİR */
 
-async function loadTransactions() {
+async function loadTransactions(){
 
-    const {
-        data: {
-            user
-        }
-    } =
+    const {data:userData} =
         await supabaseClient.auth.getUser();
 
 
-    if (!user) return;
+    const user =
+        userData.user;
+
+
+    if(!user) return;
 
 
     const selectedMonth =
@@ -803,37 +740,48 @@ async function loadTransactions() {
         supabaseClient
             .from("transactions")
             .select("*")
-            .eq("user_id", user.id)
+            .eq(
+                "user_id",
+                user.id
+            )
             .order(
                 "transaction_date",
                 {
-                    ascending: false
+                    ascending:false
                 }
             );
 
 
-    if (selectedMonth) {
-
-        const startDate =
-            selectedMonth + "-01";
-
+    if(selectedMonth){
 
         const parts =
             selectedMonth.split("-");
 
-
         const year =
             Number(parts[0]);
-
 
         const month =
             Number(parts[1]);
 
 
+        const startDate =
+            `${year}-${String(month).padStart(2,"0")}-01`;
+
+
+        const nextYear =
+            month === 12
+            ? year + 1
+            : year;
+
+
         const nextMonth =
             month === 12
-            ? `${year + 1}-01-01`
-            : `${year}-${String(month + 1).padStart(2, "0")}-01`;
+            ? 1
+            : month + 1;
+
+
+        const endDate =
+            `${nextYear}-${String(nextMonth).padStart(2,"0")}-01`;
 
 
         query =
@@ -844,20 +792,17 @@ async function loadTransactions() {
                 )
                 .lt(
                     "transaction_date",
-                    nextMonth
+                    endDate
                 );
 
     }
 
 
-    const {
-        data,
-        error
-    } =
+    const {data,error} =
         await query;
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Veriler alınamadı: " +
@@ -879,7 +824,7 @@ async function loadTransactions() {
 
 function updateScreen(
     transactions
-) {
+){
 
     let totalIncome = 0;
 
@@ -898,23 +843,22 @@ function updateScreen(
     transactions.forEach(
         transaction => {
 
+            const amount =
+                Number(
+                    transaction.amount
+                );
 
-            if (
+
+            if(
                 transaction.type ===
                 "income"
-            ) {
+            ){
 
-                totalIncome +=
-                    Number(
-                        transaction.amount
-                    );
+                totalIncome += amount;
 
-            } else {
+            }else{
 
-                totalExpense +=
-                    Number(
-                        transaction.amount
-                    );
+                totalExpense += amount;
 
             }
 
@@ -951,34 +895,28 @@ function updateScreen(
 
 
                 <div>
-
                     ${formatDate(
                         transaction.transaction_date
                     )}
-
                 </div>
 
 
                 <div class="${
-                    transaction.type ===
-                    "income"
+                    transaction.type === "income"
                     ? "amount-income"
                     : "amount-expense"
                 }">
 
                     ${
-                        transaction.type ===
-                        "income"
+                        transaction.type === "income"
                         ? "+"
                         : "-"
                     }
 
-                    ₺${Number(
-                        transaction.amount
-                    ).toLocaleString(
+                    ₺${amount.toLocaleString(
                         "tr-TR",
                         {
-                            minimumFractionDigits: 2
+                            minimumFractionDigits:2
                         }
                     )}
 
@@ -1003,9 +941,9 @@ function updateScreen(
     );
 
 
-    if (
+    if(
         transactions.length === 0
-    ) {
+    ){
 
         list.innerHTML =
             "<p>Bu dönemde işlem bulunamadı.</p>";
@@ -1020,7 +958,7 @@ function updateScreen(
         totalIncome.toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1032,7 +970,7 @@ function updateScreen(
         totalExpense.toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1047,7 +985,7 @@ function updateScreen(
         ).toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1062,27 +1000,30 @@ function updateScreen(
 
 /* SİL */
 
-async function deleteTransaction(id) {
+async function deleteTransaction(id){
 
-    if (
+    if(
         !confirm(
             "Bu işlemi silmek istediğine emin misin?"
         )
-    ) {
+    ){
 
         return;
 
     }
 
 
-    const { error } =
+    const {error} =
         await supabaseClient
             .from("transactions")
             .delete()
-            .eq("id", id);
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Silinemedi: " +
@@ -1098,13 +1039,25 @@ async function deleteTransaction(id) {
 }
 
 
+/* FİLTREYİ TEMİZLE */
+
+function clearFilter(){
+
+    document.getElementById(
+        "monthFilter"
+    ).value = "";
+
+    loadTransactions();
+
+}
+
+
 /* TARİH */
 
-function formatDate(date) {
+function formatDate(date){
 
     const parts =
         date.split("-");
-
 
     return (
         parts[2] +
@@ -1117,26 +1070,12 @@ function formatDate(date) {
 }
 
 
-/* FİLTRE TEMİZLE */
-
-function clearFilter() {
-
-    document.getElementById(
-        "monthFilter"
-    ).value = "";
-
-
-    loadTransactions();
-
-}
-
-
 /* GRAFİK */
 
 function updateChart(
     income,
     expense
-) {
+){
 
     const canvas =
         document.getElementById(
@@ -1144,7 +1083,7 @@ function updateChart(
         );
 
 
-    if (financeChart) {
+    if(financeChart){
 
         financeChart.destroy();
 
@@ -1156,41 +1095,34 @@ function updateChart(
             canvas,
             {
 
-                type: "doughnut",
+                type:"doughnut",
 
-                data: {
+                data:{
 
-                    labels: [
+                    labels:[
                         "Gelir",
                         "Gider"
                     ],
 
-                    datasets: [
+                    datasets:[{
 
-                        {
+                        data:[
+                            income,
+                            expense
+                        ]
 
-                            data: [
-                                income,
-                                expense
-                            ]
-
-                        }
-
-                    ]
+                    }]
 
                 },
 
-                options: {
+                options:{
 
-                    responsive: true,
+                    responsive:true,
 
-                    plugins: {
+                    plugins:{
 
-                        legend: {
-
-                            position:
-                                "bottom"
-
+                        legend:{
+                            position:"bottom"
                         }
 
                     }
@@ -1203,19 +1135,17 @@ function updateChart(
 }
 
 
-/* HTML GÜVENLİĞİ */
+/* GÜVENLİ METİN */
 
-function escapeHtml(text) {
+function escapeHtml(text){
 
     const div =
         document.createElement(
             "div"
         );
 
-
     div.textContent =
         text;
-
 
     return div.innerHTML;
 
