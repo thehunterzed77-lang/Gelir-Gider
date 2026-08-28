@@ -4,10 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Gelir Gider Takip</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
@@ -44,9 +47,17 @@ body {
     box-shadow: 0 3px 10px rgba(0,0,0,.08);
 }
 
-.income { color: #159447; }
-.expense { color: #d93636; }
-.balance { color: #2864d7; }
+.income {
+    color: #159447;
+}
+
+.expense {
+    color: #d93636;
+}
+
+.balance {
+    color: #2864d7;
+}
 
 .form,
 .transactions {
@@ -62,7 +73,8 @@ body {
     gap: 10px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
@@ -88,7 +100,7 @@ button:hover {
 
 .transaction {
     display: grid;
-    grid-template-columns: 1fr 120px 100px 70px;
+    grid-template-columns: 1fr 120px 120px 70px;
     gap: 10px;
     align-items: center;
     padding: 14px 0;
@@ -116,7 +128,12 @@ button:hover {
     font-size: 13px;
 }
 
+.clear {
+    background: #555;
+}
+
 @media (max-width: 700px) {
+
     .summary {
         grid-template-columns: 1fr;
     }
@@ -141,6 +158,8 @@ button:hover {
 
 <div class="container">
 
+    <!-- ÖZET -->
+
     <div class="summary">
 
         <div class="box">
@@ -160,9 +179,12 @@ button:hover {
 
     </div>
 
+
+    <!-- YENİ İŞLEM -->
+
     <div class="form">
 
-        <h2>Yeni İşlem Ekle</h2>
+        <h2>➕ Yeni İşlem Ekle</h2>
 
         <div class="form-grid">
 
@@ -172,6 +194,7 @@ button:hover {
             </select>
 
             <select id="category">
+
                 <option value="Maaş">Maaş</option>
                 <option value="Ek Gelir">Ek Gelir</option>
                 <option value="Fatura">Fatura</option>
@@ -182,6 +205,7 @@ button:hover {
                 <option value="Eğlence">Eğlence</option>
                 <option value="Ulaşım">Ulaşım</option>
                 <option value="Diğer">Diğer</option>
+
             </select>
 
             <input
@@ -210,9 +234,34 @@ button:hover {
 
     </div>
 
+
+    <!-- AY FİLTRESİ -->
+
+    <div class="form">
+
+        <h2>📅 Ay Filtrele</h2>
+
+        <input
+            type="month"
+            id="monthFilter"
+            onchange="updateScreen()"
+        >
+
+        <button
+            class="clear"
+            onclick="clearFilter()"
+        >
+            Tüm İşlemleri Göster
+        </button>
+
+    </div>
+
+
+    <!-- İŞLEMLER -->
+
     <div class="transactions">
 
-        <h2>İşlemler</h2>
+        <h2>📋 İşlemler</h2>
 
         <div id="transactionList">
             <p>Henüz işlem eklenmedi.</p>
@@ -222,13 +271,20 @@ button:hover {
 
 </div>
 
+
 <script>
 
 let transactions =
     JSON.parse(localStorage.getItem("transactions")) || [];
 
+
+/* BUGÜNÜ TARİH OLARAK SEÇ */
+
 document.getElementById("date").value =
     new Date().toISOString().split("T")[0];
+
+
+/* İŞLEM EKLE */
 
 function addTransaction() {
 
@@ -242,43 +298,78 @@ function addTransaction() {
         document.getElementById("description").value.trim();
 
     const amount =
-        parseFloat(document.getElementById("amount").value);
+        parseFloat(
+            document.getElementById("amount").value
+        );
 
     const date =
         document.getElementById("date").value;
 
-    if (!description || !amount || amount <= 0 || !date) {
+
+    if (
+        !description ||
+        !amount ||
+        amount <= 0 ||
+        !date
+    ) {
+
         alert("Lütfen tüm alanları doldur.");
+
         return;
     }
 
+
     const transaction = {
+
         id: Date.now(),
+
         type: type,
+
         category: category,
+
         description: description,
+
         amount: amount,
+
         date: date
+
     };
+
 
     transactions.push(transaction);
 
+
     saveData();
 
+
     document.getElementById("description").value = "";
+
     document.getElementById("amount").value = "";
 
+
     updateScreen();
+
 }
+
+
+/* İŞLEM SİL */
 
 function deleteTransaction(id) {
 
     transactions =
-        transactions.filter(item => item.id !== id);
+        transactions.filter(
+            item => item.id !== id
+        );
+
 
     saveData();
+
     updateScreen();
+
 }
+
+
+/* VERİLERİ KAYDET */
 
 function saveData() {
 
@@ -286,84 +377,225 @@ function saveData() {
         "transactions",
         JSON.stringify(transactions)
     );
+
 }
+
+
+/* TARİHİ GÖRÜNÜME ÇEVİR */
 
 function formatDate(date) {
 
     const parts = date.split("-");
 
-    return parts[2] + "." + parts[1] + "." + parts[0];
+    return (
+        parts[2] +
+        "." +
+        parts[1] +
+        "." +
+        parts[0]
+    );
+
 }
+
+
+/* EKRANI GÜNCELLE */
 
 function updateScreen() {
 
     let totalIncome = 0;
+
     let totalExpense = 0;
 
+
+    const selectedMonth =
+        document.getElementById(
+            "monthFilter"
+        ).value;
+
+
+    let filteredTransactions =
+        transactions;
+
+
+    /* AY FİLTRESİ */
+
+    if (selectedMonth) {
+
+        filteredTransactions =
+            transactions.filter(
+                item =>
+                    item.date.startsWith(
+                        selectedMonth
+                    )
+            );
+
+    }
+
+
+    /* YENİDEN ESKİYE SIRALA */
+
+    filteredTransactions =
+        [...filteredTransactions].sort(
+            (a, b) =>
+                b.date.localeCompare(a.date)
+        );
+
+
     const list =
-        document.getElementById("transactionList");
+        document.getElementById(
+            "transactionList"
+        );
+
 
     list.innerHTML = "";
 
-    transactions
-        .sort((a, b) => b.date.localeCompare(a.date))
-        .forEach(transaction => {
 
-            if (transaction.type === "income") {
-                totalIncome += transaction.amount;
+    /* İŞLEMLERİ GÖSTER */
+
+    filteredTransactions.forEach(
+        transaction => {
+
+
+            if (
+                transaction.type === "income"
+            ) {
+
+                totalIncome +=
+                    transaction.amount;
+
             } else {
-                totalExpense += transaction.amount;
+
+                totalExpense +=
+                    transaction.amount;
+
             }
+
 
             const div =
                 document.createElement("div");
 
-            div.className = "transaction";
+
+            div.className =
+                "transaction";
+
 
             div.innerHTML = `
-                <div>
-                    <strong>${transaction.description}</strong>
-                    <br>
-                    <small>${transaction.category}</small>
-                </div>
 
                 <div>
-                    ${formatDate(transaction.date)}
+
+                    <strong>
+                        ${transaction.description}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        ${transaction.category}
+                    </small>
+
                 </div>
+
+
+                <div>
+
+                    ${formatDate(
+                        transaction.date
+                    )}
+
+                </div>
+
 
                 <div class="${
                     transaction.type === "income"
                     ? "amount-income"
                     : "amount-expense"
                 }">
-                    ${transaction.type === "income" ? "+" : "-"}
+
+                    ${
+                        transaction.type === "income"
+                        ? "+"
+                        : "-"
+                    }
+
                     ₺${transaction.amount.toFixed(2)}
+
                 </div>
+
 
                 <button
                     class="delete"
-                    onclick="deleteTransaction(${transaction.id})">
+                    onclick="deleteTransaction(
+                        ${transaction.id}
+                    )"
+                >
+
                     Sil
+
                 </button>
+
             `;
 
-            list.appendChild(div);
-        });
 
-    if (transactions.length === 0) {
+            list.appendChild(div);
+
+        }
+    );
+
+
+    /* İŞLEM YOKSA */
+
+    if (
+        filteredTransactions.length === 0
+    ) {
+
         list.innerHTML =
-            "<p>Henüz işlem eklenmedi.</p>";
+            "<p>Bu dönemde işlem bulunamadı.</p>";
+
     }
 
-    document.getElementById("totalIncome").textContent =
-        "₺" + totalIncome.toFixed(2);
 
-    document.getElementById("totalExpense").textContent =
-        "₺" + totalExpense.toFixed(2);
+    /* TOPLAMLAR */
 
-    document.getElementById("balance").textContent =
-        "₺" + (totalIncome - totalExpense).toFixed(2);
+    document.getElementById(
+        "totalIncome"
+    ).textContent =
+        "₺" +
+        totalIncome.toFixed(2);
+
+
+    document.getElementById(
+        "totalExpense"
+    ).textContent =
+        "₺" +
+        totalExpense.toFixed(2);
+
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+        "₺" +
+        (
+            totalIncome -
+            totalExpense
+        ).toFixed(2);
+
 }
+
+
+/* FİLTREYİ TEMİZLE */
+
+function clearFilter() {
+
+    document.getElementById(
+        "monthFilter"
+    ).value = "";
+
+    updateScreen();
+
+}
+
+
+/* BAŞLANGIÇ */
 
 updateScreen();
 
