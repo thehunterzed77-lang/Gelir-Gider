@@ -1,16 +1,325 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uygulamam</title>
+    <title>Gelir Gider Takip</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 15px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .box h3 {
+            margin-top: 0;
+        }
+
+        .income {
+            color: #159447;
+        }
+
+        .expense {
+            color: #d93636;
+        }
+
+        .balance {
+            color: #2864d7;
+        }
+
+        .form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .transactions {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .delete {
+            width: auto;
+            margin: 0;
+            padding: 6px 10px;
+            background: #d93636;
+        }
+
+        @media (max-width: 700px) {
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Uygulamama Hoş Geldin</h1>
+    <div class="header">
+        <h1>💰 Gelir Gider Takip</h1>
+    </div>
 
-    <p>Uygulama başarıyla çalışıyor.</p>
+    <div class="container">
+
+        <div class="summary">
+
+            <div class="box">
+                <h3>Toplam Gelir</h3>
+                <h2 class="income" id="totalIncome">₺0,00</h2>
+            </div>
+
+            <div class="box">
+                <h3>Toplam Gider</h3>
+                <h2 class="expense" id="totalExpense">₺0,00</h2>
+            </div>
+
+            <div class="box">
+                <h3>Kalan Bakiye</h3>
+                <h2 class="balance" id="balance">₺0,00</h2>
+            </div>
+
+        </div>
+
+        <div class="form">
+
+            <h2>Yeni İşlem Ekle</h2>
+
+            <select id="type">
+                <option value="income">Gelir</option>
+                <option value="expense">Gider</option>
+            </select>
+
+            <input
+                type="text"
+                id="description"
+                placeholder="Açıklama"
+            >
+
+            <input
+                type="number"
+                id="amount"
+                placeholder="Tutar"
+                step="0.01"
+            >
+
+            <button onclick="addTransaction()">
+                İşlemi Ekle
+            </button>
+
+        </div>
+
+        <div class="transactions">
+
+            <h2>İşlemler</h2>
+
+            <div id="transactionList">
+                <p>Henüz işlem eklenmedi.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let transactions =
+            JSON.parse(localStorage.getItem("transactions")) || [];
+
+        function addTransaction() {
+
+            const type =
+                document.getElementById("type").value;
+
+            const description =
+                document.getElementById("description").value.trim();
+
+            const amount =
+                parseFloat(document.getElementById("amount").value);
+
+            if (!description || !amount || amount <= 0) {
+                alert("Lütfen açıklama ve geçerli bir tutar gir.");
+                return;
+            }
+
+            const transaction = {
+                id: Date.now(),
+                type: type,
+                description: description,
+                amount: amount
+            };
+
+            transactions.push(transaction);
+
+            saveData();
+
+            document.getElementById("description").value = "";
+            document.getElementById("amount").value = "";
+
+            updateScreen();
+        }
+
+        function deleteTransaction(id) {
+
+            transactions =
+                transactions.filter(item => item.id !== id);
+
+            saveData();
+
+            updateScreen();
+        }
+
+        function saveData() {
+
+            localStorage.setItem(
+                "transactions",
+                JSON.stringify(transactions)
+            );
+        }
+
+        function updateScreen() {
+
+            let totalIncome = 0;
+            let totalExpense = 0;
+
+            const list =
+                document.getElementById("transactionList");
+
+            list.innerHTML = "";
+
+            transactions.forEach(transaction => {
+
+                if (transaction.type === "income") {
+                    totalIncome += transaction.amount;
+                } else {
+                    totalExpense += transaction.amount;
+                }
+
+                const div =
+                    document.createElement("div");
+
+                div.className = "transaction";
+
+                div.innerHTML = `
+                    <div>
+                        <strong>${transaction.description}</strong>
+                        <br>
+                        <small>
+                            ${transaction.type === "income"
+                                ? "Gelir"
+                                : "Gider"}
+                        </small>
+                    </div>
+
+                    <div>
+                        <strong>
+                            ${transaction.type === "income" ? "+" : "-"}
+                            ₺${transaction.amount.toFixed(2)}
+                        </strong>
+
+                        <button
+                            class="delete"
+                            onclick="deleteTransaction(${transaction.id})">
+                            Sil
+                        </button>
+                    </div>
+                `;
+
+                list.appendChild(div);
+            });
+
+            if (transactions.length === 0) {
+                list.innerHTML =
+                    "<p>Henüz işlem eklenmedi.</p>";
+            }
+
+            document.getElementById("totalIncome").textContent =
+                "₺" + totalIncome.toFixed(2);
+
+            document.getElementById("totalExpense").textContent =
+                "₺" + totalExpense.toFixed(2);
+
+            document.getElementById("balance").textContent =
+                "₺" + (totalIncome - totalExpense).toFixed(2);
+        }
+
+        updateScreen();
+
+    </script>
 
 </body>
 </html>
+```
