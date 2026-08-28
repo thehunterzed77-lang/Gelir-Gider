@@ -7,10 +7,10 @@
 
 <title>Gelir Gider Takip</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -25,7 +25,7 @@ body {
 .header {
     background: #111;
     color: white;
-    padding: 22px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -33,6 +33,53 @@ body {
     max-width: 1000px;
     margin: 25px auto;
     padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.auth {
+    max-width: 450px;
+    margin: 50px auto;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    margin: 6px 0;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 9px;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #333;
+}
+
+.secondary {
+    background: #666;
+}
+
+.danger {
+    background: #d93636;
 }
 
 .summary {
@@ -47,11 +94,7 @@ body {
     padding: 20px;
     border-radius: 14px;
     text-align: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-}
-
-.box h3 {
-    margin-top: 0;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
 .income {
@@ -66,47 +109,10 @@ body {
     color: #2864d7;
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-}
-
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-input,
-select {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 12px;
-    border: none;
-    border-radius: 9px;
-    background: #111;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #333;
-}
-
-.clear-button {
-    background: #666;
+    gap: 10px;
 }
 
 .transaction {
@@ -132,7 +138,7 @@ button:hover {
     font-weight: bold;
 }
 
-.delete-button {
+.delete {
     background: #d93636;
     margin: 0;
     padding: 8px;
@@ -144,9 +150,19 @@ button:hover {
     margin: auto;
 }
 
-.empty {
-    color: #777;
+.user-info {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
     text-align: center;
+    margin-top: 10px;
+    color: #d93636;
 }
 
 @media (max-width: 700px) {
@@ -164,158 +180,248 @@ button:hover {
         gap: 6px;
     }
 
+    .user-info {
+        text-align: center;
+    }
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>💰 Gelir Gider Takip</h1>
-    <p>Paranı kontrol altında tut</p>
-</div>
+<!-- GİRİŞ -->
 
-<div class="container">
+<div id="authScreen">
 
-    <!-- ÖZET -->
+    <div class="card auth">
 
-    <div class="summary">
+        <h1>💰 Gelir Gider Takip</h1>
 
-        <div class="box">
-            <h3>Toplam Gelir</h3>
-            <h2 class="income" id="totalIncome">₺0,00</h2>
-        </div>
-
-        <div class="box">
-            <h3>Toplam Gider</h3>
-            <h2 class="expense" id="totalExpense">₺0,00</h2>
-        </div>
-
-        <div class="box">
-            <h3>Kalan Bakiye</h3>
-            <h2 class="balance" id="balance">₺0,00</h2>
-        </div>
-
-    </div>
-
-
-    <!-- İŞLEM EKLE -->
-
-    <div class="card">
-
-        <h2>➕ Yeni İşlem Ekle</h2>
-
-        <div class="form-grid">
-
-            <select id="type">
-
-                <option value="income">
-                    Gelir
-                </option>
-
-                <option value="expense">
-                    Gider
-                </option>
-
-            </select>
-
-
-            <select id="category">
-
-                <option value="Maaş">Maaş</option>
-                <option value="Ek Gelir">Ek Gelir</option>
-                <option value="Fatura">Fatura</option>
-                <option value="Market">Market</option>
-                <option value="Kira">Kira</option>
-                <option value="Yakıt">Yakıt</option>
-                <option value="Alışveriş">Alışveriş</option>
-                <option value="Ulaşım">Ulaşım</option>
-                <option value="Eğlence">Eğlence</option>
-                <option value="Sağlık">Sağlık</option>
-                <option value="Diğer">Diğer</option>
-
-            </select>
-
-
-            <input
-                type="text"
-                id="description"
-                placeholder="Açıklama"
-            >
-
-
-            <input
-                type="number"
-                id="amount"
-                placeholder="Tutar"
-                step="0.01"
-            >
-
-
-            <input
-                type="date"
-                id="date"
-            >
-
-        </div>
-
-
-        <button onclick="addTransaction()">
-            İşlemi Ekle
-        </button>
-
-    </div>
-
-
-    <!-- AY FİLTRESİ -->
-
-    <div class="card">
-
-        <h2>📅 Ay Filtrele</h2>
+        <p>Hesabına giriş yap</p>
 
         <input
-            type="month"
-            id="monthFilter"
-            onchange="updateScreen()"
+            type="email"
+            id="email"
+            placeholder="E-posta"
         >
 
-        <button
-            class="clear-button"
-            onclick="clearFilter()"
+        <input
+            type="password"
+            id="password"
+            placeholder="Şifre"
         >
-            Tüm İşlemleri Göster
+
+        <button onclick="login()">
+            Giriş Yap
         </button>
+
+        <button
+            class="secondary"
+            onclick="register()"
+        >
+            Yeni Hesap Oluştur
+        </button>
+
+        <div
+            id="authMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- UYGULAMA -->
+
+<div id="appScreen" class="hidden">
+
+    <div class="header">
+
+        <h1>💰 Gelir Gider Takip</h1>
+
+        <p>Paranı kontrol altında tut</p>
 
     </div>
 
 
-    <!-- GRAFİK -->
+    <div class="container">
 
-    <div class="card">
+        <div class="user-info">
 
-        <h2>📊 Gelir - Gider</h2>
+            <span id="userEmail"></span>
 
-        <div class="chart-container">
-
-            <canvas id="financeChart"></canvas>
+            <button
+                onclick="logout()"
+                class="secondary"
+                style="width:auto;padding:9px 15px;"
+            >
+                Çıkış Yap
+            </button>
 
         </div>
 
-    </div>
+
+        <!-- ÖZET -->
+
+        <div class="summary">
+
+            <div class="box">
+
+                <h3>Toplam Gelir</h3>
+
+                <h2
+                    class="income"
+                    id="totalIncome"
+                >
+                    ₺0,00
+                </h2>
+
+            </div>
 
 
-    <!-- İŞLEMLER -->
+            <div class="box">
 
-    <div class="card">
+                <h3>Toplam Gider</h3>
 
-        <h2>📋 İşlemler</h2>
+                <h2
+                    class="expense"
+                    id="totalExpense"
+                >
+                    ₺0,00
+                </h2>
 
-        <div id="transactionList">
+            </div>
 
-            <p class="empty">
-                Henüz işlem eklenmedi.
-            </p>
+
+            <div class="box">
+
+                <h3>Kalan Bakiye</h3>
+
+                <h2
+                    class="balance"
+                    id="balance"
+                >
+                    ₺0,00
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- İŞLEM EKLE -->
+
+        <div class="card">
+
+            <h2>➕ Yeni İşlem</h2>
+
+            <div class="form-grid">
+
+                <select id="type">
+
+                    <option value="income">
+                        Gelir
+                    </option>
+
+                    <option value="expense">
+                        Gider
+                    </option>
+
+                </select>
+
+
+                <select id="category">
+
+                    <option value="Maaş">Maaş</option>
+                    <option value="Ek Gelir">Ek Gelir</option>
+                    <option value="Fatura">Fatura</option>
+                    <option value="Market">Market</option>
+                    <option value="Kira">Kira</option>
+                    <option value="Yakıt">Yakıt</option>
+                    <option value="Alışveriş">Alışveriş</option>
+                    <option value="Ulaşım">Ulaşım</option>
+                    <option value="Eğlence">Eğlence</option>
+                    <option value="Sağlık">Sağlık</option>
+                    <option value="Diğer">Diğer</option>
+
+                </select>
+
+
+                <input
+                    type="text"
+                    id="description"
+                    placeholder="Açıklama"
+                >
+
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Tutar"
+                    step="0.01"
+                >
+
+
+                <input
+                    type="date"
+                    id="date"
+                >
+
+            </div>
+
+
+            <button onclick="addTransaction()">
+                İşlemi Ekle
+            </button>
+
+        </div>
+
+
+        <!-- FİLTRE -->
+
+        <div class="card">
+
+            <h2>📅 Ay Filtrele</h2>
+
+            <input
+                type="month"
+                id="monthFilter"
+                onchange="loadTransactions()"
+            >
+
+            <button
+                class="secondary"
+                onclick="clearFilter()"
+            >
+                Tüm İşlemleri Göster
+            </button>
+
+        </div>
+
+
+        <!-- GRAFİK -->
+
+        <div class="card">
+
+            <h2>📊 Gelir - Gider</h2>
+
+            <div class="chart-container">
+
+                <canvas id="financeChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- İŞLEMLER -->
+
+        <div class="card">
+
+            <h2>📋 İşlemler</h2>
+
+            <div id="transactionList"></div>
 
         </div>
 
@@ -326,12 +432,30 @@ button:hover {
 
 <script>
 
-/* VERİLER */
+/* SUPABASE */
 
-let transactions =
-    JSON.parse(
-        localStorage.getItem("transactions")
-    ) || [];
+const SUPABASE_URL =
+    "https://dvyitgovuciergwlbigj.supabase.co";
+
+
+/*
+    BURAYA SUPABASE'DEN
+    KOPYALADIĞIN PUBLISHABLE KEY'İ
+    YAPIŞTIR.
+*/
+
+const SUPABASE_KEY =
+    "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+let financeChart = null;
 
 
 /* TARİH */
@@ -342,76 +466,224 @@ document.getElementById("date").value =
         .split("T")[0];
 
 
-/* GRAFİK */
+/* KAYIT */
 
-let financeChart = null;
+async function register() {
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
 
 
-function updateChart(income, expense) {
+    if (!email || !password) {
 
-    const canvas =
-        document.getElementById(
-            "financeChart"
+        showAuthMessage(
+            "E-posta ve şifre gir."
         );
 
-    if (financeChart) {
-
-        financeChart.destroy();
-
+        return;
     }
 
 
-    financeChart =
-        new Chart(canvas, {
+    if (password.length < 6) {
 
-            type: "doughnut",
+        showAuthMessage(
+            "Şifre en az 6 karakter olmalı."
+        );
 
-            data: {
+        return;
+    }
 
-                labels: [
-                    "Gelir",
-                    "Gider"
-                ],
 
-                datasets: [
+    const { error } =
+        await supabaseClient.auth.signUp({
 
-                    {
+            email: email,
 
-                        data: [
-                            income,
-                            expense
-                        ]
-
-                    }
-
-                ]
-
-            },
-
-            options: {
-
-                responsive: true,
-
-                plugins: {
-
-                    legend: {
-
-                        position: "bottom"
-
-                    }
-
-                }
-
-            }
+            password: password
 
         });
+
+
+    if (error) {
+
+        showAuthMessage(
+            error.message
+        );
+
+        return;
+    }
+
+
+    showAuthMessage(
+        "Hesap oluşturuldu. E-posta doğrulaması gerekiyorsa mailini kontrol et.",
+        true
+    );
+
+}
+
+
+/* GİRİŞ */
+
+async function login() {
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    if (!email || !password) {
+
+        showAuthMessage(
+            "E-posta ve şifre gir."
+        );
+
+        return;
+    }
+
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if (error) {
+
+        showAuthMessage(
+            error.message
+        );
+
+        return;
+    }
+
+
+    showApp(
+        data.user
+    );
+
+}
+
+
+/* ÇIKIŞ */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    document
+        .getElementById("appScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("authScreen")
+        .classList.remove("hidden");
+
+}
+
+
+/* OTURUM KONTROL */
+
+async function checkSession() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if (session) {
+
+        showApp(
+            session.user
+        );
+
+    }
+
+}
+
+
+/* UYGULAMAYI GÖSTER */
+
+function showApp(user) {
+
+    document
+        .getElementById("authScreen")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("appScreen")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("userEmail")
+        .textContent =
+        user.email;
+
+
+    loadTransactions();
+
+}
+
+
+/* MESAJ */
+
+function showAuthMessage(
+    message,
+    success = false
+) {
+
+    const element =
+        document.getElementById(
+            "authMessage"
+        );
+
+
+    element.textContent =
+        message;
+
+
+    element.style.color =
+        success
+        ? "#159447"
+        : "#d93636";
 
 }
 
 
 /* İŞLEM EKLE */
 
-function addTransaction() {
+async function addTransaction() {
+
+    const {
+        data: {
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+        alert(
+            "Önce giriş yapmalısın."
+        );
+
+        return;
+    }
+
 
     const type =
         document.getElementById(
@@ -453,32 +725,42 @@ function addTransaction() {
     ) {
 
         alert(
-            "Lütfen açıklama, tutar ve tarih gir."
+            "Lütfen tüm alanları doldur."
         );
 
         return;
-
     }
 
 
-    transactions.push({
+    const { error } =
+        await supabaseClient
+            .from("transactions")
+            .insert({
 
-        id: Date.now(),
+                user_id: user.id,
 
-        type: type,
+                type: type,
 
-        category: category,
+                category: category,
 
-        description: description,
+                description: description,
 
-        amount: amount,
+                amount: amount,
 
-        date: date
+                transaction_date: date
 
-    });
+            });
 
 
-    saveData();
+    if (error) {
+
+        alert(
+            "Kayıt eklenemedi: " +
+            error.message
+        );
+
+        return;
+    }
 
 
     document.getElementById(
@@ -491,64 +773,25 @@ function addTransaction() {
     ).value = "";
 
 
-    updateScreen();
+    loadTransactions();
 
 }
 
 
-/* SİL */
+/* İŞLEMLERİ YÜKLE */
 
-function deleteTransaction(id) {
+async function loadTransactions() {
 
-    transactions =
-        transactions.filter(
-            item => item.id !== id
-        );
-
-
-    saveData();
-
-    updateScreen();
-
-}
+    const {
+        data: {
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
 
 
-/* KAYDET */
+    if (!user) return;
 
-function saveData() {
-
-    localStorage.setItem(
-        "transactions",
-        JSON.stringify(
-            transactions
-        )
-    );
-
-}
-
-
-/* TARİH */
-
-function formatDate(date) {
-
-    const parts =
-        date.split("-");
-
-
-    return (
-        parts[2] +
-        "." +
-        parts[1] +
-        "." +
-        parts[0]
-    );
-
-}
-
-
-/* EKRANI GÜNCELLE */
-
-function updateScreen() {
 
     const selectedMonth =
         document.getElementById(
@@ -556,31 +799,87 @@ function updateScreen() {
         ).value;
 
 
-    let filtered =
-        transactions;
+    let query =
+        supabaseClient
+            .from("transactions")
+            .select("*")
+            .eq("user_id", user.id)
+            .order(
+                "transaction_date",
+                {
+                    ascending: false
+                }
+            );
 
 
     if (selectedMonth) {
 
-        filtered =
-            transactions.filter(
-                item =>
-                    item.date.startsWith(
-                        selectedMonth
-                    )
-            );
+        const startDate =
+            selectedMonth + "-01";
+
+
+        const parts =
+            selectedMonth.split("-");
+
+
+        const year =
+            Number(parts[0]);
+
+
+        const month =
+            Number(parts[1]);
+
+
+        const nextMonth =
+            month === 12
+            ? `${year + 1}-01-01`
+            : `${year}-${String(month + 1).padStart(2, "0")}-01`;
+
+
+        query =
+            query
+                .gte(
+                    "transaction_date",
+                    startDate
+                )
+                .lt(
+                    "transaction_date",
+                    nextMonth
+                );
 
     }
 
 
-    filtered =
-        [...filtered].sort(
-            (a, b) =>
-                b.date.localeCompare(
-                    a.date
-                )
+    const {
+        data,
+        error
+    } =
+        await query;
+
+
+    if (error) {
+
+        alert(
+            "Veriler alınamadı: " +
+            error.message
         );
 
+        return;
+    }
+
+
+    updateScreen(
+        data || []
+    );
+
+}
+
+
+/* EKRANI GÜNCELLE */
+
+function updateScreen(
+    transactions
+) {
 
     let totalIncome = 0;
 
@@ -596,7 +895,7 @@ function updateScreen() {
     list.innerHTML = "";
 
 
-    filtered.forEach(
+    transactions.forEach(
         transaction => {
 
 
@@ -606,14 +905,16 @@ function updateScreen() {
             ) {
 
                 totalIncome +=
-                    transaction.amount;
+                    Number(
+                        transaction.amount
+                    );
 
-            }
-
-            else {
+            } else {
 
                 totalExpense +=
-                    transaction.amount;
+                    Number(
+                        transaction.amount
+                    );
 
             }
 
@@ -633,13 +934,17 @@ function updateScreen() {
                 <div>
 
                     <strong>
-                        ${transaction.description}
+                        ${escapeHtml(
+                            transaction.description
+                        )}
                     </strong>
 
                     <br>
 
                     <small>
-                        ${transaction.category}
+                        ${escapeHtml(
+                            transaction.category
+                        )}
                     </small>
 
                 </div>
@@ -648,7 +953,7 @@ function updateScreen() {
                 <div>
 
                     ${formatDate(
-                        transaction.date
+                        transaction.transaction_date
                     )}
 
                 </div>
@@ -668,20 +973,25 @@ function updateScreen() {
                         : "-"
                     }
 
-                    ₺${transaction.amount.toFixed(2)}
+                    ₺${Number(
+                        transaction.amount
+                    ).toLocaleString(
+                        "tr-TR",
+                        {
+                            minimumFractionDigits: 2
+                        }
+                    )}
 
                 </div>
 
 
                 <button
-                    class="delete-button"
+                    class="delete"
                     onclick="deleteTransaction(
-                        ${transaction.id}
+                        '${transaction.id}'
                     )"
                 >
-
                     Sil
-
                 </button>
 
             `;
@@ -694,16 +1004,11 @@ function updateScreen() {
 
 
     if (
-        filtered.length === 0
+        transactions.length === 0
     ) {
 
-        list.innerHTML = `
-
-            <p class="empty">
-                Bu dönemde işlem bulunamadı.
-            </p>
-
-        `;
+        list.innerHTML =
+            "<p>Bu dönemde işlem bulunamadı.</p>";
 
     }
 
@@ -755,6 +1060,63 @@ function updateScreen() {
 }
 
 
+/* SİL */
+
+async function deleteTransaction(id) {
+
+    if (
+        !confirm(
+            "Bu işlemi silmek istediğine emin misin?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const { error } =
+        await supabaseClient
+            .from("transactions")
+            .delete()
+            .eq("id", id);
+
+
+    if (error) {
+
+        alert(
+            "Silinemedi: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    loadTransactions();
+
+}
+
+
+/* TARİH */
+
+function formatDate(date) {
+
+    const parts =
+        date.split("-");
+
+
+    return (
+        parts[2] +
+        "." +
+        parts[1] +
+        "." +
+        parts[0]
+    );
+
+}
+
+
 /* FİLTRE TEMİZLE */
 
 function clearFilter() {
@@ -764,14 +1126,105 @@ function clearFilter() {
     ).value = "";
 
 
-    updateScreen();
+    loadTransactions();
+
+}
+
+
+/* GRAFİK */
+
+function updateChart(
+    income,
+    expense
+) {
+
+    const canvas =
+        document.getElementById(
+            "financeChart"
+        );
+
+
+    if (financeChart) {
+
+        financeChart.destroy();
+
+    }
+
+
+    financeChart =
+        new Chart(
+            canvas,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+                        "Gelir",
+                        "Gider"
+                    ],
+
+                    datasets: [
+
+                        {
+
+                            data: [
+                                income,
+                                expense
+                            ]
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    plugins: {
+
+                        legend: {
+
+                            position:
+                                "bottom"
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* HTML GÜVENLİĞİ */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
 
 }
 
 
 /* BAŞLAT */
 
-updateScreen();
+checkSession();
 
 </script>
 
