@@ -7,7 +7,10 @@
 
 <title>Gelir Gider Takip</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -22,7 +25,7 @@ body {
 .header {
     background: #111;
     color: white;
-    padding: 20px;
+    padding: 22px;
     text-align: center;
 }
 
@@ -42,9 +45,13 @@ body {
 .box {
     background: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 14px;
     text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.box h3 {
+    margin-top: 0;
 }
 
 .income {
@@ -59,43 +66,47 @@ body {
     color: #2864d7;
 }
 
-.form,
-.transactions {
+.card {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 22px;
+    border-radius: 14px;
     margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
 }
 
 input,
 select {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 9px;
     font-size: 16px;
 }
 
 button {
     width: 100%;
     padding: 13px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 9px;
     background: #111;
     color: white;
-    border: none;
-    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 button:hover {
     background: #333;
+}
+
+.clear-button {
+    background: #666;
 }
 
 .transaction {
@@ -103,7 +114,7 @@ button:hover {
     grid-template-columns: 1fr 120px 120px 70px;
     gap: 10px;
     align-items: center;
-    padding: 14px 0;
+    padding: 15px 0;
     border-bottom: 1px solid #eee;
 }
 
@@ -121,15 +132,21 @@ button:hover {
     font-weight: bold;
 }
 
-.delete {
+.delete-button {
     background: #d93636;
     margin: 0;
-    padding: 7px;
+    padding: 8px;
     font-size: 13px;
 }
 
-.clear {
-    background: #555;
+.chart-container {
+    max-width: 450px;
+    margin: auto;
+}
+
+.empty {
+    color: #777;
+    text-align: center;
 }
 
 @media (max-width: 700px) {
@@ -144,9 +161,11 @@ button:hover {
 
     .transaction {
         grid-template-columns: 1fr;
-        gap: 5px;
+        gap: 6px;
     }
+
 }
+
 </style>
 </head>
 
@@ -154,6 +173,7 @@ button:hover {
 
 <div class="header">
     <h1>💰 Gelir Gider Takip</h1>
+    <p>Paranı kontrol altında tut</p>
 </div>
 
 <div class="container">
@@ -180,18 +200,26 @@ button:hover {
     </div>
 
 
-    <!-- YENİ İŞLEM -->
+    <!-- İŞLEM EKLE -->
 
-    <div class="form">
+    <div class="card">
 
         <h2>➕ Yeni İşlem Ekle</h2>
 
         <div class="form-grid">
 
             <select id="type">
-                <option value="income">Gelir</option>
-                <option value="expense">Gider</option>
+
+                <option value="income">
+                    Gelir
+                </option>
+
+                <option value="expense">
+                    Gider
+                </option>
+
             </select>
+
 
             <select id="category">
 
@@ -199,20 +227,23 @@ button:hover {
                 <option value="Ek Gelir">Ek Gelir</option>
                 <option value="Fatura">Fatura</option>
                 <option value="Market">Market</option>
-                <option value="Yakıt">Yakıt</option>
                 <option value="Kira">Kira</option>
+                <option value="Yakıt">Yakıt</option>
                 <option value="Alışveriş">Alışveriş</option>
-                <option value="Eğlence">Eğlence</option>
                 <option value="Ulaşım">Ulaşım</option>
+                <option value="Eğlence">Eğlence</option>
+                <option value="Sağlık">Sağlık</option>
                 <option value="Diğer">Diğer</option>
 
             </select>
+
 
             <input
                 type="text"
                 id="description"
                 placeholder="Açıklama"
             >
+
 
             <input
                 type="number"
@@ -221,12 +252,14 @@ button:hover {
                 step="0.01"
             >
 
+
             <input
                 type="date"
                 id="date"
             >
 
         </div>
+
 
         <button onclick="addTransaction()">
             İşlemi Ekle
@@ -237,7 +270,7 @@ button:hover {
 
     <!-- AY FİLTRESİ -->
 
-    <div class="form">
+    <div class="card">
 
         <h2>📅 Ay Filtrele</h2>
 
@@ -248,7 +281,7 @@ button:hover {
         >
 
         <button
-            class="clear"
+            class="clear-button"
             onclick="clearFilter()"
         >
             Tüm İşlemleri Göster
@@ -257,14 +290,33 @@ button:hover {
     </div>
 
 
+    <!-- GRAFİK -->
+
+    <div class="card">
+
+        <h2>📊 Gelir - Gider</h2>
+
+        <div class="chart-container">
+
+            <canvas id="financeChart"></canvas>
+
+        </div>
+
+    </div>
+
+
     <!-- İŞLEMLER -->
 
-    <div class="transactions">
+    <div class="card">
 
         <h2>📋 İşlemler</h2>
 
         <div id="transactionList">
-            <p>Henüz işlem eklenmedi.</p>
+
+            <p class="empty">
+                Henüz işlem eklenmedi.
+            </p>
+
         </div>
 
     </div>
@@ -274,14 +326,87 @@ button:hover {
 
 <script>
 
+/* VERİLER */
+
 let transactions =
-    JSON.parse(localStorage.getItem("transactions")) || [];
+    JSON.parse(
+        localStorage.getItem("transactions")
+    ) || [];
 
 
-/* BUGÜNÜ TARİH OLARAK SEÇ */
+/* TARİH */
 
 document.getElementById("date").value =
-    new Date().toISOString().split("T")[0];
+    new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+/* GRAFİK */
+
+let financeChart = null;
+
+
+function updateChart(income, expense) {
+
+    const canvas =
+        document.getElementById(
+            "financeChart"
+        );
+
+    if (financeChart) {
+
+        financeChart.destroy();
+
+    }
+
+
+    financeChart =
+        new Chart(canvas, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "Gelir",
+                    "Gider"
+                ],
+
+                datasets: [
+
+                    {
+
+                        data: [
+                            income,
+                            expense
+                        ]
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        });
+
+}
 
 
 /* İŞLEM EKLE */
@@ -289,21 +414,35 @@ document.getElementById("date").value =
 function addTransaction() {
 
     const type =
-        document.getElementById("type").value;
+        document.getElementById(
+            "type"
+        ).value;
+
 
     const category =
-        document.getElementById("category").value;
+        document.getElementById(
+            "category"
+        ).value;
+
 
     const description =
-        document.getElementById("description").value.trim();
+        document.getElementById(
+            "description"
+        ).value.trim();
+
 
     const amount =
         parseFloat(
-            document.getElementById("amount").value
+            document.getElementById(
+                "amount"
+            ).value
         );
 
+
     const date =
-        document.getElementById("date").value;
+        document.getElementById(
+            "date"
+        ).value;
 
 
     if (
@@ -313,13 +452,16 @@ function addTransaction() {
         !date
     ) {
 
-        alert("Lütfen tüm alanları doldur.");
+        alert(
+            "Lütfen açıklama, tutar ve tarih gir."
+        );
 
         return;
+
     }
 
 
-    const transaction = {
+    transactions.push({
 
         id: Date.now(),
 
@@ -333,18 +475,20 @@ function addTransaction() {
 
         date: date
 
-    };
-
-
-    transactions.push(transaction);
+    });
 
 
     saveData();
 
 
-    document.getElementById("description").value = "";
+    document.getElementById(
+        "description"
+    ).value = "";
 
-    document.getElementById("amount").value = "";
+
+    document.getElementById(
+        "amount"
+    ).value = "";
 
 
     updateScreen();
@@ -352,7 +496,7 @@ function addTransaction() {
 }
 
 
-/* İŞLEM SİL */
+/* SİL */
 
 function deleteTransaction(id) {
 
@@ -369,23 +513,27 @@ function deleteTransaction(id) {
 }
 
 
-/* VERİLERİ KAYDET */
+/* KAYDET */
 
 function saveData() {
 
     localStorage.setItem(
         "transactions",
-        JSON.stringify(transactions)
+        JSON.stringify(
+            transactions
+        )
     );
 
 }
 
 
-/* TARİHİ GÖRÜNÜME ÇEVİR */
+/* TARİH */
 
 function formatDate(date) {
 
-    const parts = date.split("-");
+    const parts =
+        date.split("-");
+
 
     return (
         parts[2] +
@@ -402,26 +550,19 @@ function formatDate(date) {
 
 function updateScreen() {
 
-    let totalIncome = 0;
-
-    let totalExpense = 0;
-
-
     const selectedMonth =
         document.getElementById(
             "monthFilter"
         ).value;
 
 
-    let filteredTransactions =
+    let filtered =
         transactions;
 
 
-    /* AY FİLTRESİ */
-
     if (selectedMonth) {
 
-        filteredTransactions =
+        filtered =
             transactions.filter(
                 item =>
                     item.date.startsWith(
@@ -432,13 +573,18 @@ function updateScreen() {
     }
 
 
-    /* YENİDEN ESKİYE SIRALA */
-
-    filteredTransactions =
-        [...filteredTransactions].sort(
+    filtered =
+        [...filtered].sort(
             (a, b) =>
-                b.date.localeCompare(a.date)
+                b.date.localeCompare(
+                    a.date
+                )
         );
+
+
+    let totalIncome = 0;
+
+    let totalExpense = 0;
 
 
     const list =
@@ -450,20 +596,21 @@ function updateScreen() {
     list.innerHTML = "";
 
 
-    /* İŞLEMLERİ GÖSTER */
-
-    filteredTransactions.forEach(
+    filtered.forEach(
         transaction => {
 
 
             if (
-                transaction.type === "income"
+                transaction.type ===
+                "income"
             ) {
 
                 totalIncome +=
                     transaction.amount;
 
-            } else {
+            }
+
+            else {
 
                 totalExpense +=
                     transaction.amount;
@@ -472,7 +619,9 @@ function updateScreen() {
 
 
             const div =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             div.className =
@@ -506,13 +655,15 @@ function updateScreen() {
 
 
                 <div class="${
-                    transaction.type === "income"
+                    transaction.type ===
+                    "income"
                     ? "amount-income"
                     : "amount-expense"
                 }">
 
                     ${
-                        transaction.type === "income"
+                        transaction.type ===
+                        "income"
                         ? "+"
                         : "-"
                     }
@@ -523,7 +674,7 @@ function updateScreen() {
 
 
                 <button
-                    class="delete"
+                    class="delete-button"
                     onclick="deleteTransaction(
                         ${transaction.id}
                     )"
@@ -542,32 +693,43 @@ function updateScreen() {
     );
 
 
-    /* İŞLEM YOKSA */
-
     if (
-        filteredTransactions.length === 0
+        filtered.length === 0
     ) {
 
-        list.innerHTML =
-            "<p>Bu dönemde işlem bulunamadı.</p>";
+        list.innerHTML = `
+
+            <p class="empty">
+                Bu dönemde işlem bulunamadı.
+            </p>
+
+        `;
 
     }
 
-
-    /* TOPLAMLAR */
 
     document.getElementById(
         "totalIncome"
     ).textContent =
         "₺" +
-        totalIncome.toFixed(2);
+        totalIncome.toLocaleString(
+            "tr-TR",
+            {
+                minimumFractionDigits: 2
+            }
+        );
 
 
     document.getElementById(
         "totalExpense"
     ).textContent =
         "₺" +
-        totalExpense.toFixed(2);
+        totalExpense.toLocaleString(
+            "tr-TR",
+            {
+                minimumFractionDigits: 2
+            }
+        );
 
 
     document.getElementById(
@@ -577,12 +739,23 @@ function updateScreen() {
         (
             totalIncome -
             totalExpense
-        ).toFixed(2);
+        ).toLocaleString(
+            "tr-TR",
+            {
+                minimumFractionDigits: 2
+            }
+        );
+
+
+    updateChart(
+        totalIncome,
+        totalExpense
+    );
 
 }
 
 
-/* FİLTREYİ TEMİZLE */
+/* FİLTRE TEMİZLE */
 
 function clearFilter() {
 
@@ -590,12 +763,13 @@ function clearFilter() {
         "monthFilter"
     ).value = "";
 
+
     updateScreen();
 
 }
 
 
-/* BAŞLANGIÇ */
+/* BAŞLAT */
 
 updateScreen();
 
