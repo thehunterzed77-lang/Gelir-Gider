@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -10,199 +11,183 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+*{box-sizing:border-box}
 
-* {
-    box-sizing: border-box;
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#222;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #222;
+.header{
+    background:#111;
+    color:#fff;
+    padding:20px;
+    text-align:center;
 }
 
-.header {
-    background: #111;
-    color: white;
-    padding: 20px;
-    text-align: center;
+.container{
+    max-width:1000px;
+    margin:25px auto;
+    padding:15px;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 25px auto;
-    padding: 15px;
+.card{
+    background:#fff;
+    padding:22px;
+    border-radius:14px;
+    margin-bottom:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.auth{
+    max-width:450px;
+    margin:60px auto;
 }
 
-.auth {
-    max-width: 450px;
-    margin: 60px auto;
+input,select{
+    width:100%;
+    padding:13px;
+    margin:6px 0;
+    border:1px solid #ddd;
+    border-radius:9px;
+    font-size:16px;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 13px;
-    margin: 6px 0;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    font-size: 16px;
+button{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    border:0;
+    border-radius:9px;
+    background:#111;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
 }
 
-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
-    border: 0;
-    border-radius: 9px;
-    background: #111;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+button:hover{
+    background:#333;
 }
 
-button:hover {
-    background: #333;
+.secondary{
+    background:#666;
 }
 
-.secondary {
-    background: #666;
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
 }
 
-.danger {
-    background: #d93636;
+.box{
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+.income{
+    color:#159447;
 }
 
-.box {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.expense{
+    color:#d93636;
 }
 
-.income {
-    color: #159447;
+.balance{
+    color:#2864d7;
 }
 
-.expense {
-    color: #d93636;
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
-.balance {
-    color: #2864d7;
+.transaction{
+    display:grid;
+    grid-template-columns:1fr 120px 120px 70px;
+    gap:10px;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.amount-income{
+    color:#159447;
+    font-weight:bold;
 }
 
-.transaction {
-    display: grid;
-    grid-template-columns: 1fr 120px 120px 70px;
-    gap: 10px;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
+.amount-expense{
+    color:#d93636;
+    font-weight:bold;
 }
 
-.amount-income {
-    color: #159447;
-    font-weight: bold;
+.delete{
+    background:#d93636;
+    margin:0;
+    padding:8px;
+    font-size:13px;
 }
 
-.amount-expense {
-    color: #d93636;
-    font-weight: bold;
+.chart-container{
+    max-width:450px;
+    margin:auto;
 }
 
-.delete {
-    background: #d93636;
-    margin: 0;
-    padding: 8px;
-    font-size: 13px;
+.hidden{
+    display:none;
 }
 
-.chart-container {
-    max-width: 450px;
-    margin: auto;
+.message{
+    text-align:center;
+    margin-top:12px;
+    line-height:1.5;
 }
 
-.hidden {
-    display: none;
+.user-info{
+    text-align:right;
+    margin-bottom:15px;
 }
 
-.message {
-    text-align: center;
-    margin-top: 12px;
-    line-height: 1.5;
+.code-input{
+    text-align:center;
+    font-size:26px;
+    letter-spacing:8px;
+    font-weight:bold;
 }
 
-.user-info {
-    text-align: right;
-    margin-bottom: 15px;
-}
+@media(max-width:700px){
 
-.code-input {
-    text-align: center;
-    font-size: 28px;
-    letter-spacing: 8px;
-    font-weight: bold;
-}
-
-.small-text {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-}
-
-@media (max-width: 700px) {
-
-    .summary {
-        grid-template-columns: 1fr;
+    .summary{
+        grid-template-columns:1fr;
     }
 
-    .form-grid {
-        grid-template-columns: 1fr;
+    .form-grid{
+        grid-template-columns:1fr;
     }
 
-    .transaction {
-        grid-template-columns: 1fr;
+    .transaction{
+        grid-template-columns:1fr;
     }
 
-    .user-info {
-        text-align: center;
+    .user-info{
+        text-align:center;
     }
-
 }
-
 </style>
 </head>
 
 <body>
 
 
-<!-- ============================= -->
-<!-- GİRİŞ EKRANI -->
-<!-- ============================= -->
+<!-- ========================= -->
+<!-- GİRİŞ / KAYIT EKRANI -->
+<!-- ========================= -->
 
 <div id="authScreen">
 
@@ -214,11 +199,17 @@ button:hover {
             Hesabına giriş yap
         </p>
 
+
+        <!-- E-POSTA -->
+
         <input
             type="email"
             id="email"
             placeholder="E-posta"
         >
+
+
+        <!-- ŞİFRE -->
 
         <input
             type="password"
@@ -226,9 +217,11 @@ button:hover {
             placeholder="Şifre"
         >
 
+
         <button onclick="login()">
             Giriş Yap
         </button>
+
 
         <button
             class="secondary"
@@ -236,6 +229,7 @@ button:hover {
         >
             Yeni Hesap Oluştur
         </button>
+
 
         <div
             id="authMessage"
@@ -247,9 +241,9 @@ button:hover {
 </div>
 
 
-<!-- ============================= -->
-<!-- E-POSTA KOD EKRANI -->
-<!-- ============================= -->
+<!-- ========================= -->
+<!-- KOD DOĞRULAMA EKRANI -->
+<!-- ========================= -->
 
 <div id="verifyScreen" class="hidden">
 
@@ -263,10 +257,6 @@ button:hover {
             aşağıya gir.
         </p>
 
-        <p
-            id="verifyEmailText"
-            class="small-text"
-        ></p>
 
         <input
             type="text"
@@ -274,13 +264,14 @@ button:hover {
             class="code-input"
             maxlength="6"
             inputmode="numeric"
-            autocomplete="one-time-code"
             placeholder="000000"
         >
+
 
         <button onclick="verifyCode()">
             Kodu Doğrula
         </button>
+
 
         <button
             class="secondary"
@@ -289,12 +280,14 @@ button:hover {
             Kodu Tekrar Gönder
         </button>
 
+
         <button
             class="secondary"
             onclick="backToLogin()"
         >
             Geri Dön
         </button>
+
 
         <div
             id="verifyMessage"
@@ -306,9 +299,9 @@ button:hover {
 </div>
 
 
-<!-- ============================= -->
+<!-- ========================= -->
 <!-- ANA UYGULAMA -->
-<!-- ============================= -->
+<!-- ========================= -->
 
 <div id="appScreen" class="hidden">
 
@@ -397,7 +390,9 @@ button:hover {
 
             <h2>➕ Yeni İşlem</h2>
 
+
             <div class="form-grid">
+
 
                 <select id="type">
 
@@ -465,11 +460,13 @@ button:hover {
 
             <h2>📅 Ay Filtrele</h2>
 
+
             <input
                 type="month"
                 id="monthFilter"
                 onchange="loadTransactions()"
             >
+
 
             <button
                 class="secondary"
@@ -487,9 +484,12 @@ button:hover {
 
             <h2>📊 Gelir - Gider</h2>
 
+
             <div class="chart-container">
 
-                <canvas id="financeChart"></canvas>
+                <canvas
+                    id="financeChart"
+                ></canvas>
 
             </div>
 
@@ -506,6 +506,7 @@ button:hover {
 
         </div>
 
+
     </div>
 
 </div>
@@ -514,14 +515,16 @@ button:hover {
 <script>
 
 /* =====================================
-   SUPABASE BAĞLANTISI
+   SUPABASE
 ===================================== */
 
 const SUPABASE_URL =
     "https://dvyitgovuciergwlbigj.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -532,11 +535,9 @@ const supabaseClient =
 
 let financeChart = null;
 
-let pendingEmail = "";
-
 
 /* =====================================
-   BUGÜNÜ SEÇ
+   TARİH
 ===================================== */
 
 document.getElementById("date").value =
@@ -549,7 +550,7 @@ document.getElementById("date").value =
    KAYIT OL
 ===================================== */
 
-async function register() {
+async function register(){
 
     const email =
         document
@@ -557,13 +558,14 @@ async function register() {
             .value
             .trim();
 
+
     const password =
         document
             .getElementById("password")
             .value;
 
 
-    if (!email || !password) {
+    if(!email || !password){
 
         showAuthMessage(
             "E-posta ve şifre gir."
@@ -573,7 +575,7 @@ async function register() {
     }
 
 
-    if (password.length < 6) {
+    if(password.length < 6){
 
         showAuthMessage(
             "Şifre en az 6 karakter olmalı."
@@ -583,23 +585,17 @@ async function register() {
     }
 
 
-    showAuthMessage(
-        "Hesap oluşturuluyor...",
-        true
-    );
-
-
-    const { data, error } =
+    const {data,error} =
         await supabaseClient.auth.signUp({
 
-            email: email,
+            email:email,
 
-            password: password
+            password:password
 
         });
 
 
-    if (error) {
+    if(error){
 
         showAuthMessage(
             error.message
@@ -609,12 +605,9 @@ async function register() {
     }
 
 
-    pendingEmail = email;
-
-
     /*
-       Hesap oluşturuldu.
-       E-posta doğrulama ekranına geç.
+       Kayıt başarılı.
+       Şimdi OTP ekranını açıyoruz.
     */
 
     document
@@ -628,15 +621,10 @@ async function register() {
 
 
     document
-        .getElementById("verifyEmailText")
+        .getElementById("verifyMessage")
         .textContent =
-        email;
-
-
-    showVerifyMessage(
-        "Doğrulama kodu e-posta adresine gönderildi.",
-        true
-    );
+        email +
+        " adresine doğrulama kodu gönderildi.";
 
 }
 
@@ -645,10 +633,9 @@ async function register() {
    KOD DOĞRULA
 ===================================== */
 
-async function verifyCode() {
+async function verifyCode(){
 
     const email =
-        pendingEmail ||
         document
             .getElementById("email")
             .value
@@ -657,65 +644,46 @@ async function verifyCode() {
 
     const token =
         document
-            .getElementById("verificationCode")
+            .getElementById(
+                "verificationCode"
+            )
             .value
             .trim();
 
 
-    if (!email) {
+    if(!email || !token){
 
         showVerifyMessage(
-            "E-posta adresi bulunamadı."
+            "E-posta ve 6 haneli kod gerekli."
         );
 
         return;
     }
 
 
-    if (!token) {
+    if(token.length !== 6){
 
         showVerifyMessage(
-            "6 haneli kodu gir."
+            "Kod 6 haneli olmalı."
         );
 
         return;
     }
 
 
-    if (!/^\d{6}$/.test(token)) {
-
-        showVerifyMessage(
-            "Kod tam olarak 6 rakam olmalı."
-        );
-
-        return;
-    }
-
-
-    showVerifyMessage(
-        "Kod kontrol ediliyor...",
-        true
-    );
-
-
-    /*
-       ÖNEMLİ:
-       Güncel Supabase OTP doğrulama tipi email'dir.
-    */
-
-    const { data, error } =
+    const {data,error} =
         await supabaseClient.auth.verifyOtp({
 
-            email: email,
+            email:email,
 
-            token: token,
+            token:token,
 
-            type: "email"
+            type:"signup"
 
         });
 
 
-    if (error) {
+    if(error){
 
         showVerifyMessage(
             "Kod doğrulanamadı: " +
@@ -726,23 +694,10 @@ async function verifyCode() {
     }
 
 
-    if (data && data.user) {
-
-        document
-            .getElementById(
-                "verificationCode"
-            )
-            .value = "";
-
+    if(data.user){
 
         showApp(
             data.user
-        );
-
-    } else {
-
-        showVerifyMessage(
-            "Doğrulama tamamlanamadı."
         );
 
     }
@@ -754,17 +709,16 @@ async function verifyCode() {
    KODU TEKRAR GÖNDER
 ===================================== */
 
-async function resendCode() {
+async function resendCode(){
 
     const email =
-        pendingEmail ||
         document
             .getElementById("email")
             .value
             .trim();
 
 
-    if (!email) {
+    if(!email){
 
         showVerifyMessage(
             "E-posta adresi bulunamadı."
@@ -774,26 +728,19 @@ async function resendCode() {
     }
 
 
-    showVerifyMessage(
-        "Yeni kod gönderiliyor...",
-        true
-    );
-
-
-    const { error } =
+    const {error} =
         await supabaseClient.auth.resend({
 
-            type: "signup",
+            type:"signup",
 
-            email: email
+            email:email
 
         });
 
 
-    if (error) {
+    if(error){
 
         showVerifyMessage(
-            "Kod gönderilemedi: " +
             error.message
         );
 
@@ -813,7 +760,7 @@ async function resendCode() {
    GİRİŞ
 ===================================== */
 
-async function login() {
+async function login(){
 
     const email =
         document
@@ -828,7 +775,7 @@ async function login() {
             .value;
 
 
-    if (!email || !password) {
+    if(!email || !password){
 
         showAuthMessage(
             "E-posta ve şifre gir."
@@ -838,64 +785,44 @@ async function login() {
     }
 
 
-    showAuthMessage(
-        "Giriş yapılıyor...",
-        true
-    );
-
-
-    const { data, error } =
+    const {data,error} =
         await supabaseClient.auth.signInWithPassword({
 
-            email: email,
+            email:email,
 
-            password: password
+            password:password
 
         });
 
 
-    if (error) {
+    if(error){
 
-        const message =
-            error.message.toLowerCase();
+        /*
+           Kullanıcı doğrulanmamışsa
+           tekrar kod ekranına gönder.
+        */
 
-
-        if (
-            message.includes(
-                "email not confirmed"
-            )
-        ) {
-
-            pendingEmail = email;
-
+        if(
+            error.message
+                .toLowerCase()
+                .includes("email not confirmed")
+        ){
 
             document
-                .getElementById(
-                    "authScreen"
-                )
+                .getElementById("authScreen")
                 .classList.add("hidden");
 
 
             document
-                .getElementById(
-                    "verifyScreen"
-                )
+                .getElementById("verifyScreen")
                 .classList.remove("hidden");
-
-
-            document
-                .getElementById(
-                    "verifyEmailText"
-                )
-                .textContent =
-                email;
 
 
             showVerifyMessage(
                 "E-postan henüz doğrulanmamış. Kodunu gir."
             );
 
-        } else {
+        }else{
 
             showAuthMessage(
                 error.message
@@ -918,17 +845,13 @@ async function login() {
    OTURUM KONTROL
 ===================================== */
 
-async function checkSession() {
+async function checkSession(){
 
-    const { data } =
+    const {data} =
         await supabaseClient.auth.getSession();
 
 
-    if (
-        data &&
-        data.session &&
-        data.session.user
-    ) {
+    if(data.session){
 
         showApp(
             data.session.user
@@ -940,10 +863,10 @@ async function checkSession() {
 
 
 /* =====================================
-   ANA UYGULAMAYI GÖSTER
+   UYGULAMAYI GÖSTER
 ===================================== */
 
-function showApp(user) {
+function showApp(user){
 
     document
         .getElementById("authScreen")
@@ -972,10 +895,10 @@ function showApp(user) {
 
 
 /* =====================================
-   GİRİŞE GERİ DÖN
+   GERİ DÖN
 ===================================== */
 
-function backToLogin() {
+function backToLogin(){
 
     document
         .getElementById("verifyScreen")
@@ -986,20 +909,6 @@ function backToLogin() {
         .getElementById("authScreen")
         .classList.remove("hidden");
 
-
-    document
-        .getElementById(
-            "verificationCode"
-        )
-        .value = "";
-
-
-    document
-        .getElementById(
-            "verifyMessage"
-        )
-        .textContent = "";
-
 }
 
 
@@ -1007,7 +916,7 @@ function backToLogin() {
    ÇIKIŞ
 ===================================== */
 
-async function logout() {
+async function logout(){
 
     await supabaseClient.auth.signOut();
 
@@ -1021,27 +930,17 @@ async function logout() {
         .getElementById("authScreen")
         .classList.remove("hidden");
 
-
-    document
-        .getElementById("email")
-        .value = "";
-
-
-    document
-        .getElementById("password")
-        .value = "";
-
 }
 
 
 /* =====================================
-   GİRİŞ MESAJI
+   MESAJLAR
 ===================================== */
 
 function showAuthMessage(
     text,
-    success = false
-) {
+    success=false
+){
 
     const element =
         document.getElementById(
@@ -1061,14 +960,10 @@ function showAuthMessage(
 }
 
 
-/* =====================================
-   DOĞRULAMA MESAJI
-===================================== */
-
 function showVerifyMessage(
     text,
-    success = false
-) {
+    success=false
+){
 
     const element =
         document.getElementById(
@@ -1092,9 +987,9 @@ function showVerifyMessage(
    İŞLEM EKLE
 ===================================== */
 
-async function addTransaction() {
+async function addTransaction(){
 
-    const { data } =
+    const {data} =
         await supabaseClient.auth.getUser();
 
 
@@ -1102,7 +997,7 @@ async function addTransaction() {
         data.user;
 
 
-    if (!user) {
+    if(!user){
 
         alert(
             "Önce giriş yapmalısın."
@@ -1113,44 +1008,43 @@ async function addTransaction() {
 
 
     const type =
-        document
-            .getElementById("type")
-            .value;
+        document.getElementById(
+            "type"
+        ).value;
 
 
     const category =
-        document
-            .getElementById("category")
-            .value;
+        document.getElementById(
+            "category"
+        ).value;
 
 
     const description =
-        document
-            .getElementById("description")
-            .value
-            .trim();
+        document.getElementById(
+            "description"
+        ).value.trim();
 
 
     const amount =
         parseFloat(
-            document
-                .getElementById("amount")
-                .value
+            document.getElementById(
+                "amount"
+            ).value
         );
 
 
     const date =
-        document
-            .getElementById("date")
-            .value;
+        document.getElementById(
+            "date"
+        ).value;
 
 
-    if (
+    if(
         !description ||
         !amount ||
         amount <= 0 ||
         !date
-    ) {
+    ){
 
         alert(
             "Lütfen tüm alanları doldur."
@@ -1160,27 +1054,27 @@ async function addTransaction() {
     }
 
 
-    const { error } =
+    const {error} =
         await supabaseClient
             .from("transactions")
             .insert({
 
-                user_id: user.id,
+                user_id:user.id,
 
-                type: type,
+                type:type,
 
-                category: category,
+                category:category,
 
-                description: description,
+                description:description,
 
-                amount: amount,
+                amount:amount,
 
-                transaction_date: date
+                transaction_date:date
 
             });
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Kayıt eklenemedi: " +
@@ -1191,18 +1085,14 @@ async function addTransaction() {
     }
 
 
-    document
-        .getElementById(
-            "description"
-        )
-        .value = "";
+    document.getElementById(
+        "description"
+    ).value = "";
 
 
-    document
-        .getElementById(
-            "amount"
-        )
-        .value = "";
+    document.getElementById(
+        "amount"
+    ).value = "";
 
 
     loadTransactions();
@@ -1214,9 +1104,9 @@ async function addTransaction() {
    İŞLEMLERİ GETİR
 ===================================== */
 
-async function loadTransactions() {
+async function loadTransactions(){
 
-    const { data: userData } =
+    const {data:userData} =
         await supabaseClient.auth.getUser();
 
 
@@ -1224,17 +1114,13 @@ async function loadTransactions() {
         userData.user;
 
 
-    if (!user) {
-        return;
-    }
+    if(!user) return;
 
 
     const selectedMonth =
-        document
-            .getElementById(
-                "monthFilter"
-            )
-            .value;
+        document.getElementById(
+            "monthFilter"
+        ).value;
 
 
     let query =
@@ -1248,12 +1134,12 @@ async function loadTransactions() {
             .order(
                 "transaction_date",
                 {
-                    ascending: false
+                    ascending:false
                 }
             );
 
 
-    if (selectedMonth) {
+    if(selectedMonth){
 
         const parts =
             selectedMonth.split("-");
@@ -1301,11 +1187,11 @@ async function loadTransactions() {
     }
 
 
-    const { data, error } =
+    const {data,error} =
         await query;
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Veriler alınamadı: " +
@@ -1329,7 +1215,7 @@ async function loadTransactions() {
 
 function updateScreen(
     transactions
-) {
+){
 
     let totalIncome = 0;
 
@@ -1354,14 +1240,14 @@ function updateScreen(
                 );
 
 
-            if (
+            if(
                 transaction.type ===
                 "income"
-            ) {
+            ){
 
                 totalIncome += amount;
 
-            } else {
+            }else{
 
                 totalExpense += amount;
 
@@ -1398,11 +1284,15 @@ function updateScreen(
 
                 </div>
 
+
                 <div>
+
                     ${formatDate(
                         transaction.transaction_date
                     )}
+
                 </div>
+
 
                 <div class="${
                     transaction.type === "income"
@@ -1419,11 +1309,12 @@ function updateScreen(
                     ₺${amount.toLocaleString(
                         "tr-TR",
                         {
-                            minimumFractionDigits: 2
+                            minimumFractionDigits:2
                         }
                     )}
 
                 </div>
+
 
                 <button
                     class="delete"
@@ -1443,9 +1334,9 @@ function updateScreen(
     );
 
 
-    if (
+    if(
         transactions.length === 0
-    ) {
+    ){
 
         list.innerHTML =
             "<p>Bu dönemde işlem bulunamadı.</p>";
@@ -1460,7 +1351,7 @@ function updateScreen(
         totalIncome.toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1472,7 +1363,7 @@ function updateScreen(
         totalExpense.toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1487,7 +1378,7 @@ function updateScreen(
         ).toLocaleString(
             "tr-TR",
             {
-                minimumFractionDigits: 2
+                minimumFractionDigits:2
             }
         );
 
@@ -1501,22 +1392,23 @@ function updateScreen(
 
 
 /* =====================================
-   İŞLEM SİL
+   SİL
 ===================================== */
 
-async function deleteTransaction(id) {
+async function deleteTransaction(id){
 
-    if (
+    if(
         !confirm(
             "Bu işlemi silmek istediğine emin misin?"
         )
-    ) {
+    ){
 
         return;
+
     }
 
 
-    const { error } =
+    const {error} =
         await supabaseClient
             .from("transactions")
             .delete()
@@ -1526,7 +1418,7 @@ async function deleteTransaction(id) {
             );
 
 
-    if (error) {
+    if(error){
 
         alert(
             "Silinemedi: " +
@@ -1543,16 +1435,14 @@ async function deleteTransaction(id) {
 
 
 /* =====================================
-   FİLTREYİ TEMİZLE
+   FİLTRE TEMİZLE
 ===================================== */
 
-function clearFilter() {
+function clearFilter(){
 
-    document
-        .getElementById(
-            "monthFilter"
-        )
-        .value = "";
+    document.getElementById(
+        "monthFilter"
+    ).value = "";
 
 
     loadTransactions();
@@ -1564,7 +1454,7 @@ function clearFilter() {
    TARİH
 ===================================== */
 
-function formatDate(date) {
+function formatDate(date){
 
     const parts =
         date.split("-");
@@ -1588,7 +1478,7 @@ function formatDate(date) {
 function updateChart(
     income,
     expense
-) {
+){
 
     const canvas =
         document.getElementById(
@@ -1596,7 +1486,7 @@ function updateChart(
         );
 
 
-    if (financeChart) {
+    if(financeChart){
 
         financeChart.destroy();
 
@@ -1608,18 +1498,18 @@ function updateChart(
             canvas,
             {
 
-                type: "doughnut",
+                type:"doughnut",
 
-                data: {
+                data:{
 
-                    labels: [
+                    labels:[
                         "Gelir",
                         "Gider"
                     ],
 
-                    datasets: [{
+                    datasets:[{
 
-                        data: [
+                        data:[
                             income,
                             expense
                         ]
@@ -1628,14 +1518,14 @@ function updateChart(
 
                 },
 
-                options: {
+                options:{
 
-                    responsive: true,
+                    responsive:true,
 
-                    plugins: {
+                    plugins:{
 
-                        legend: {
-                            position: "bottom"
+                        legend:{
+                            position:"bottom"
                         }
 
                     }
@@ -1652,7 +1542,7 @@ function updateChart(
    GÜVENLİ METİN
 ===================================== */
 
-function escapeHtml(text) {
+function escapeHtml(text){
 
     const div =
         document.createElement(
@@ -1679,3 +1569,4 @@ checkSession();
 
 </body>
 </html>
+```
