@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -29,8 +28,7 @@ body{
 }
 
 button,
-input,
-select{
+input{
     font:inherit;
 }
 
@@ -89,19 +87,16 @@ button{
     font-weight:700;
 }
 
-.form-group input,
-.form-group select{
+.form-group input{
     width:100%;
     height:48px;
     border:1px solid #dfe3ea;
     border-radius:12px;
     padding:0 14px;
     outline:none;
-    background:white;
 }
 
-.form-group input:focus,
-.form-group select:focus{
+.form-group input:focus{
     border-color:#2563eb;
 }
 
@@ -209,26 +204,15 @@ button{
     width:100%;
     height:48px;
     border:none;
-    background:transparent;
+    background:#eaf1ff;
     border-radius:12px;
     text-align:left;
     padding:0 14px;
-    margin-bottom:6px;
-    color:#667085;
+    color:#2563eb;
     font-weight:700;
     display:flex;
     align-items:center;
     gap:12px;
-}
-
-.menu-btn:hover{
-    background:#f3f6fb;
-    color:#2563eb;
-}
-
-.menu-btn.active{
-    background:#eaf1ff;
-    color:#2563eb;
 }
 
 .menu-icon{
@@ -309,16 +293,8 @@ button{
 
 
 /* =========================================================
-   PAGES
+   DASHBOARD
 ========================================================= */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
 
 .page-heading{
     margin-bottom:25px;
@@ -333,16 +309,11 @@ button{
     color:#7b8495;
 }
 
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:18px;
-    margin-bottom:20px;
+    margin-bottom:22px;
 }
 
 .stat-card{
@@ -376,6 +347,76 @@ button{
     color:#2563eb;
 }
 
+
+/* =========================================================
+   GELİR / GİDER BUTONLARI
+========================================================= */
+
+.action-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.action-btn{
+    min-height:105px;
+    border:none;
+    border-radius:18px;
+    padding:20px;
+    text-align:left;
+    color:white;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    transition:.2s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,0,0,.10);
+}
+
+.income-action{
+    background:#16a34a;
+}
+
+.expense-action{
+    background:#dc2626;
+}
+
+.action-icon{
+    width:58px;
+    height:58px;
+    background:rgba(255,255,255,.18);
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:29px;
+}
+
+.action-text{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.action-title{
+    font-size:19px;
+    font-weight:800;
+}
+
+.action-subtitle{
+    font-size:13px;
+    opacity:.85;
+}
+
+
+/* =========================================================
+   DASHBOARD GRID
+========================================================= */
+
 .dashboard-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -402,110 +443,14 @@ button{
 
 
 /* =========================================================
-   INCOME / EXPENSE
+   TRANSACTIONS
 ========================================================= */
-
-.transaction-layout{
-    display:grid;
-    grid-template-columns:380px 1fr;
-    gap:20px;
-}
-
-.entry-card{
-    background:white;
-    border:1px solid #e9ecf2;
-    border-radius:18px;
-    padding:25px;
-}
-
-.entry-title{
-    font-size:20px;
-    font-weight:800;
-    margin-bottom:22px;
-}
-
-.category-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.category-btn{
-    height:48px;
-    border:1px solid #dfe3ea;
-    background:white;
-    border-radius:10px;
-    font-weight:700;
-    color:#596273;
-}
-
-.category-btn:hover{
-    border-color:#2563eb;
-    color:#2563eb;
-}
-
-.category-btn.selected{
-    background:#eaf1ff;
-    border-color:#2563eb;
-    color:#2563eb;
-}
-
-.entry-input{
-    margin-bottom:15px;
-}
-
-.entry-input label{
-    display:block;
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:7px;
-}
-
-.entry-input input{
-    width:100%;
-    height:48px;
-    border:1px solid #dfe3ea;
-    border-radius:11px;
-    padding:0 13px;
-    outline:none;
-}
-
-.entry-input input:focus{
-    border-color:#2563eb;
-}
-
-.list-card{
-    background:white;
-    border:1px solid #e9ecf2;
-    border-radius:18px;
-    padding:25px;
-}
-
-.list-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.list-title{
-    font-size:20px;
-    font-weight:800;
-}
-
-.filter-select{
-    height:40px;
-    border:1px solid #dfe3ea;
-    border-radius:9px;
-    padding:0 10px;
-}
 
 .transaction-item{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:16px 0;
+    padding:15px 0;
     border-bottom:1px solid #edf0f4;
 }
 
@@ -566,6 +511,14 @@ button{
     font-weight:800;
 }
 
+.income{
+    color:#16a34a;
+}
+
+.expense{
+    color:#dc2626;
+}
+
 .delete-btn{
     width:32px;
     height:32px;
@@ -584,11 +537,198 @@ button{
 
 
 /* =========================================================
+   MODAL
+========================================================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.55);
+    backdrop-filter:blur(4px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:520px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 25px 70px rgba(0,0,0,.2);
+    animation:modalOpen .18s ease;
+}
+
+@keyframes modalOpen{
+
+    from{
+        opacity:0;
+        transform:translateY(15px) scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.modal-header-left{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.modal-big-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.modal-big-icon.income{
+    background:#eaf8ef;
+    color:#16a34a;
+}
+
+.modal-big-icon.expense{
+    background:#fff0f0;
+    color:#dc2626;
+}
+
+.modal-title{
+    font-size:22px;
+    font-weight:800;
+}
+
+.modal-close{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:10px;
+    background:#f2f4f7;
+    color:#667085;
+    font-size:23px;
+}
+
+.modal-close:hover{
+    background:#e5e7eb;
+}
+
+
+/* =========================================================
+   MODAL FORM
+========================================================= */
+
+.modal-label{
+    display:block;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.modal-input{
+    width:100%;
+    height:50px;
+    border:1px solid #dfe3ea;
+    border-radius:12px;
+    padding:0 14px;
+    outline:none;
+    margin-bottom:18px;
+}
+
+.modal-input:focus{
+    border-color:#2563eb;
+}
+
+.category-title{
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-bottom:20px;
+}
+
+.category-btn{
+    min-height:44px;
+    border:1px solid #dfe3ea;
+    background:white;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:800;
+    color:#596273;
+}
+
+.category-btn:hover{
+    border-color:#2563eb;
+    color:#2563eb;
+}
+
+.category-btn.selected-income{
+    background:#eaf8ef;
+    border-color:#16a34a;
+    color:#16a34a;
+}
+
+.category-btn.selected-expense{
+    background:#fff0f0;
+    border-color:#dc2626;
+    color:#dc2626;
+}
+
+.modal-save-income{
+    background:#16a34a;
+}
+
+.modal-save-income:hover{
+    background:#15803d;
+}
+
+.modal-save-expense{
+    background:#dc2626;
+}
+
+.modal-save-expense:hover{
+    background:#b91c1c;
+}
+
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 .mobile-menu{
     display:none;
+    border:none;
+    background:#eaf1ff;
+    color:#2563eb;
+    width:40px;
+    height:40px;
+    border-radius:9px;
 }
 
 @media(max-width:950px){
@@ -603,12 +743,6 @@ button{
 
     .mobile-menu{
         display:block;
-        border:none;
-        background:#eaf1ff;
-        color:#2563eb;
-        width:40px;
-        height:40px;
-        border-radius:9px;
     }
 
     .topbar{
@@ -623,14 +757,13 @@ button{
         grid-template-columns:1fr;
     }
 
-    .dashboard-grid,
-    .transaction-layout{
+    .dashboard-grid{
         grid-template-columns:1fr;
     }
 
 }
 
-@media(max-width:550px){
+@media(max-width:600px){
 
     .topbar-title{
         font-size:18px;
@@ -644,8 +777,8 @@ button{
         font-size:25px;
     }
 
-    .category-grid{
-        grid-template-columns:1fr 1fr;
+    .action-buttons{
+        grid-template-columns:1fr;
     }
 
     .transaction-item{
@@ -658,10 +791,71 @@ button{
         gap:5px;
     }
 
+    .modal{
+        padding:22px;
+        border-radius:20px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+.mobile-sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:250px;
+    background:white;
+    z-index:110;
+    padding:25px 15px;
+    transform:translateX(-100%);
+    transition:.25s;
+    box-shadow:10px 0 30px rgba(0,0,0,.12);
+}
+
+.mobile-sidebar.active{
+    transform:translateX(0);
+}
+
+.mobile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:105;
+    display:none;
+}
+
+.mobile-overlay.active{
+    display:block;
+}
+
+.mobile-sidebar-logo{
+    font-size:24px;
+    font-weight:800;
+    margin:0 12px 35px;
+}
+
+.mobile-sidebar-logo span{
+    color:#2563eb;
+}
+
+.mobile-nav-btn{
+    width:100%;
+    height:48px;
+    border:none;
+    background:#eaf1ff;
+    color:#2563eb;
+    border-radius:12px;
+    text-align:left;
+    padding:0 14px;
+    font-weight:700;
 }
 
 </style>
-
 </head>
 
 
@@ -684,7 +878,6 @@ button{
             Finansını kontrol altında tut.
         </div>
 
-
         <div class="form-group">
 
             <label>E-posta</label>
@@ -696,7 +889,6 @@ button{
             >
 
         </div>
-
 
         <div class="form-group">
 
@@ -710,7 +902,6 @@ button{
 
         </div>
 
-
         <button
             id="loginButton"
             class="primary-btn"
@@ -719,12 +910,10 @@ button{
             Giriş Yap
         </button>
 
-
         <div
             id="loginMessage"
             class="message"
         ></div>
-
 
         <div class="auth-switch">
 
@@ -761,7 +950,6 @@ button{
             Yeni hesabını oluştur.
         </div>
 
-
         <div class="form-group">
 
             <label>Ad</label>
@@ -773,7 +961,6 @@ button{
             >
 
         </div>
-
 
         <div class="form-group">
 
@@ -787,7 +974,6 @@ button{
 
         </div>
 
-
         <div class="form-group">
 
             <label>E-posta</label>
@@ -799,7 +985,6 @@ button{
             >
 
         </div>
-
 
         <div class="form-group">
 
@@ -815,7 +1000,6 @@ button{
             >
 
         </div>
-
 
         <div class="form-group">
 
@@ -837,13 +1021,9 @@ button{
 
             </div>
 
-            <div
-                id="passwordStrengthText"
-                class="password-info"
-            ></div>
+            <div id="passwordStrengthText"></div>
 
         </div>
-
 
         <div class="form-group">
 
@@ -856,13 +1036,9 @@ button{
                 oninput="checkMatch()"
             >
 
-            <div
-                id="passwordMatchText"
-                class="password-info"
-            ></div>
+            <div id="passwordMatchText"></div>
 
         </div>
-
 
         <button
             id="registerButton"
@@ -872,12 +1048,10 @@ button{
             Hesap Oluştur
         </button>
 
-
         <div
             id="registerMessage"
             class="message"
         ></div>
-
 
         <div class="auth-switch">
 
@@ -901,7 +1075,7 @@ button{
 <div id="appScreen">
 
 
-    <!-- SIDEBAR -->
+    <!-- DESKTOP SIDEBAR -->
 
     <aside class="sidebar">
 
@@ -909,50 +1083,57 @@ button{
             Para<span>Planım</span>
         </div>
 
-
         <div class="menu-title">
             MENÜ
         </div>
 
+        <button class="menu-btn">
 
-        <button
-            id="menuDashboard"
-            class="menu-btn active"
-            onclick="showPage('dashboard')"
-        >
-
-            <span class="menu-icon">🏠</span>
+            <span class="menu-icon">
+                🏠
+            </span>
 
             Ana Sayfa
 
         </button>
 
+        <div class="sidebar-bottom">
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Çıkış Yap
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE SIDEBAR -->
+
+    <div
+        id="mobileOverlay"
+        class="mobile-overlay"
+        onclick="closeMobileMenu()"
+    ></div>
+
+    <aside
+        id="mobileSidebar"
+        class="mobile-sidebar"
+    >
+
+        <div class="mobile-sidebar-logo">
+            Para<span>Planım</span>
+        </div>
 
         <button
-            id="menuIncome"
-            class="menu-btn"
-            onclick="showPage('income')"
+            class="mobile-nav-btn"
+            onclick="closeMobileMenu()"
         >
-
-            <span class="menu-icon">💰</span>
-
-            Gelir
-
+            🏠 &nbsp; Ana Sayfa
         </button>
-
-
-        <button
-            id="menuExpense"
-            class="menu-btn"
-            onclick="showPage('expense')"
-        >
-
-            <span class="menu-icon">💸</span>
-
-            Gider
-
-        </button>
-
 
         <div class="sidebar-bottom">
 
@@ -981,20 +1162,16 @@ button{
 
                 <button
                     class="mobile-menu"
-                    onclick="toggleMobileMenu()"
+                    onclick="openMobileMenu()"
                 >
                     ☰
                 </button>
 
-                <div
-                    id="topbarTitle"
-                    class="topbar-title"
-                >
+                <div class="topbar-title">
                     Ana Sayfa
                 </div>
 
             </div>
-
 
             <div class="user-box">
 
@@ -1017,533 +1194,509 @@ button{
         </div>
 
 
+        <!-- CONTENT -->
+
         <div class="content">
 
 
-            <!-- =================================================
-                 DASHBOARD PAGE
-            ================================================= -->
+            <div class="page-heading">
 
-            <section
-                id="dashboardPage"
-                class="page active"
-            >
+                <h1>
+                    Genel Bakış
+                </h1>
 
-                <div class="page-heading">
+                <p>
+                    Finansal durumunu buradan yönet.
+                </p>
 
-                    <h1>
-                        Genel Bakış
-                    </h1>
-
-                    <p>
-                        Paranla ilgili genel durumun.
-                    </p>
-
-                </div>
+            </div>
 
 
-                <div class="stats">
+            <!-- İSTATİSTİKLER -->
+
+            <div class="stats">
 
 
-                    <div class="stat-card">
+                <div class="stat-card">
 
-                        <div class="stat-label">
-                            TOPLAM GELİR
-                        </div>
-
-                        <div
-                            id="dashboardIncome"
-                            class="stat-value stat-income"
-                        >
-                            ₺0,00
-                        </div>
-
+                    <div class="stat-label">
+                        TOPLAM GELİR
                     </div>
 
-
-                    <div class="stat-card">
-
-                        <div class="stat-label">
-                            TOPLAM GİDER
-                        </div>
-
-                        <div
-                            id="dashboardExpense"
-                            class="stat-value stat-expense"
-                        >
-                            ₺0,00
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat-card">
-
-                        <div class="stat-label">
-                            BAKİYE
-                        </div>
-
-                        <div
-                            id="dashboardBalance"
-                            class="stat-value stat-balance"
-                        >
-                            ₺0,00
-                        </div>
-
+                    <div
+                        id="dashboardIncome"
+                        class="stat-value stat-income"
+                    >
+                        ₺0,00
                     </div>
 
                 </div>
 
 
-                <div class="dashboard-grid">
+                <div class="stat-card">
 
-
-                    <div class="panel">
-
-                        <div class="panel-title">
-                            Gider Dağılımı
-                        </div>
-
-                        <div class="chart-box">
-
-                            <canvas
-                                id="expenseChart"
-                            ></canvas>
-
-                        </div>
-
+                    <div class="stat-label">
+                        TOPLAM GİDER
                     </div>
 
-
-                    <div class="panel">
-
-                        <div class="panel-title">
-                            Son İşlemler
-                        </div>
-
-                        <div id="recentTransactions"></div>
-
+                    <div
+                        id="dashboardExpense"
+                        class="stat-value stat-expense"
+                    >
+                        ₺0,00
                     </div>
-
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 INCOME PAGE
-            ================================================= -->
-
-            <section
-                id="incomePage"
-                class="page"
-            >
-
-                <div class="page-heading">
-
-                    <h1>
-                        💰 Gelir
-                    </h1>
-
-                    <p>
-                        Gelirlerini buradan yönet.
-                    </p>
 
                 </div>
 
 
-                <div class="transaction-layout">
+                <div class="stat-card">
 
-
-                    <!-- GELİR EKLE -->
-
-                    <div class="entry-card">
-
-                        <div class="entry-title">
-                            Yeni Gelir Ekle
-                        </div>
-
-
-                        <div class="category-grid">
-
-
-                            <button
-                                class="category-btn selected"
-                                data-income-category="MAAŞ"
-                                onclick="selectIncomeCategory(this)"
-                            >
-                                MAAŞ
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-income-category="KİRA"
-                                onclick="selectIncomeCategory(this)"
-                            >
-                                KİRA
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-income-category="YATIRIM"
-                                onclick="selectIncomeCategory(this)"
-                            >
-                                YATIRIM
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-income-category="DÖVİZ"
-                                onclick="selectIncomeCategory(this)"
-                            >
-                                DÖVİZ
-                            </button>
-
-
-                        </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Tutar
-                            </label>
-
-                            <input
-                                type="number"
-                                id="incomeAmount"
-                                placeholder="0,00"
-                                min="0"
-                                step="0.01"
-                            >
-
-                        </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Açıklama
-                            </label>
-
-                            <input
-                                type="text"
-                                id="incomeDescription"
-                                placeholder="Örn: Eylül maaşı"
-                            >
-
-                        </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Tarih
-                            </label>
-
-                            <input
-                                type="date"
-                                id="incomeDate"
-                            >
-
-                        </div>
-
-
-                        <button
-                            class="primary-btn"
-                            onclick="addIncome()"
-                        >
-                            Gelir Ekle
-                        </button>
-
-
-                        <div
-                            id="incomeMessage"
-                            class="message"
-                        ></div>
-
+                    <div class="stat-label">
+                        BAKİYE
                     </div>
 
-
-                    <!-- GELİR LİSTESİ -->
-
-                    <div class="list-card">
-
-                        <div class="list-header">
-
-                            <div class="list-title">
-                                Gelir Geçmişi
-                            </div>
-
-
-                            <select
-                                id="incomeMonthFilter"
-                                class="filter-select"
-                                onchange="renderIncomePage()"
-                            >
-
-                                <option value="all">
-                                    Tüm Aylar
-                                </option>
-
-                                <option value="1">Ocak</option>
-                                <option value="2">Şubat</option>
-                                <option value="3">Mart</option>
-                                <option value="4">Nisan</option>
-                                <option value="5">Mayıs</option>
-                                <option value="6">Haziran</option>
-                                <option value="7">Temmuz</option>
-                                <option value="8">Ağustos</option>
-                                <option value="9">Eylül</option>
-                                <option value="10">Ekim</option>
-                                <option value="11">Kasım</option>
-                                <option value="12">Aralık</option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div id="incomeList"></div>
-
+                    <div
+                        id="dashboardBalance"
+                        class="stat-value stat-balance"
+                    >
+                        ₺0,00
                     </div>
-
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 EXPENSE PAGE
-            ================================================= -->
-
-            <section
-                id="expensePage"
-                class="page"
-            >
-
-                <div class="page-heading">
-
-                    <h1>
-                        💸 Gider
-                    </h1>
-
-                    <p>
-                        Harcamalarını buradan yönet.
-                    </p>
 
                 </div>
 
 
-                <div class="transaction-layout">
+            </div>
 
 
-                    <!-- GİDER EKLE -->
+            <!-- GELİR / GİDER BUTONLARI -->
 
-                    <div class="entry-card">
+            <div class="action-buttons">
 
-                        <div class="entry-title">
-                            Yeni Gider Ekle
+
+                <button
+                    class="action-btn income-action"
+                    onclick="openIncomeModal()"
+                >
+
+                    <div class="action-icon">
+                        ↑
+                    </div>
+
+                    <div class="action-text">
+
+                        <div class="action-title">
+                            Gelir Gir
                         </div>
 
-
-                        <div class="category-grid">
-
-
-                            <button
-                                class="category-btn selected"
-                                data-expense-category="FATURA"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                FATURA
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="KİRA"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                KİRA
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="ABONELİK"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                ABONELİK
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="MARKET"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                MARKET
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="RESTORAN"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                RESTORAN
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="EĞLENCE"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                EĞLENCE
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="KREDİ"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                KREDİ
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-expense-category="KREDİ KARTI"
-                                onclick="selectExpenseCategory(this)"
-                            >
-                                KREDİ KARTI
-                            </button>
-
-
+                        <div class="action-subtitle">
+                            Maaş, kira, yatırım ve diğer gelirler
                         </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Tutar
-                            </label>
-
-                            <input
-                                type="number"
-                                id="expenseAmount"
-                                placeholder="0,00"
-                                min="0"
-                                step="0.01"
-                            >
-
-                        </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Açıklama
-                            </label>
-
-                            <input
-                                type="text"
-                                id="expenseDescription"
-                                placeholder="Örn: Elektrik faturası"
-                            >
-
-                        </div>
-
-
-                        <div class="entry-input">
-
-                            <label>
-                                Tarih
-                            </label>
-
-                            <input
-                                type="date"
-                                id="expenseDate"
-                            >
-
-                        </div>
-
-
-                        <button
-                            class="primary-btn"
-                            onclick="addExpense()"
-                        >
-                            Gider Ekle
-                        </button>
-
-
-                        <div
-                            id="expenseMessage"
-                            class="message"
-                        ></div>
 
                     </div>
 
-
-                    <!-- GİDER LİSTESİ -->
-
-                    <div class="list-card">
-
-                        <div class="list-header">
-
-                            <div class="list-title">
-                                Gider Geçmişi
-                            </div>
+                </button>
 
 
-                            <select
-                                id="expenseMonthFilter"
-                                class="filter-select"
-                                onchange="renderExpensePage()"
-                            >
+                <button
+                    class="action-btn expense-action"
+                    onclick="openExpenseModal()"
+                >
 
-                                <option value="all">
-                                    Tüm Aylar
-                                </option>
+                    <div class="action-icon">
+                        ↓
+                    </div>
 
-                                <option value="1">Ocak</option>
-                                <option value="2">Şubat</option>
-                                <option value="3">Mart</option>
-                                <option value="4">Nisan</option>
-                                <option value="5">Mayıs</option>
-                                <option value="6">Haziran</option>
-                                <option value="7">Temmuz</option>
-                                <option value="8">Ağustos</option>
-                                <option value="9">Eylül</option>
-                                <option value="10">Ekim</option>
-                                <option value="11">Kasım</option>
-                                <option value="12">Aralık</option>
+                    <div class="action-text">
 
-                            </select>
-
+                        <div class="action-title">
+                            Gider Gir
                         </div>
 
-
-                        <div id="expenseList"></div>
+                        <div class="action-subtitle">
+                            Fatura, market, kredi ve diğer giderler
+                        </div>
 
                     </div>
 
+                </button>
+
+
+            </div>
+
+
+            <!-- ALT BÖLÜM -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- GİDER GRAFİĞİ -->
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Gider Dağılımı
+                    </div>
+
+                    <div class="chart-box">
+
+                        <canvas
+                            id="expenseChart"
+                        ></canvas>
+
+                    </div>
 
                 </div>
 
-            </section>
+
+                <!-- SON İŞLEMLER -->
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Son İşlemler
+                    </div>
+
+                    <div id="recentTransactions"></div>
+
+                </div>
+
+
+            </div>
 
 
         </div>
 
     </main>
+
+</div>
+
+
+<!-- =========================================================
+     GELİR MODAL
+========================================================= -->
+
+<div
+    id="incomeModal"
+    class="modal-overlay"
+    onclick="closeModalOutside(event,'incomeModal')"
+>
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <div class="modal-header">
+
+
+            <div class="modal-header-left">
+
+                <div class="modal-big-icon income">
+                    ↑
+                </div>
+
+                <div class="modal-title">
+                    Gelir Gir
+                </div>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                onclick="closeIncomeModal()"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+        <div class="category-title">
+            Gelir Kategorisi
+        </div>
+
+
+        <div class="category-grid">
+
+
+            <button
+                class="category-btn selected-income"
+                data-income-category="MAAŞ"
+                onclick="selectIncomeCategory(this)"
+            >
+                MAAŞ
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-income-category="KİRA"
+                onclick="selectIncomeCategory(this)"
+            >
+                KİRA
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-income-category="YATIRIM"
+                onclick="selectIncomeCategory(this)"
+            >
+                YATIRIM
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-income-category="DÖVİZ"
+                onclick="selectIncomeCategory(this)"
+            >
+                DÖVİZ
+            </button>
+
+
+        </div>
+
+
+        <label class="modal-label">
+            Tutar
+        </label>
+
+        <input
+            type="number"
+            id="incomeAmount"
+            class="modal-input"
+            placeholder="0,00"
+            min="0"
+            step="0.01"
+        >
+
+
+        <label class="modal-label">
+            Açıklama
+        </label>
+
+        <input
+            type="text"
+            id="incomeDescription"
+            class="modal-input"
+            placeholder="Örn: Eylül maaşı"
+        >
+
+
+        <label class="modal-label">
+            Tarih
+        </label>
+
+        <input
+            type="date"
+            id="incomeDate"
+            class="modal-input"
+        >
+
+
+        <button
+            id="incomeSaveButton"
+            class="primary-btn modal-save-income"
+            onclick="addIncome()"
+        >
+            Geliri Kaydet
+        </button>
+
+
+        <div
+            id="incomeMessage"
+            class="message"
+        ></div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     GİDER MODAL
+========================================================= -->
+
+<div
+    id="expenseModal"
+    class="modal-overlay"
+    onclick="closeModalOutside(event,'expenseModal')"
+>
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <div class="modal-header">
+
+
+            <div class="modal-header-left">
+
+                <div class="modal-big-icon expense">
+                    ↓
+                </div>
+
+                <div class="modal-title">
+                    Gider Gir
+                </div>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                onclick="closeExpenseModal()"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+        <div class="category-title">
+            Gider Kategorisi
+        </div>
+
+
+        <div class="category-grid">
+
+
+            <button
+                class="category-btn selected-expense"
+                data-expense-category="FATURA"
+                onclick="selectExpenseCategory(this)"
+            >
+                FATURA
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="KİRA"
+                onclick="selectExpenseCategory(this)"
+            >
+                KİRA
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="ABONELİK"
+                onclick="selectExpenseCategory(this)"
+            >
+                ABONELİK
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="MARKET"
+                onclick="selectExpenseCategory(this)"
+            >
+                MARKET
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="RESTORAN"
+                onclick="selectExpenseCategory(this)"
+            >
+                RESTORAN
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="EĞLENCE"
+                onclick="selectExpenseCategory(this)"
+            >
+                EĞLENCE
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="KREDİ"
+                onclick="selectExpenseCategory(this)"
+            >
+                KREDİ
+            </button>
+
+
+            <button
+                class="category-btn"
+                data-expense-category="KREDİ KARTI"
+                onclick="selectExpenseCategory(this)"
+            >
+                KREDİ KARTI
+            </button>
+
+
+        </div>
+
+
+        <label class="modal-label">
+            Tutar
+        </label>
+
+        <input
+            type="number"
+            id="expenseAmount"
+            class="modal-input"
+            placeholder="0,00"
+            min="0"
+            step="0.01"
+        >
+
+
+        <label class="modal-label">
+            Açıklama
+        </label>
+
+        <input
+            type="text"
+            id="expenseDescription"
+            class="modal-input"
+            placeholder="Örn: Elektrik faturası"
+        >
+
+
+        <label class="modal-label">
+            Tarih
+        </label>
+
+        <input
+            type="date"
+            id="expenseDate"
+            class="modal-input"
+        >
+
+
+        <button
+            id="expenseSaveButton"
+            class="primary-btn modal-save-expense"
+            onclick="addExpense()"
+        >
+            Gideri Kaydet
+        </button>
+
+
+        <div
+            id="expenseMessage"
+            class="message"
+        ></div>
+
+
+    </div>
 
 </div>
 
@@ -1583,7 +1736,7 @@ let selectedExpenseCategory = "FATURA";
 
 
 /* =========================================================
-   AUTH SAYFALARI
+   AUTH
 ========================================================= */
 
 function showLogin(){
@@ -1690,21 +1843,24 @@ function checkPassword(){
 
         bar.style.background = "#dc2626";
 
-        text.textContent = "Zayıf şifre";
+        text.textContent =
+            "Zayıf şifre";
 
     }
     else if(score === 3){
 
         bar.style.background = "#f59e0b";
 
-        text.textContent = "Orta güçte şifre";
+        text.textContent =
+            "Orta güçte şifre";
 
     }
     else{
 
         bar.style.background = "#16a34a";
 
-        text.textContent = "Güçlü şifre";
+        text.textContent =
+            "Güçlü şifre";
 
     }
 
@@ -1717,13 +1873,19 @@ function checkPassword(){
 function checkMatch(){
 
     const password =
-        document.getElementById("registerPassword").value;
+        document.getElementById(
+            "registerPassword"
+        ).value;
 
     const confirm =
-        document.getElementById("registerPasswordConfirm").value;
+        document.getElementById(
+            "registerPasswordConfirm"
+        ).value;
 
     const text =
-        document.getElementById("passwordMatchText");
+        document.getElementById(
+            "passwordMatchText"
+        );
 
 
     if(!confirm){
@@ -1785,14 +1947,19 @@ async function register(){
         .value;
 
     const confirmPassword =
-        document.getElementById("registerPasswordConfirm")
-        .value;
+        document.getElementById(
+            "registerPasswordConfirm"
+        ).value;
 
     const message =
-        document.getElementById("registerMessage");
+        document.getElementById(
+            "registerMessage"
+        );
 
     const button =
-        document.getElementById("registerButton");
+        document.getElementById(
+            "registerButton"
+        );
 
 
     message.textContent = "";
@@ -1862,23 +2029,11 @@ async function register(){
     }
 
 
-    if(passwordStrength(password) < 3){
-
-        message.textContent =
-            "Lütfen daha güçlü bir şifre belirleyin.";
-
-        return;
-
-    }
-
-
     button.disabled = true;
 
     button.textContent =
         "Telefon kontrol ediliyor...";
 
-
-    /* TELEFON KONTROLÜ */
 
     const {
         data:phoneExists,
@@ -2064,9 +2219,6 @@ async function login(){
 
     if(!email || !password){
 
-        message.style.color =
-            "#dc2626";
-
         message.textContent =
             "E-posta ve şifreyi girin.";
 
@@ -2096,9 +2248,6 @@ async function login(){
 
 
     if(error){
-
-        message.style.color =
-            "#dc2626";
 
         message.textContent =
             "E-posta veya şifre hatalı.";
@@ -2171,12 +2320,12 @@ async function showApp(){
         .maybeSingle();
 
 
-    let firstName =
+    const firstName =
         profile?.first_name ||
         currentUser.user_metadata?.first_name ||
         "";
 
-    let lastName =
+    const lastName =
         profile?.last_name ||
         currentUser.user_metadata?.last_name ||
         "";
@@ -2214,7 +2363,6 @@ function setDefaultDates(){
     const date =
         new Date();
 
-
     const year =
         date.getFullYear();
 
@@ -2225,7 +2373,6 @@ function setDefaultDates(){
     const day =
         String(date.getDate())
         .padStart(2,"0");
-
 
     const today =
         `${year}-${month}-${day}`;
@@ -2297,72 +2444,43 @@ async function logout(){
 
 
 /* =========================================================
-   SAYFA DEĞİŞTİR
+   GELİR MODAL
 ========================================================= */
 
-function showPage(page){
+function openIncomeModal(){
 
-    document.querySelectorAll(".page")
-        .forEach(element => {
-
-            element.classList.remove("active");
-
-        });
+    document.getElementById("incomeModal")
+        .classList.add("active");
 
 
-    document.querySelectorAll(".menu-btn")
-        .forEach(element => {
-
-            element.classList.remove("active");
-
-        });
+    document.getElementById("incomeMessage")
+        .textContent = "";
 
 
-    if(page === "dashboard"){
+    setTimeout(() => {
 
-        document.getElementById("dashboardPage")
-            .classList.add("active");
+        document.getElementById("incomeAmount")
+            .focus();
 
-        document.getElementById("menuDashboard")
-            .classList.add("active");
+    },100);
 
-        document.getElementById("topbarTitle")
-            .textContent =
-            "Ana Sayfa";
-
-    }
+}
 
 
-    if(page === "income"){
+function closeIncomeModal(){
 
-        document.getElementById("incomePage")
-            .classList.add("active");
+    document.getElementById("incomeModal")
+        .classList.remove("active");
 
-        document.getElementById("menuIncome")
-            .classList.add("active");
-
-        document.getElementById("topbarTitle")
-            .textContent =
-            "Gelir";
-
-        renderIncomePage();
-
-    }
+}
 
 
-    if(page === "expense"){
+function closeModalOutside(event,id){
 
-        document.getElementById("expensePage")
-            .classList.add("active");
+    if(event.target.id === id){
 
-        document.getElementById("menuExpense")
-            .classList.add("active");
-
-        document.getElementById("topbarTitle")
-            .textContent =
-            "Gider";
-
-        renderExpensePage();
+        document.getElementById(id)
+            .classList.remove("active");
 
     }
 
@@ -2370,7 +2488,59 @@ function showPage(page){
 
 
 /* =========================================================
-   GELİR KATEGORİSİ
+   GİDER MODAL
+========================================================= */
+
+function openExpenseModal(){
+
+    document.getElementById("expenseModal")
+        .classList.add("active");
+
+
+    document.getElementById("expenseMessage")
+        .textContent = "";
+
+
+    setTimeout(() => {
+
+        document.getElementById("expenseAmount")
+            .focus();
+
+    },100);
+
+}
+
+
+function closeExpenseModal(){
+
+    document.getElementById("expenseModal")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   ESC İLE MODAL KAPAT
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeIncomeModal();
+
+            closeExpenseModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   GELİR KATEGORİ
 ========================================================= */
 
 function selectIncomeCategory(button){
@@ -2380,12 +2550,16 @@ function selectIncomeCategory(button){
     )
     .forEach(btn => {
 
-        btn.classList.remove("selected");
+        btn.classList.remove(
+            "selected-income"
+        );
 
     });
 
 
-    button.classList.add("selected");
+    button.classList.add(
+        "selected-income"
+    );
 
 
     selectedIncomeCategory =
@@ -2395,7 +2569,7 @@ function selectIncomeCategory(button){
 
 
 /* =========================================================
-   GİDER KATEGORİSİ
+   GİDER KATEGORİ
 ========================================================= */
 
 function selectExpenseCategory(button){
@@ -2405,12 +2579,16 @@ function selectExpenseCategory(button){
     )
     .forEach(btn => {
 
-        btn.classList.remove("selected");
+        btn.classList.remove(
+            "selected-expense"
+        );
 
     });
 
 
-    button.classList.add("selected");
+    button.classList.add(
+        "selected-expense"
+    );
 
 
     selectedExpenseCategory =
@@ -2431,22 +2609,34 @@ async function addIncome(){
 
     const amount =
         Number(
-            document.getElementById("incomeAmount").value
+            document.getElementById(
+                "incomeAmount"
+            ).value
         );
 
 
     const description =
-        document.getElementById("incomeDescription")
-        .value.trim();
+        document.getElementById(
+            "incomeDescription"
+        ).value.trim();
 
 
     const date =
-        document.getElementById("incomeDate")
-        .value;
+        document.getElementById(
+            "incomeDate"
+        ).value;
 
 
     const message =
-        document.getElementById("incomeMessage");
+        document.getElementById(
+            "incomeMessage"
+        );
+
+
+    const button =
+        document.getElementById(
+            "incomeSaveButton"
+        );
 
 
     if(!amount || amount <= 0){
@@ -2473,6 +2663,12 @@ async function addIncome(){
         return;
 
     }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Kaydediliyor...";
 
 
     const {
@@ -2507,6 +2703,11 @@ async function addIncome(){
         message.textContent =
             "Gelir eklenirken hata oluştu.";
 
+        button.disabled = false;
+
+        button.textContent =
+            "Geliri Kaydet";
+
         return;
 
     }
@@ -2516,17 +2717,31 @@ async function addIncome(){
         "#16a34a";
 
     message.textContent =
-        "Gelir başarıyla eklendi.";
+        "✓ Gelir başarıyla kaydedildi.";
 
 
-    document.getElementById("incomeAmount")
-        .value = "";
+    document.getElementById(
+        "incomeAmount"
+    ).value = "";
 
-    document.getElementById("incomeDescription")
-        .value = "";
+    document.getElementById(
+        "incomeDescription"
+    ).value = "";
 
 
     await loadTransactions();
+
+
+    setTimeout(
+        closeIncomeModal,
+        500
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Geliri Kaydet";
 
 }
 
@@ -2543,22 +2758,34 @@ async function addExpense(){
 
     const amount =
         Number(
-            document.getElementById("expenseAmount").value
+            document.getElementById(
+                "expenseAmount"
+            ).value
         );
 
 
     const description =
-        document.getElementById("expenseDescription")
-        .value.trim();
+        document.getElementById(
+            "expenseDescription"
+        ).value.trim();
 
 
     const date =
-        document.getElementById("expenseDate")
-        .value;
+        document.getElementById(
+            "expenseDate"
+        ).value;
 
 
     const message =
-        document.getElementById("expenseMessage");
+        document.getElementById(
+            "expenseMessage"
+        );
+
+
+    const button =
+        document.getElementById(
+            "expenseSaveButton"
+        );
 
 
     if(!amount || amount <= 0){
@@ -2585,6 +2812,12 @@ async function addExpense(){
         return;
 
     }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Kaydediliyor...";
 
 
     const {
@@ -2619,6 +2852,11 @@ async function addExpense(){
         message.textContent =
             "Gider eklenirken hata oluştu.";
 
+        button.disabled = false;
+
+        button.textContent =
+            "Gideri Kaydet";
+
         return;
 
     }
@@ -2628,23 +2866,37 @@ async function addExpense(){
         "#16a34a";
 
     message.textContent =
-        "Gider başarıyla eklendi.";
+        "✓ Gider başarıyla kaydedildi.";
 
 
-    document.getElementById("expenseAmount")
-        .value = "";
+    document.getElementById(
+        "expenseAmount"
+    ).value = "";
 
-    document.getElementById("expenseDescription")
-        .value = "";
+    document.getElementById(
+        "expenseDescription"
+    ).value = "";
 
 
     await loadTransactions();
+
+
+    setTimeout(
+        closeExpenseModal,
+        500
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Gideri Kaydet";
 
 }
 
 
 /* =========================================================
-   İŞLEMLERİ YÜKLE
+   TRANSACTIONS YÜKLE
 ========================================================= */
 
 async function loadTransactions(){
@@ -2661,7 +2913,12 @@ async function loadTransactions(){
         .from("transactions")
         .select("*")
         .eq("user_id",currentUser.id)
-        .order("transaction_date",{ascending:false});
+        .order(
+            "transaction_date",
+            {
+                ascending:false
+            }
+        );
 
 
     if(error){
@@ -2678,10 +2935,6 @@ async function loadTransactions(){
 
 
     updateDashboard();
-
-    renderIncomePage();
-
-    renderExpensePage();
 
     renderRecentTransactions();
 
@@ -2712,7 +2965,7 @@ function updateDashboard(){
             income += amount;
 
         }
-        else{
+        else if(transaction.type === "expense"){
 
             expense += amount;
 
@@ -2725,247 +2978,22 @@ function updateDashboard(){
         income - expense;
 
 
-    document.getElementById("dashboardIncome")
-        .textContent =
+    document.getElementById(
+        "dashboardIncome"
+    ).textContent =
         money(income);
 
 
-    document.getElementById("dashboardExpense")
-        .textContent =
+    document.getElementById(
+        "dashboardExpense"
+    ).textContent =
         money(expense);
 
 
-    document.getElementById("dashboardBalance")
-        .textContent =
+    document.getElementById(
+        "dashboardBalance"
+    ).textContent =
         money(balance);
-
-}
-
-
-/* =========================================================
-   GELİR SAYFASI
-========================================================= */
-
-function renderIncomePage(){
-
-    const list =
-        document.getElementById("incomeList");
-
-
-    if(!list)
-        return;
-
-
-    const month =
-        document.getElementById("incomeMonthFilter")
-        .value;
-
-
-    let data =
-        transactions.filter(
-            transaction =>
-                transaction.type === "income"
-        );
-
-
-    if(month !== "all"){
-
-        data =
-            data.filter(transaction => {
-
-                return Number(
-                    transaction.transaction_date
-                    .split("-")[1]
-                ) === Number(month);
-
-            });
-
-    }
-
-
-    if(data.length === 0){
-
-        list.innerHTML =
-            `<div class="empty">
-                Henüz gelir kaydı bulunmuyor.
-            </div>`;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        data.map(transaction => {
-
-            return `
-
-            <div class="transaction-item">
-
-                <div class="transaction-info">
-
-                    <div class="transaction-icon income-icon">
-                        ↑
-                    </div>
-
-                    <div>
-
-                        <div class="transaction-category">
-                            ${escapeHtml(transaction.category)}
-                        </div>
-
-                        <div class="transaction-description">
-                            ${escapeHtml(
-                                transaction.description ||
-                                "Açıklama yok"
-                            )}
-                        </div>
-
-                        <div class="transaction-date">
-                            ${formatDate(
-                                transaction.transaction_date
-                            )}
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction-right">
-
-                    <div class="transaction-amount income">
-                        +${money(transaction.amount)}
-                    </div>
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteTransaction('${transaction.id}')"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   GİDER SAYFASI
-========================================================= */
-
-function renderExpensePage(){
-
-    const list =
-        document.getElementById("expenseList");
-
-
-    if(!list)
-        return;
-
-
-    const month =
-        document.getElementById("expenseMonthFilter")
-        .value;
-
-
-    let data =
-        transactions.filter(
-            transaction =>
-                transaction.type === "expense"
-        );
-
-
-    if(month !== "all"){
-
-        data =
-            data.filter(transaction => {
-
-                return Number(
-                    transaction.transaction_date
-                    .split("-")[1]
-                ) === Number(month);
-
-            });
-
-    }
-
-
-    if(data.length === 0){
-
-        list.innerHTML =
-            `<div class="empty">
-                Henüz gider kaydı bulunmuyor.
-            </div>`;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        data.map(transaction => {
-
-            return `
-
-            <div class="transaction-item">
-
-                <div class="transaction-info">
-
-                    <div class="transaction-icon expense-icon">
-                        ↓
-                    </div>
-
-                    <div>
-
-                        <div class="transaction-category">
-                            ${escapeHtml(transaction.category)}
-                        </div>
-
-                        <div class="transaction-description">
-                            ${escapeHtml(
-                                transaction.description ||
-                                "Açıklama yok"
-                            )}
-                        </div>
-
-                        <div class="transaction-date">
-                            ${formatDate(
-                                transaction.transaction_date
-                            )}
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction-right">
-
-                    <div class="transaction-amount expense">
-                        -${money(transaction.amount)}
-                    </div>
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteTransaction('${transaction.id}')"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
 
 }
 
@@ -2987,15 +3015,17 @@ function renderRecentTransactions(){
 
 
     const recent =
-        transactions.slice(0,5);
+        transactions.slice(0,7);
 
 
     if(recent.length === 0){
 
         list.innerHTML =
-            `<div class="empty">
+            `
+            <div class="empty">
                 Henüz işlem bulunmuyor.
-            </div>`;
+            </div>
+            `;
 
         return;
 
@@ -3029,7 +3059,16 @@ function renderRecentTransactions(){
                     <div>
 
                         <div class="transaction-category">
-                            ${escapeHtml(transaction.category)}
+                            ${escapeHtml(
+                                transaction.category
+                            )}
+                        </div>
+
+                        <div class="transaction-description">
+                            ${escapeHtml(
+                                transaction.description ||
+                                "Açıklama yok"
+                            )}
                         </div>
 
                         <div class="transaction-date">
@@ -3043,13 +3082,27 @@ function renderRecentTransactions(){
                 </div>
 
 
-                <div class="transaction-amount ${
-                    isIncome
-                    ? "income"
-                    : "expense"
-                }">
+                <div class="transaction-right">
 
-                    ${isIncome ? "+" : "-"}${money(transaction.amount)}
+                    <div class="transaction-amount ${
+                        isIncome
+                        ? "income"
+                        : "expense"
+                    }">
+
+                        ${isIncome ? "+" : "-"}${money(
+                            transaction.amount
+                        )}
+
+                    </div>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteTransaction('${transaction.id}')"
+                    >
+                        ×
+                    </button>
 
                 </div>
 
@@ -3108,7 +3161,7 @@ async function deleteTransaction(id){
 
 
 /* =========================================================
-   CHART
+   GRAFİK
 ========================================================= */
 
 function updateChart(){
@@ -3139,13 +3192,18 @@ function updateChart(){
     .forEach(transaction => {
 
         const category =
-            transaction.category || "Diğer";
+            transaction.category ||
+            "Diğer";
 
 
         categories[category] =
-            (categories[category] || 0)
+            (
+                categories[category] || 0
+            )
             +
-            Number(transaction.amount || 0);
+            Number(
+                transaction.amount || 0
+            );
 
     });
 
@@ -3210,7 +3268,7 @@ function updateChart(){
 
 
 /* =========================================================
-   PARA
+   PARA FORMAT
 ========================================================= */
 
 function money(value){
@@ -3273,26 +3331,28 @@ function escapeHtml(value){
    MOBİL MENÜ
 ========================================================= */
 
-function toggleMobileMenu(){
+function openMobileMenu(){
 
-    const sidebar =
-        document.querySelector(".sidebar");
+    document.getElementById(
+        "mobileSidebar"
+    ).classList.add("active");
+
+    document.getElementById(
+        "mobileOverlay"
+    ).classList.add("active");
+
+}
 
 
-    if(
-        sidebar.style.display === "block"
-    ){
+function closeMobileMenu(){
 
-        sidebar.style.display = "none";
+    document.getElementById(
+        "mobileSidebar"
+    ).classList.remove("active");
 
-    }
-    else{
-
-        sidebar.style.display = "block";
-
-        sidebar.style.zIndex = "100";
-
-    }
+    document.getElementById(
+        "mobileOverlay"
+    ).classList.remove("active");
 
 }
 
