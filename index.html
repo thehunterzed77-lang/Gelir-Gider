@@ -1,1192 +1,873 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Para Planım</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-/* =========================================================
-   GENEL
-========================================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-body{
-    background:#f5f7fb;
-    color:#172033;
-}
-
-button,
-input{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-.auth-screen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:#f5f7fb;
-}
-
-.auth-box{
-    width:100%;
-    max-width:430px;
-    background:white;
-    padding:35px;
-    border-radius:24px;
-    box-shadow:0 15px 45px rgba(0,0,0,.08);
-}
-
-.logo{
-    text-align:center;
-    font-size:30px;
-    font-weight:800;
-    margin-bottom:8px;
-}
-
-.logo span{
-    color:#2563eb;
-}
-
-.auth-subtitle{
-    text-align:center;
-    color:#7b8495;
-    margin-bottom:28px;
-}
-
-.form-group{
-    margin-bottom:16px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    font-size:14px;
-    font-weight:700;
-}
-
-.form-group input{
-    width:100%;
-    height:48px;
-    border:1px solid #dfe3ea;
-    border-radius:12px;
-    padding:0 14px;
-    outline:none;
-}
-
-.form-group input:focus{
-    border-color:#2563eb;
-}
-
-.primary-btn{
-    width:100%;
-    height:50px;
-    border:none;
-    border-radius:12px;
-    background:#2563eb;
-    color:white;
-    font-weight:700;
-    font-size:15px;
-}
-
-.primary-btn:hover{
-    background:#1d4ed8;
-}
-
-.primary-btn:disabled{
-    background:#9bbcf7;
-}
-
-.auth-switch{
-    text-align:center;
-    margin-top:18px;
-    color:#7b8495;
-    font-size:14px;
-}
-
-.auth-switch span{
-    color:#2563eb;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.message{
-    text-align:center;
-    min-height:20px;
-    margin-top:13px;
-    font-size:14px;
-}
-
-.password-strength{
-    height:5px;
-    margin-top:7px;
-    background:#e5e7eb;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.password-strength-bar{
-    height:100%;
-    width:0%;
-    transition:.3s;
-}
-
-
-/* =========================================================
-   APP
-========================================================= */
-
-#appScreen{
-    display:none;
-    min-height:100vh;
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:240px;
-    background:white;
-    border-right:1px solid #e7eaf0;
-    padding:25px 15px;
-    z-index:20;
-}
-
-.sidebar-logo{
-    font-size:24px;
-    font-weight:800;
-    padding:0 12px;
-    margin-bottom:35px;
-}
-
-.sidebar-logo span{
-    color:#2563eb;
-}
-
-.menu-title{
-    font-size:11px;
-    font-weight:800;
-    color:#9aa3b2;
-    padding:0 12px;
-    margin-bottom:8px;
-    letter-spacing:.7px;
-}
-
-.menu-btn{
-    width:100%;
-    height:48px;
-    border:none;
-    background:#eaf1ff;
-    border-radius:12px;
-    text-align:left;
-    padding:0 14px;
-    color:#2563eb;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.menu-icon{
-    width:22px;
-    text-align:center;
-    font-size:18px;
-}
-
-.sidebar-bottom{
-    position:absolute;
-    left:15px;
-    right:15px;
-    bottom:20px;
-}
-
-.logout-btn{
-    width:100%;
-    height:45px;
-    border:none;
-    border-radius:11px;
-    background:#fff0f0;
-    color:#dc2626;
-    font-weight:700;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main{
-    margin-left:240px;
-    min-height:100vh;
-}
-
-.topbar{
-    height:75px;
-    background:white;
-    border-bottom:1px solid #e7eaf0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 35px;
-}
-
-.topbar-title{
-    font-size:22px;
-    font-weight:800;
-}
-
-.user-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.user-avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:#eaf1ff;
-    color:#2563eb;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;
-}
-
-.user-name{
-    font-weight:700;
-    font-size:14px;
-}
-
-.content{
-    padding:30px 35px;
-    max-width:1400px;
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-.page-heading{
-    margin-bottom:25px;
-}
-
-.page-heading h1{
-    font-size:30px;
-    margin-bottom:6px;
-}
-
-.page-heading p{
-    color:#7b8495;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-    margin-bottom:22px;
-}
-
-.stat-card{
-    background:white;
-    border-radius:18px;
-    padding:23px;
-    border:1px solid #e9ecf2;
-}
-
-.stat-label{
-    color:#8a93a3;
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:10px;
-}
-
-.stat-value{
-    font-size:28px;
-    font-weight:800;
-}
-
-.stat-income{
-    color:#16a34a;
-}
-
-.stat-expense{
-    color:#dc2626;
-}
-
-.stat-balance{
-    color:#2563eb;
-}
-
-
-/* =========================================================
-   GELİR / GİDER BUTONLARI
-========================================================= */
-
-.action-buttons{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-    margin-bottom:22px;
-}
-
-.action-btn{
-    min-height:105px;
-    border:none;
-    border-radius:18px;
-    padding:20px;
-    text-align:left;
-    color:white;
-    display:flex;
-    align-items:center;
-    gap:18px;
-    transition:.2s;
-}
-
-.action-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 25px rgba(0,0,0,.10);
-}
-
-.income-action{
-    background:#16a34a;
-}
-
-.expense-action{
-    background:#dc2626;
-}
-
-.action-icon{
-    width:58px;
-    height:58px;
-    background:rgba(255,255,255,.18);
-    border-radius:16px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:29px;
-}
-
-.action-text{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
-.action-title{
-    font-size:19px;
-    font-weight:800;
-}
-
-.action-subtitle{
-    font-size:13px;
-    opacity:.85;
-}
-
-
-/* =========================================================
-   DASHBOARD GRID
-========================================================= */
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-}
-
-.panel{
-    background:white;
-    border:1px solid #e9ecf2;
-    border-radius:18px;
-    padding:23px;
-}
-
-.panel-title{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:20px;
-}
-
-.chart-box{
-    max-width:450px;
-    margin:auto;
-}
-
-
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
-
-.transaction-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:15px 0;
-    border-bottom:1px solid #edf0f4;
-}
-
-.transaction-item:last-child{
-    border-bottom:none;
-}
-
-.transaction-info{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
-
-.transaction-icon{
-    width:43px;
-    height:43px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-}
-
-.income-icon{
-    background:#eaf8ef;
-    color:#16a34a;
-}
-
-.expense-icon{
-    background:#fff0f0;
-    color:#dc2626;
-}
-
-.transaction-category{
-    font-weight:800;
-    font-size:14px;
-}
-
-.transaction-description{
-    color:#8992a1;
-    font-size:12px;
-    margin-top:4px;
-}
-
-.transaction-date{
-    color:#a0a7b3;
-    font-size:11px;
-    margin-top:3px;
-}
-
-.transaction-right{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.transaction-amount{
-    font-weight:800;
-}
-
-.income{
-    color:#16a34a;
-}
-
-.expense{
-    color:#dc2626;
-}
-
-.delete-btn{
-    width:32px;
-    height:32px;
-    border:none;
-    border-radius:8px;
-    background:#fff0f0;
-    color:#dc2626;
-    font-size:17px;
-}
-
-.empty{
-    padding:45px 10px;
-    text-align:center;
-    color:#9aa3b2;
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(15,23,42,.55);
-    backdrop-filter:blur(4px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:100;
-}
-
-.modal-overlay.active{
-    display:flex;
-}
-
-.modal{
-    width:100%;
-    max-width:520px;
-    max-height:90vh;
-    overflow-y:auto;
-    background:white;
-    border-radius:24px;
-    padding:28px;
-    box-shadow:0 25px 70px rgba(0,0,0,.2);
-    animation:modalOpen .18s ease;
-}
-
-@keyframes modalOpen{
-
-    from{
-        opacity:0;
-        transform:translateY(15px) scale(.98);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-
-}
-
-.modal-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:25px;
-}
-
-.modal-header-left{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
-
-.modal-big-icon{
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:23px;
-}
-
-.modal-big-icon.income{
-    background:#eaf8ef;
-    color:#16a34a;
-}
-
-.modal-big-icon.expense{
-    background:#fff0f0;
-    color:#dc2626;
-}
-
-.modal-title{
-    font-size:22px;
-    font-weight:800;
-}
-
-.modal-close{
-    width:38px;
-    height:38px;
-    border:none;
-    border-radius:10px;
-    background:#f2f4f7;
-    color:#667085;
-    font-size:23px;
-}
-
-.modal-close:hover{
-    background:#e5e7eb;
-}
-
-
-/* =========================================================
-   MODAL FORM
-========================================================= */
-
-.modal-label{
-    display:block;
-    font-size:13px;
-    font-weight:800;
-    margin-bottom:8px;
-}
-
-.modal-input{
-    width:100%;
-    height:50px;
-    border:1px solid #dfe3ea;
-    border-radius:12px;
-    padding:0 14px;
-    outline:none;
-    margin-bottom:18px;
-}
-
-.modal-input:focus{
-    border-color:#2563eb;
-}
-
-.category-title{
-    font-size:13px;
-    font-weight:800;
-    margin-bottom:10px;
-}
-
-.category-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-bottom:20px;
-}
-
-.category-btn{
-    min-height:44px;
-    border:1px solid #dfe3ea;
-    background:white;
-    border-radius:10px;
-    font-size:12px;
-    font-weight:800;
-    color:#596273;
-}
-
-.category-btn:hover{
-    border-color:#2563eb;
-    color:#2563eb;
-}
-
-.category-btn.selected-income{
-    background:#eaf8ef;
-    border-color:#16a34a;
-    color:#16a34a;
-}
-
-.category-btn.selected-expense{
-    background:#fff0f0;
-    border-color:#dc2626;
-    color:#dc2626;
-}
-
-.modal-save-income{
-    background:#16a34a;
-}
-
-.modal-save-income:hover{
-    background:#15803d;
-}
-
-.modal-save-expense{
-    background:#dc2626;
-}
-
-.modal-save-expense:hover{
-    background:#b91c1c;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-.mobile-menu{
-    display:none;
-    border:none;
-    background:#eaf1ff;
-    color:#2563eb;
-    width:40px;
-    height:40px;
-    border-radius:9px;
-}
-
-@media(max-width:950px){
-
-    .sidebar{
-        display:none;
-    }
-
-    .main{
-        margin-left:0;
-    }
-
-    .mobile-menu{
-        display:block;
-    }
-
-    .topbar{
-        padding:0 20px;
-    }
-
-    .content{
-        padding:20px;
-    }
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
-    }
-
-}
-
-@media(max-width:600px){
-
-    .topbar-title{
-        font-size:18px;
-    }
-
-    .user-name{
-        display:none;
-    }
-
-    .page-heading h1{
-        font-size:25px;
-    }
-
-    .action-buttons{
-        grid-template-columns:1fr;
-    }
-
-    .transaction-item{
-        align-items:flex-start;
-    }
-
-    .transaction-right{
-        flex-direction:column;
-        align-items:flex-end;
-        gap:5px;
-    }
-
-    .modal{
-        padding:22px;
-        border-radius:20px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE SIDEBAR
-========================================================= */
-
-.mobile-sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:250px;
-    background:white;
-    z-index:110;
-    padding:25px 15px;
-    transform:translateX(-100%);
-    transition:.25s;
-    box-shadow:10px 0 30px rgba(0,0,0,.12);
-}
-
-.mobile-sidebar.active{
-    transform:translateX(0);
-}
-
-.mobile-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:105;
-    display:none;
-}
-
-.mobile-overlay.active{
-    display:block;
-}
-
-.mobile-sidebar-logo{
-    font-size:24px;
-    font-weight:800;
-    margin:0 12px 35px;
-}
-
-.mobile-sidebar-logo span{
-    color:#2563eb;
-}
-
-.mobile-nav-btn{
-    width:100%;
-    height:48px;
-    border:none;
-    background:#eaf1ff;
-    color:#2563eb;
-    border-radius:12px;
-    text-align:left;
-    padding:0 14px;
-    font-weight:700;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Planım</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           AUTH
+        ========================= */
+
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background:
+                radial-gradient(circle at top left, #dfe7ff, transparent 35%),
+                radial-gradient(circle at bottom right, #dff8ef, transparent 35%),
+                #f5f7fb;
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-radius: 24px;
+            padding: 38px;
+            box-shadow: 0 20px 60px rgba(30, 41, 59, .12);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 25px;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #5b5cf0, #7c3aed);
+            color: white;
+            font-size: 23px;
+        }
+
+        .auth-title {
+            margin-top: 32px;
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .auth-subtitle {
+            margin-top: 8px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 13px 14px;
+            outline: none;
+            background: white;
+            transition: .2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99,102,241,.10);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .primary-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 13px;
+            padding: 14px;
+            margin-top: 25px;
+            background: linear-gradient(135deg, #6366f1, #7c3aed);
+            color: white;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(99,102,241,.25);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 22px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .auth-switch span {
+            color: #6366f1;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        /* =========================
+           APP
+        ========================= */
+
+        #app {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 245px;
+            background: #111827;
+            color: white;
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+        }
+
+        .sidebar .logo {
+            color: white;
+            padding: 0 8px;
+        }
+
+        .sidebar .logo-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .nav {
+            margin-top: 40px;
+        }
+
+        .nav-item {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #9ca3af;
+            padding: 13px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            width: 100%;
+            border: 0;
+            background: #1f2937;
+            color: #d1d5db;
+            padding: 13px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+
+        .logout-btn:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 850;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+        }
+
+        .user-name {
+            font-weight: 800;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 23px;
+            box-shadow: 0 8px 30px rgba(15,23,42,.05);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .income-icon {
+            background: #dcfce7;
+        }
+
+        .expense-icon {
+            background: #fee2e2;
+        }
+
+        .balance-icon {
+            background: #e0e7ff;
+        }
+
+        .stat-value {
+            margin-top: 14px;
+            font-size: 27px;
+            font-weight: 850;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .section-title {
+            margin: 32px 0 15px;
+            font-size: 19px;
+            font-weight: 850;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .action-card {
+            border: 0;
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            text-align: left;
+            min-height: 150px;
+            transition: .2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .income-action {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 12px 30px rgba(16,185,129,.20);
+        }
+
+        .expense-action {
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            box-shadow: 0 12px 30px rgba(244,63,94,.20);
+        }
+
+        .action-icon {
+            font-size: 28px;
+        }
+
+        .action-title {
+            font-size: 21px;
+            font-weight: 850;
+            margin-top: 15px;
+        }
+
+        .action-description {
+            opacity: .85;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           DASHBOARD LOWER
+        ========================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 18px;
+            padding: 23px;
+            box-shadow: 0 8px 30px rgba(15,23,42,.05);
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 850;
+            margin-bottom: 18px;
+        }
+
+        .transaction {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .transaction:last-child {
+            border-bottom: 0;
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .transaction-income {
+            background: #dcfce7;
+        }
+
+        .transaction-expense {
+            background: #fee2e2;
+        }
+
+        .transaction-category {
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .transaction-description {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .transaction-amount {
+            font-weight: 850;
+        }
+
+        .amount-income {
+            color: #059669;
+        }
+
+        .amount-expense {
+            color: #e11d48;
+        }
+
+        .delete-btn {
+            border: 0;
+            background: transparent;
+            color: #94a3b8;
+            margin-left: 12px;
+            font-size: 16px;
+        }
+
+        .delete-btn:hover {
+            color: #ef4444;
+        }
+
+        .empty {
+            color: #94a3b8;
+            text-align: center;
+            padding: 35px 10px;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.58);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.25);
+            animation: modalIn .2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 23px;
+            font-weight: 850;
+        }
+
+        .modal-close {
+            border: 0;
+            background: #f1f5f9;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            font-size: 20px;
+            color: #64748b;
+        }
+
+        .modal-close:hover {
+            background: #e2e8f0;
+        }
+
+        .modal-income-title {
+            color: #059669;
+        }
+
+        .modal-expense-title {
+            color: #e11d48;
+        }
+
+        .save-income {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .save-expense {
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        select {
+            appearance: auto;
+            cursor: pointer;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        .mobile-menu {
+            display: none;
+            border: 0;
+            background: #111827;
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .25s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                gap: 10px;
+            }
+
+            .page-title {
+                font-size: 23px;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-box {
+                padding: 28px 22px;
+            }
+
+            .modal-box {
+                padding: 22px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
-<!-- =========================================================
+<!-- =========================
      LOGIN
-========================================================= -->
+========================= -->
 
-<div id="loginScreen" class="auth-screen">
-
+<div id="loginScreen" class="auth-container">
     <div class="auth-box">
 
         <div class="logo">
-            Para<span>Planım</span>
+            <div class="logo-icon">₺</div>
+            <span>Para Planım</span>
         </div>
 
+        <div class="auth-title">Hoş Geldin 👋</div>
         <div class="auth-subtitle">
-            Finansını kontrol altında tut.
+            Gelir ve giderlerini kolayca takip et.
         </div>
 
-        <div class="form-group">
+        <form id="loginForm">
 
-            <label>E-posta</label>
-
-            <input
-                type="email"
-                id="loginEmail"
-                placeholder="ornek@mail.com"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Şifre</label>
-
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Şifreniz"
-            >
-
-        </div>
-
-        <button
-            id="loginButton"
-            class="primary-btn"
-            onclick="login()"
-        >
-            Giriş Yap
-        </button>
-
-        <div
-            id="loginMessage"
-            class="message"
-        ></div>
-
-        <div class="auth-switch">
-
-            Hesabın yok mu?
-
-            <span onclick="showRegister()">
-                Kayıt Ol
-            </span>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     REGISTER
-========================================================= -->
-
-<div
-    id="registerScreen"
-    class="auth-screen"
-    style="display:none;"
->
-
-    <div class="auth-box">
-
-        <div class="logo">
-            Para<span>Planım</span>
-        </div>
-
-        <div class="auth-subtitle">
-            Yeni hesabını oluştur.
-        </div>
-
-        <div class="form-group">
-
-            <label>Ad</label>
-
-            <input
-                type="text"
-                id="firstName"
-                placeholder="Adınız"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Soyad</label>
-
-            <input
-                type="text"
-                id="lastName"
-                placeholder="Soyadınız"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>E-posta</label>
-
-            <input
-                type="email"
-                id="registerEmail"
-                placeholder="ornek@mail.com"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Telefon</label>
-
-            <input
-                type="tel"
-                id="registerPhone"
-                placeholder="05XXXXXXXXX"
-                maxlength="11"
-                inputmode="numeric"
-                oninput="formatPhone(this)"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Şifre</label>
-
-            <input
-                type="password"
-                id="registerPassword"
-                placeholder="En az 6 karakter"
-                oninput="checkPassword()"
-            >
-
-            <div class="password-strength">
-
-                <div
-                    id="passwordStrengthBar"
-                    class="password-strength-bar"
-                ></div>
-
+            <div class="form-group">
+                <label>E-posta</label>
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="ornek@mail.com"
+                    required
+                >
             </div>
 
-            <div id="passwordStrengthText"></div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
 
-        </div>
+            <button class="primary-btn" type="submit">
+                Giriş Yap
+            </button>
 
-        <div class="form-group">
-
-            <label>Şifre Tekrar</label>
-
-            <input
-                type="password"
-                id="registerPasswordConfirm"
-                placeholder="Şifrenizi tekrar girin"
-                oninput="checkMatch()"
-            >
-
-            <div id="passwordMatchText"></div>
-
-        </div>
-
-        <button
-            id="registerButton"
-            class="primary-btn"
-            onclick="register()"
-        >
-            Hesap Oluştur
-        </button>
-
-        <div
-            id="registerMessage"
-            class="message"
-        ></div>
+            <div id="loginMessage" class="message"></div>
+        </form>
 
         <div class="auth-switch">
-
-            Zaten hesabın var mı?
-
-            <span onclick="showLogin()">
-                Giriş Yap
-            </span>
-
+            Hesabın yok mu?
+            <span onclick="showRegister()">Kayıt Ol</span>
         </div>
 
     </div>
-
 </div>
 
 
-<!-- =========================================================
+<!-- =========================
+     REGISTER
+========================= -->
+
+<div id="registerScreen" class="auth-container" style="display:none;">
+    <div class="auth-box">
+
+        <div class="logo">
+            <div class="logo-icon">₺</div>
+            <span>Para Planım</span>
+        </div>
+
+        <div class="auth-title">Hesap Oluştur</div>
+        <div class="auth-subtitle">
+            Finansal durumunu takip etmeye hemen başla.
+        </div>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+                <label>Ad</label>
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="Adınız"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Soyad</label>
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Soyadınız"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Telefon</label>
+                <input
+                    type="text"
+                    id="phone"
+                    placeholder="05XXXXXXXXX"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>E-posta</label>
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="ornek@mail.com"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Şifre</label>
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="En az 6 karakter"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <button class="primary-btn" type="submit">
+                Kayıt Ol
+            </button>
+
+            <div id="registerMessage" class="message"></div>
+
+        </form>
+
+        <div class="auth-switch">
+            Zaten hesabın var mı?
+            <span onclick="showLogin()">Giriş Yap</span>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =========================
      APP
-========================================================= -->
+========================= -->
 
-<div id="appScreen">
+<div id="app">
 
+    <aside class="sidebar" id="sidebar">
 
-    <!-- DESKTOP SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="sidebar-logo">
-            Para<span>Planım</span>
+        <div class="logo">
+            <div class="logo-icon">₺</div>
+            <span>Para Planım</span>
         </div>
 
-        <div class="menu-title">
-            MENÜ
-        </div>
+        <nav class="nav">
 
-        <button class="menu-btn">
-
-            <span class="menu-icon">
+            <button class="nav-item active">
                 🏠
-            </span>
-
-            Ana Sayfa
-
-        </button>
-
-        <div class="sidebar-bottom">
-
-            <button
-                class="logout-btn"
-                onclick="logout()"
-            >
-                Çıkış Yap
+                <span>Ana Sayfa</span>
             </button>
 
-        </div>
+        </nav>
+
+        <button class="logout-btn" onclick="logout()">
+            🚪 Çıkış Yap
+        </button>
 
     </aside>
 
-
-    <!-- MOBILE SIDEBAR -->
-
-    <div
-        id="mobileOverlay"
-        class="mobile-overlay"
-        onclick="closeMobileMenu()"
-    ></div>
-
-    <aside
-        id="mobileSidebar"
-        class="mobile-sidebar"
-    >
-
-        <div class="mobile-sidebar-logo">
-            Para<span>Planım</span>
-        </div>
-
-        <button
-            class="mobile-nav-btn"
-            onclick="closeMobileMenu()"
-        >
-            🏠 &nbsp; Ana Sayfa
-        </button>
-
-        <div class="sidebar-bottom">
-
-            <button
-                class="logout-btn"
-                onclick="logout()"
-            >
-                Çıkış Yap
-            </button>
-
-        </div>
-
-    </aside>
-
-
-    <!-- MAIN -->
 
     <main class="main">
 
-
-        <!-- TOPBAR -->
-
         <div class="topbar">
 
-            <div style="display:flex;align-items:center;gap:12px;">
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                ☰
+            </button>
 
-                <button
-                    class="mobile-menu"
-                    onclick="openMobileMenu()"
-                >
-                    ☰
-                </button>
-
-                <div class="topbar-title">
-                    Ana Sayfa
+            <div>
+                <div class="page-title">Ana Sayfa</div>
+                <div class="page-subtitle">
+                    Finansal durumuna genel bakış
                 </div>
-
             </div>
 
-            <div class="user-box">
+            <div class="user-area">
 
-                <div
-                    id="userAvatar"
-                    class="user-avatar"
-                >
-                    U
+                <div>
+                    <div class="user-name" id="userName">
+                        Kullanıcı
+                    </div>
                 </div>
 
-                <div
-                    id="userName"
-                    class="user-name"
-                >
-                    Kullanıcı
+                <div class="avatar" id="userAvatar">
+                    K
                 </div>
 
             </div>
@@ -1194,175 +875,147 @@ button{
         </div>
 
 
-        <!-- CONTENT -->
+        <!-- STATS -->
 
-        <div class="content">
+        <div class="stats-grid">
 
+            <div class="stat-card">
 
-            <div class="page-heading">
-
-                <h1>
-                    Genel Bakış
-                </h1>
-
-                <p>
-                    Finansal durumunu buradan yönet.
-                </p>
-
-            </div>
-
-
-            <!-- İSTATİSTİKLER -->
-
-            <div class="stats">
-
-
-                <div class="stat-card">
-
+                <div class="stat-top">
                     <div class="stat-label">
-                        TOPLAM GELİR
+                        Toplam Gelir
                     </div>
 
-                    <div
-                        id="dashboardIncome"
-                        class="stat-value stat-income"
-                    >
-                        ₺0,00
+                    <div class="stat-icon income-icon">
+                        💰
                     </div>
-
                 </div>
 
+                <div class="stat-value" id="totalIncome">
+                    ₺0,00
+                </div>
 
-                <div class="stat-card">
+            </div>
 
+
+            <div class="stat-card">
+
+                <div class="stat-top">
                     <div class="stat-label">
-                        TOPLAM GİDER
+                        Toplam Gider
                     </div>
 
-                    <div
-                        id="dashboardExpense"
-                        class="stat-value stat-expense"
-                    >
-                        ₺0,00
+                    <div class="stat-icon expense-icon">
+                        💸
                     </div>
-
                 </div>
 
+                <div class="stat-value" id="totalExpense">
+                    ₺0,00
+                </div>
 
-                <div class="stat-card">
+            </div>
 
+
+            <div class="stat-card">
+
+                <div class="stat-top">
                     <div class="stat-label">
-                        BAKİYE
+                        Bakiye
                     </div>
 
-                    <div
-                        id="dashboardBalance"
-                        class="stat-value stat-balance"
-                    >
-                        ₺0,00
+                    <div class="stat-icon balance-icon">
+                        📊
                     </div>
-
                 </div>
 
+                <div class="stat-value" id="balance">
+                    ₺0,00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="section-title">
+            İşlem Ekle
+        </div>
+
+        <div class="actions-grid">
+
+            <button
+                class="action-card income-action"
+                onclick="openIncomeModal()"
+            >
+
+                <div class="action-icon">
+                    💰
+                </div>
+
+                <div class="action-title">
+                    Gelir Gir
+                </div>
+
+                <div class="action-description">
+                    Yeni bir gelir işlemi ekle
+                </div>
+
+            </button>
+
+
+            <button
+                class="action-card expense-action"
+                onclick="openExpenseModal()"
+            >
+
+                <div class="action-icon">
+                    💸
+                </div>
+
+                <div class="action-title">
+                    Gider Gir
+                </div>
+
+                <div class="action-description">
+                    Yeni bir gider işlemi ekle
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <!-- LOWER -->
+
+        <div class="dashboard-grid">
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Son İşlemler
+                </div>
+
+                <div id="recentTransactions">
+                    <div class="empty">
+                        Henüz işlem bulunmuyor.
+                    </div>
+                </div>
 
             </div>
 
 
-            <!-- GELİR / GİDER BUTONLARI -->
+            <div class="panel">
 
-            <div class="action-buttons">
-
-
-                <button
-                    class="action-btn income-action"
-                    onclick="openIncomeModal()"
-                >
-
-                    <div class="action-icon">
-                        ↑
-                    </div>
-
-                    <div class="action-text">
-
-                        <div class="action-title">
-                            Gelir Gir
-                        </div>
-
-                        <div class="action-subtitle">
-                            Maaş, kira, yatırım ve diğer gelirler
-                        </div>
-
-                    </div>
-
-                </button>
-
-
-                <button
-                    class="action-btn expense-action"
-                    onclick="openExpenseModal()"
-                >
-
-                    <div class="action-icon">
-                        ↓
-                    </div>
-
-                    <div class="action-text">
-
-                        <div class="action-title">
-                            Gider Gir
-                        </div>
-
-                        <div class="action-subtitle">
-                            Fatura, market, kredi ve diğer giderler
-                        </div>
-
-                    </div>
-
-                </button>
-
-
-            </div>
-
-
-            <!-- ALT BÖLÜM -->
-
-            <div class="dashboard-grid">
-
-
-                <!-- GİDER GRAFİĞİ -->
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Gider Dağılımı
-                    </div>
-
-                    <div class="chart-box">
-
-                        <canvas
-                            id="expenseChart"
-                        ></canvas>
-
-                    </div>
-
+                <div class="panel-title">
+                    Gider Dağılımı
                 </div>
 
-
-                <!-- SON İŞLEMLER -->
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Son İşlemler
-                    </div>
-
-                    <div id="recentTransactions"></div>
-
-                </div>
-
+                <canvas id="expenseChart"></canvas>
 
             </div>
-
 
         </div>
 
@@ -1371,37 +1024,23 @@ button{
 </div>
 
 
-<!-- =========================================================
-     GELİR MODAL
-========================================================= -->
+<!-- =========================
+     INCOME MODAL
+========================= -->
 
 <div
+    class="modal"
     id="incomeModal"
-    class="modal-overlay"
-    onclick="closeModalOutside(event,'incomeModal')"
+    onclick="handleModalBackground(event, 'incomeModal')"
 >
 
-    <div
-        class="modal"
-        onclick="event.stopPropagation()"
-    >
-
+    <div class="modal-box">
 
         <div class="modal-header">
 
-
-            <div class="modal-header-left">
-
-                <div class="modal-big-icon income">
-                    ↑
-                </div>
-
-                <div class="modal-title">
-                    Gelir Gir
-                </div>
-
+            <div class="modal-title modal-income-title">
+                💰 Gelir Gir
             </div>
-
 
             <button
                 class="modal-close"
@@ -1410,145 +1049,122 @@ button{
                 ×
             </button>
 
-
         </div>
 
 
-        <div class="category-title">
-            Gelir Kategorisi
-        </div>
+        <form id="incomeForm">
+
+            <div class="form-group">
+                <label>Kategori</label>
+
+                <div class="select-wrapper">
+
+                    <select id="incomeCategory" required>
+
+                        <option value="">
+                            Kategori seçiniz
+                        </option>
+
+                        <option value="MAAŞ">
+                            MAAŞ
+                        </option>
+
+                        <option value="KİRA">
+                            KİRA
+                        </option>
+
+                        <option value="YATIRIM">
+                            YATIRIM
+                        </option>
+
+                        <option value="DÖVİZ">
+                            DÖVİZ
+                        </option>
+
+                        <option value="DİĞER">
+                            DİĞER
+                        </option>
+
+                    </select>
+
+                </div>
+            </div>
 
 
-        <div class="category-grid">
+            <div class="form-group">
+
+                <label>Tutar</label>
+
+                <input
+                    type="number"
+                    id="incomeAmount"
+                    placeholder="0,00"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Açıklama</label>
+
+                <textarea
+                    id="incomeDescription"
+                    placeholder="İstersen açıklama ekleyebilirsin..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Tarih</label>
+
+                <input
+                    type="date"
+                    id="incomeDate"
+                    required
+                >
+
+            </div>
 
 
             <button
-                class="category-btn selected-income"
-                data-income-category="MAAŞ"
-                onclick="selectIncomeCategory(this)"
+                type="submit"
+                class="primary-btn save-income"
             >
-                MAAŞ
+                Geliri Kaydet
             </button>
 
+            <div id="incomeMessage" class="message"></div>
 
-            <button
-                class="category-btn"
-                data-income-category="KİRA"
-                onclick="selectIncomeCategory(this)"
-            >
-                KİRA
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-income-category="YATIRIM"
-                onclick="selectIncomeCategory(this)"
-            >
-                YATIRIM
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-income-category="DÖVİZ"
-                onclick="selectIncomeCategory(this)"
-            >
-                DÖVİZ
-            </button>
-
-
-        </div>
-
-
-        <label class="modal-label">
-            Tutar
-        </label>
-
-        <input
-            type="number"
-            id="incomeAmount"
-            class="modal-input"
-            placeholder="0,00"
-            min="0"
-            step="0.01"
-        >
-
-
-        <label class="modal-label">
-            Açıklama
-        </label>
-
-        <input
-            type="text"
-            id="incomeDescription"
-            class="modal-input"
-            placeholder="Örn: Eylül maaşı"
-        >
-
-
-        <label class="modal-label">
-            Tarih
-        </label>
-
-        <input
-            type="date"
-            id="incomeDate"
-            class="modal-input"
-        >
-
-
-        <button
-            id="incomeSaveButton"
-            class="primary-btn modal-save-income"
-            onclick="addIncome()"
-        >
-            Geliri Kaydet
-        </button>
-
-
-        <div
-            id="incomeMessage"
-            class="message"
-        ></div>
-
+        </form>
 
     </div>
 
 </div>
 
 
-<!-- =========================================================
-     GİDER MODAL
-========================================================= -->
+<!-- =========================
+     EXPENSE MODAL
+========================= -->
 
 <div
+    class="modal"
     id="expenseModal"
-    class="modal-overlay"
-    onclick="closeModalOutside(event,'expenseModal')"
+    onclick="handleModalBackground(event, 'expenseModal')"
 >
 
-    <div
-        class="modal"
-        onclick="event.stopPropagation()"
-    >
-
+    <div class="modal-box">
 
         <div class="modal-header">
 
-
-            <div class="modal-header-left">
-
-                <div class="modal-big-icon expense">
-                    ↓
-                </div>
-
-                <div class="modal-title">
-                    Gider Gir
-                </div>
-
+            <div class="modal-title modal-expense-title">
+                💸 Gider Gir
             </div>
-
 
             <button
                 class="modal-close"
@@ -1557,144 +1173,117 @@ button{
                 ×
             </button>
 
-
         </div>
 
 
-        <div class="category-title">
-            Gider Kategorisi
-        </div>
+        <form id="expenseForm">
+
+            <div class="form-group">
+
+                <label>Kategori</label>
+
+                <div class="select-wrapper">
+
+                    <select id="expenseCategory" required>
+
+                        <option value="">
+                            Kategori seçiniz
+                        </option>
+
+                        <option value="FATURA">
+                            FATURA
+                        </option>
+
+                        <option value="KİRA">
+                            KİRA
+                        </option>
+
+                        <option value="ABONELİK">
+                            ABONELİK
+                        </option>
+
+                        <option value="MARKET">
+                            MARKET
+                        </option>
+
+                        <option value="RESTORAN">
+                            RESTORAN
+                        </option>
+
+                        <option value="EĞLENCE">
+                            EĞLENCE
+                        </option>
+
+                        <option value="KREDİ">
+                            KREDİ
+                        </option>
+
+                        <option value="KREDİ KARTI">
+                            KREDİ KARTI
+                        </option>
+
+                        <option value="DİĞER">
+                            DİĞER
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
 
 
-        <div class="category-grid">
+            <div class="form-group">
+
+                <label>Tutar</label>
+
+                <input
+                    type="number"
+                    id="expenseAmount"
+                    placeholder="0,00"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Açıklama</label>
+
+                <textarea
+                    id="expenseDescription"
+                    placeholder="İstersen açıklama ekleyebilirsin..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Tarih</label>
+
+                <input
+                    type="date"
+                    id="expenseDate"
+                    required
+                >
+
+            </div>
 
 
             <button
-                class="category-btn selected-expense"
-                data-expense-category="FATURA"
-                onclick="selectExpenseCategory(this)"
+                type="submit"
+                class="primary-btn save-expense"
             >
-                FATURA
+                Gideri Kaydet
             </button>
 
+            <div id="expenseMessage" class="message"></div>
 
-            <button
-                class="category-btn"
-                data-expense-category="KİRA"
-                onclick="selectExpenseCategory(this)"
-            >
-                KİRA
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="ABONELİK"
-                onclick="selectExpenseCategory(this)"
-            >
-                ABONELİK
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="MARKET"
-                onclick="selectExpenseCategory(this)"
-            >
-                MARKET
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="RESTORAN"
-                onclick="selectExpenseCategory(this)"
-            >
-                RESTORAN
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="EĞLENCE"
-                onclick="selectExpenseCategory(this)"
-            >
-                EĞLENCE
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="KREDİ"
-                onclick="selectExpenseCategory(this)"
-            >
-                KREDİ
-            </button>
-
-
-            <button
-                class="category-btn"
-                data-expense-category="KREDİ KARTI"
-                onclick="selectExpenseCategory(this)"
-            >
-                KREDİ KARTI
-            </button>
-
-
-        </div>
-
-
-        <label class="modal-label">
-            Tutar
-        </label>
-
-        <input
-            type="number"
-            id="expenseAmount"
-            class="modal-input"
-            placeholder="0,00"
-            min="0"
-            step="0.01"
-        >
-
-
-        <label class="modal-label">
-            Açıklama
-        </label>
-
-        <input
-            type="text"
-            id="expenseDescription"
-            class="modal-input"
-            placeholder="Örn: Elektrik faturası"
-        >
-
-
-        <label class="modal-label">
-            Tarih
-        </label>
-
-        <input
-            type="date"
-            id="expenseDate"
-            class="modal-input"
-        >
-
-
-        <button
-            id="expenseSaveButton"
-            class="primary-btn modal-save-expense"
-            onclick="addExpense()"
-        >
-            Gideri Kaydet
-        </button>
-
-
-        <div
-            id="expenseMessage"
-            class="message"
-        ></div>
-
+        </form>
 
     </div>
 
@@ -1703,1556 +1292,653 @@ button{
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
-
-const SUPABASE_URL =
-"https://dvyitgovuciergwlbigj.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
-
-const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-let currentUser = null;
-
-let transactions = [];
-
-let expenseChart = null;
-
-let selectedIncomeCategory = "MAAŞ";
-
-let selectedExpenseCategory = "FATURA";
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-function showLogin(){
-
-    document.getElementById("loginScreen")
-        .style.display = "flex";
-
-    document.getElementById("registerScreen")
-        .style.display = "none";
-
-    document.getElementById("appScreen")
-        .style.display = "none";
-
-}
-
-
-function showRegister(){
-
-    document.getElementById("loginScreen")
-        .style.display = "none";
-
-    document.getElementById("registerScreen")
-        .style.display = "flex";
-
-    document.getElementById("appScreen")
-        .style.display = "none";
-
-}
-
-
-/* =========================================================
-   TELEFON
-========================================================= */
-
-function formatPhone(input){
-
-    input.value =
-        input.value
-        .replace(/\D/g,"")
-        .substring(0,11);
-
-}
-
-
-/* =========================================================
-   ŞİFRE
-========================================================= */
-
-function passwordStrength(password){
-
-    let score = 0;
-
-    if(password.length >= 6)
-        score++;
-
-    if(password.length >= 8)
-        score++;
-
-    if(/[A-Z]/.test(password))
-        score++;
-
-    if(/[0-9]/.test(password))
-        score++;
-
-    if(/[^A-Za-z0-9]/.test(password))
-        score++;
-
-    return score;
-
-}
-
-
-function checkPassword(){
-
-    const password =
-        document.getElementById("registerPassword").value;
-
-    const bar =
-        document.getElementById("passwordStrengthBar");
-
-    const text =
-        document.getElementById("passwordStrengthText");
-
-    const score =
-        passwordStrength(password);
-
-
-    if(!password){
-
-        bar.style.width = "0%";
-
-        text.textContent = "";
-
-        return;
-
-    }
-
-
-    bar.style.width =
-        Math.min(score * 20,100) + "%";
-
-
-    if(score <= 2){
-
-        bar.style.background = "#dc2626";
-
-        text.textContent =
-            "Zayıf şifre";
-
-    }
-    else if(score === 3){
-
-        bar.style.background = "#f59e0b";
-
-        text.textContent =
-            "Orta güçte şifre";
-
-    }
-    else{
-
-        bar.style.background = "#16a34a";
-
-        text.textContent =
-            "Güçlü şifre";
-
-    }
-
-
-    checkMatch();
-
-}
-
-
-function checkMatch(){
-
-    const password =
-        document.getElementById(
-            "registerPassword"
-        ).value;
-
-    const confirm =
-        document.getElementById(
-            "registerPasswordConfirm"
-        ).value;
-
-    const text =
-        document.getElementById(
-            "passwordMatchText"
+    /* =========================
+       SUPABASE
+    ========================= */
+
+    const SUPABASE_URL =
+        "https://dvyitgovuciergwlbigj.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
         );
 
 
-    if(!confirm){
-
-        text.textContent = "";
-
-        return;
-
-    }
+    let currentUser = null;
+    let expenseChart = null;
 
 
-    if(password === confirm){
+    /* =========================
+       HELPERS
+    ========================= */
 
-        text.textContent =
-            "✓ Şifreler eşleşiyor";
+    function formatMoney(value) {
 
-        text.style.color =
-            "#16a34a";
-
-    }
-    else{
-
-        text.textContent =
-            "✕ Şifreler eşleşmiyor";
-
-        text.style.color =
-            "#dc2626";
-
-    }
-
-}
-
-
-/* =========================================================
-   REGISTER
-========================================================= */
-
-async function register(){
-
-    const firstName =
-        document.getElementById("firstName")
-        .value.trim();
-
-    const lastName =
-        document.getElementById("lastName")
-        .value.trim();
-
-    const email =
-        document.getElementById("registerEmail")
-        .value.trim()
-        .toLowerCase();
-
-    const phone =
-        document.getElementById("registerPhone")
-        .value.trim();
-
-    const password =
-        document.getElementById("registerPassword")
-        .value;
-
-    const confirmPassword =
-        document.getElementById(
-            "registerPasswordConfirm"
-        ).value;
-
-    const message =
-        document.getElementById(
-            "registerMessage"
-        );
-
-    const button =
-        document.getElementById(
-            "registerButton"
-        );
-
-
-    message.textContent = "";
-
-    message.style.color =
-        "#dc2626";
-
-
-    if(
-        !firstName ||
-        !lastName ||
-        !email ||
-        !phone ||
-        !password ||
-        !confirmPassword
-    ){
-
-        message.textContent =
-            "Lütfen tüm alanları doldurun.";
-
-        return;
+        return new Intl.NumberFormat("tr-TR", {
+            style: "currency",
+            currency: "TRY"
+        }).format(value || 0);
 
     }
 
 
-    const emailRegex =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    function escapeHtml(value) {
 
+        if (!value) return "";
 
-    if(!emailRegex.test(email)){
-
-        message.textContent =
-            "Geçerli bir e-posta adresi girin.";
-
-        return;
-
-    }
-
-
-    if(!/^05\d{9}$/.test(phone)){
-
-        message.textContent =
-            "Telefon numarası 05XXXXXXXXX formatında olmalıdır.";
-
-        return;
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
 
     }
 
 
-    if(password.length < 6){
+    function today() {
 
-        message.textContent =
-            "Şifre en az 6 karakter olmalıdır.";
+        const date = new Date();
 
-        return;
-
-    }
-
-
-    if(password !== confirmPassword){
-
-        message.textContent =
-            "Şifreler eşleşmiyor.";
-
-        return;
+        return date.toISOString()
+            .split("T")[0];
 
     }
 
 
-    button.disabled = true;
+    /* =========================
+       AUTH SCREENS
+    ========================= */
 
-    button.textContent =
-        "Telefon kontrol ediliyor...";
+    function showLogin() {
 
+        document.getElementById("loginScreen")
+            .style.display = "flex";
 
-    const {
-        data:phoneExists,
-        error:phoneError
-    } =
-        await supabaseClient.rpc(
-            "check_phone_exists",
-            {
-                phone_number:phone
-            }
-        );
+        document.getElementById("registerScreen")
+            .style.display = "none";
 
-
-    if(phoneError){
-
-        console.error(phoneError);
-
-        message.textContent =
-            "Telefon numarası kontrol edilemedi.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Hesap Oluştur";
-
-        return;
+        clearMessages();
 
     }
 
 
-    if(phoneExists){
+    function showRegister() {
 
-        message.textContent =
-            "Bu telefon numarası zaten kayıtlı.";
+        document.getElementById("loginScreen")
+            .style.display = "none";
 
-        button.disabled = false;
+        document.getElementById("registerScreen")
+            .style.display = "flex";
 
-        button.textContent =
-            "Hesap Oluştur";
-
-        return;
+        clearMessages();
 
     }
 
 
-    button.textContent =
-        "Hesap oluşturuluyor...";
+    function clearMessages() {
+
+        document.querySelectorAll(".message")
+            .forEach(el => {
+
+                el.className = "message";
+                el.textContent = "";
+
+            });
+
+    }
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.signUp({
+    function showMessage(id, text, type) {
 
-            email:email,
+        const element =
+            document.getElementById(id);
 
-            password:password,
+        element.className =
+            "message " + type;
 
-            options:{
+        element.textContent = text;
 
-                data:{
+    }
 
-                    first_name:firstName,
 
-                    last_name:lastName,
+    /* =========================
+       LOGIN
+    ========================= */
 
-                    phone:phone
+    document.getElementById("loginForm")
+        .addEventListener("submit", async function(e) {
 
-                }
+            e.preventDefault();
 
+            const email =
+                document.getElementById("loginEmail")
+                    .value.trim();
+
+            const password =
+                document.getElementById("loginPassword")
+                    .value;
+
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+            if (error) {
+
+                showMessage(
+                    "loginMessage",
+                    error.message,
+                    "error"
+                );
+
+                return;
             }
 
-        });
+            currentUser = data.user;
 
-
-    if(error){
-
-        console.error(error);
-
-        message.textContent =
-            "Bu e-posta adresi zaten kayıtlı veya kayıt sırasında hata oluştu.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Hesap Oluştur";
-
-        return;
-
-    }
-
-
-    if(!data.user || !data.session){
-
-        message.textContent =
-            "Hesap oluşturuldu ancak oturum açılamadı. Supabase'de e-posta doğrulamasının kapalı olduğundan emin olun.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Hesap Oluştur";
-
-        return;
-
-    }
-
-
-    const {
-        error:profileError
-    } =
-        await supabaseClient
-        .from("profiles")
-        .insert({
-
-            id:data.user.id,
-
-            first_name:firstName,
-
-            last_name:lastName,
-
-            phone:phone
+            await loadApp();
 
         });
 
 
-    if(profileError){
+    /* =========================
+       REGISTER
+    ========================= */
 
-        console.error(profileError);
+    document.getElementById("registerForm")
+        .addEventListener("submit", async function(e) {
 
-        message.textContent =
-            "Profil bilgileri kaydedilemedi.";
+            e.preventDefault();
 
-        button.disabled = false;
+            const firstName =
+                document.getElementById("firstName")
+                    .value.trim();
 
-        button.textContent =
-            "Hesap Oluştur";
+            const lastName =
+                document.getElementById("lastName")
+                    .value.trim();
 
-        return;
+            const phone =
+                document.getElementById("phone")
+                    .value.trim();
 
-    }
+            const email =
+                document.getElementById("registerEmail")
+                    .value.trim();
 
+            const password =
+                document.getElementById("registerPassword")
+                    .value;
 
-    currentUser =
-        data.user;
 
+            /* TELEFON KONTROL */
 
-    message.style.color =
-        "#16a34a";
+            const { data: phoneExists, error: phoneError } =
+                await supabaseClient.rpc(
+                    "check_phone_exists",
+                    {
+                        phone_number: phone
+                    }
+                );
 
-    message.textContent =
-        "Hesabınız oluşturuldu.";
 
-    setTimeout(
-        showApp,
-        400
-    );
+            if (phoneError) {
 
-}
+                showMessage(
+                    "registerMessage",
+                    "Telefon kontrolü yapılamadı: " +
+                    phoneError.message,
+                    "error"
+                );
 
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function login(){
-
-    const email =
-        document.getElementById("loginEmail")
-        .value.trim()
-        .toLowerCase();
-
-    const password =
-        document.getElementById("loginPassword")
-        .value;
-
-    const message =
-        document.getElementById("loginMessage");
-
-    const button =
-        document.getElementById("loginButton");
-
-
-    if(!email || !password){
-
-        message.textContent =
-            "E-posta ve şifreyi girin.";
-
-        return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "Giriş yapılıyor...";
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth
-        .signInWithPassword({
-
-            email:email,
-
-            password:password
-
-        });
-
-
-    if(error){
-
-        message.textContent =
-            "E-posta veya şifre hatalı.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Giriş Yap";
-
-        return;
-
-    }
-
-
-    currentUser =
-        data.user;
-
-
-    button.disabled = false;
-
-    button.textContent =
-        "Giriş Yap";
-
-
-    showApp();
-
-}
-
-
-/* =========================================================
-   APP
-========================================================= */
-
-async function showApp(){
-
-    document.getElementById("loginScreen")
-        .style.display = "none";
-
-    document.getElementById("registerScreen")
-        .style.display = "none";
-
-    document.getElementById("appScreen")
-        .style.display = "block";
-
-
-    if(!currentUser){
-
-        const {
-            data
-        } =
-            await supabaseClient.auth.getUser();
-
-        currentUser =
-            data.user;
-
-    }
-
-
-    if(!currentUser)
-        return;
-
-
-    const {
-        data:profile
-    } =
-        await supabaseClient
-        .from("profiles")
-        .select("first_name,last_name")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-
-    const firstName =
-        profile?.first_name ||
-        currentUser.user_metadata?.first_name ||
-        "";
-
-    const lastName =
-        profile?.last_name ||
-        currentUser.user_metadata?.last_name ||
-        "";
-
-
-    const fullName =
-        `${firstName} ${lastName}`.trim();
-
-
-    document.getElementById("userName")
-        .textContent =
-        fullName || "Kullanıcı";
-
-
-    document.getElementById("userAvatar")
-        .textContent =
-        firstName
-        ? firstName.charAt(0).toUpperCase()
-        : "U";
-
-
-    setDefaultDates();
-
-    await loadTransactions();
-
-}
-
-
-/* =========================================================
-   DEFAULT DATE
-========================================================= */
-
-function setDefaultDates(){
-
-    const date =
-        new Date();
-
-    const year =
-        date.getFullYear();
-
-    const month =
-        String(date.getMonth()+1)
-        .padStart(2,"0");
-
-    const day =
-        String(date.getDate())
-        .padStart(2,"0");
-
-    const today =
-        `${year}-${month}-${day}`;
-
-
-    document.getElementById("incomeDate")
-        .value = today;
-
-    document.getElementById("expenseDate")
-        .value = today;
-
-}
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-async function checkSession(){
-
-    const {
-        data
-    } =
-        await supabaseClient.auth.getSession();
-
-
-    if(data.session){
-
-        currentUser =
-            data.session.user;
-
-        showApp();
-
-    }
-    else{
-
-        showLogin();
-
-    }
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logout(){
-
-    await supabaseClient.auth.signOut();
-
-    currentUser = null;
-
-    transactions = [];
-
-
-    if(expenseChart){
-
-        expenseChart.destroy();
-
-        expenseChart = null;
-
-    }
-
-
-    showLogin();
-
-}
-
-
-/* =========================================================
-   GELİR MODAL
-========================================================= */
-
-function openIncomeModal(){
-
-    document.getElementById("incomeModal")
-        .classList.add("active");
-
-
-    document.getElementById("incomeMessage")
-        .textContent = "";
-
-
-    setTimeout(() => {
-
-        document.getElementById("incomeAmount")
-            .focus();
-
-    },100);
-
-}
-
-
-function closeIncomeModal(){
-
-    document.getElementById("incomeModal")
-        .classList.remove("active");
-
-}
-
-
-function closeModalOutside(event,id){
-
-    if(event.target.id === id){
-
-        document.getElementById(id)
-            .classList.remove("active");
-
-    }
-
-}
-
-
-/* =========================================================
-   GİDER MODAL
-========================================================= */
-
-function openExpenseModal(){
-
-    document.getElementById("expenseModal")
-        .classList.add("active");
-
-
-    document.getElementById("expenseMessage")
-        .textContent = "";
-
-
-    setTimeout(() => {
-
-        document.getElementById("expenseAmount")
-            .focus();
-
-    },100);
-
-}
-
-
-function closeExpenseModal(){
-
-    document.getElementById("expenseModal")
-        .classList.remove("active");
-
-}
-
-
-/* =========================================================
-   ESC İLE MODAL KAPAT
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Escape"){
-
-            closeIncomeModal();
-
-            closeExpenseModal();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   GELİR KATEGORİ
-========================================================= */
-
-function selectIncomeCategory(button){
-
-    document.querySelectorAll(
-        "[data-income-category]"
-    )
-    .forEach(btn => {
-
-        btn.classList.remove(
-            "selected-income"
-        );
-
-    });
-
-
-    button.classList.add(
-        "selected-income"
-    );
-
-
-    selectedIncomeCategory =
-        button.dataset.incomeCategory;
-
-}
-
-
-/* =========================================================
-   GİDER KATEGORİ
-========================================================= */
-
-function selectExpenseCategory(button){
-
-    document.querySelectorAll(
-        "[data-expense-category]"
-    )
-    .forEach(btn => {
-
-        btn.classList.remove(
-            "selected-expense"
-        );
-
-    });
-
-
-    button.classList.add(
-        "selected-expense"
-    );
-
-
-    selectedExpenseCategory =
-        button.dataset.expenseCategory;
-
-}
-
-
-/* =========================================================
-   GELİR EKLE
-========================================================= */
-
-async function addIncome(){
-
-    if(!currentUser)
-        return;
-
-
-    const amount =
-        Number(
-            document.getElementById(
-                "incomeAmount"
-            ).value
-        );
-
-
-    const description =
-        document.getElementById(
-            "incomeDescription"
-        ).value.trim();
-
-
-    const date =
-        document.getElementById(
-            "incomeDate"
-        ).value;
-
-
-    const message =
-        document.getElementById(
-            "incomeMessage"
-        );
-
-
-    const button =
-        document.getElementById(
-            "incomeSaveButton"
-        );
-
-
-    if(!amount || amount <= 0){
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Geçerli bir tutar girin.";
-
-        return;
-
-    }
-
-
-    if(!date){
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Tarih seçin.";
-
-        return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "Kaydediliyor...";
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("transactions")
-        .insert({
-
-            user_id:currentUser.id,
-
-            type:"income",
-
-            category:selectedIncomeCategory,
-
-            description:description,
-
-            amount:amount,
-
-            transaction_date:date
-
-        });
-
-
-    if(error){
-
-        console.error(error);
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Gelir eklenirken hata oluştu.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Geliri Kaydet";
-
-        return;
-
-    }
-
-
-    message.style.color =
-        "#16a34a";
-
-    message.textContent =
-        "✓ Gelir başarıyla kaydedildi.";
-
-
-    document.getElementById(
-        "incomeAmount"
-    ).value = "";
-
-    document.getElementById(
-        "incomeDescription"
-    ).value = "";
-
-
-    await loadTransactions();
-
-
-    setTimeout(
-        closeIncomeModal,
-        500
-    );
-
-
-    button.disabled = false;
-
-    button.textContent =
-        "Geliri Kaydet";
-
-}
-
-
-/* =========================================================
-   GİDER EKLE
-========================================================= */
-
-async function addExpense(){
-
-    if(!currentUser)
-        return;
-
-
-    const amount =
-        Number(
-            document.getElementById(
-                "expenseAmount"
-            ).value
-        );
-
-
-    const description =
-        document.getElementById(
-            "expenseDescription"
-        ).value.trim();
-
-
-    const date =
-        document.getElementById(
-            "expenseDate"
-        ).value;
-
-
-    const message =
-        document.getElementById(
-            "expenseMessage"
-        );
-
-
-    const button =
-        document.getElementById(
-            "expenseSaveButton"
-        );
-
-
-    if(!amount || amount <= 0){
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Geçerli bir tutar girin.";
-
-        return;
-
-    }
-
-
-    if(!date){
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Tarih seçin.";
-
-        return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "Kaydediliyor...";
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("transactions")
-        .insert({
-
-            user_id:currentUser.id,
-
-            type:"expense",
-
-            category:selectedExpenseCategory,
-
-            description:description,
-
-            amount:amount,
-
-            transaction_date:date
-
-        });
-
-
-    if(error){
-
-        console.error(error);
-
-        message.style.color =
-            "#dc2626";
-
-        message.textContent =
-            "Gider eklenirken hata oluştu.";
-
-        button.disabled = false;
-
-        button.textContent =
-            "Gideri Kaydet";
-
-        return;
-
-    }
-
-
-    message.style.color =
-        "#16a34a";
-
-    message.textContent =
-        "✓ Gider başarıyla kaydedildi.";
-
-
-    document.getElementById(
-        "expenseAmount"
-    ).value = "";
-
-    document.getElementById(
-        "expenseDescription"
-    ).value = "";
-
-
-    await loadTransactions();
-
-
-    setTimeout(
-        closeExpenseModal,
-        500
-    );
-
-
-    button.disabled = false;
-
-    button.textContent =
-        "Gideri Kaydet";
-
-}
-
-
-/* =========================================================
-   TRANSACTIONS YÜKLE
-========================================================= */
-
-async function loadTransactions(){
-
-    if(!currentUser)
-        return;
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from("transactions")
-        .select("*")
-        .eq("user_id",currentUser.id)
-        .order(
-            "transaction_date",
-            {
-                ascending:false
+                return;
             }
-        );
 
 
-    if(error){
+            if (phoneExists) {
 
-        console.error(error);
+                showMessage(
+                    "registerMessage",
+                    "Bu telefon numarası zaten kayıtlı.",
+                    "error"
+                );
 
-        return;
+                return;
+            }
 
-    }
 
+            /* AUTH KAYDI */
 
-    transactions =
-        data || [];
+            const { data, error } =
+                await supabaseClient.auth.signUp({
+                    email,
+                    password
+                });
 
 
-    updateDashboard();
+            if (error) {
 
-    renderRecentTransactions();
+                showMessage(
+                    "registerMessage",
+                    error.message,
+                    "error"
+                );
 
-    updateChart();
+                return;
+            }
 
-}
 
+            if (!data.user) {
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+                showMessage(
+                    "registerMessage",
+                    "Kullanıcı oluşturulamadı.",
+                    "error"
+                );
 
-function updateDashboard(){
+                return;
+            }
 
-    let income = 0;
 
-    let expense = 0;
+            /* PROFİL KAYDI */
 
+            const { error: profileError } =
+                await supabaseClient
+                    .from("profiles")
+                    .insert({
+                        id: data.user.id,
+                        first_name: firstName,
+                        last_name: lastName,
+                        phone: phone
+                    });
 
-    transactions.forEach(transaction => {
 
-        const amount =
-            Number(transaction.amount) || 0;
+            if (profileError) {
 
+                showMessage(
+                    "registerMessage",
+                    "Profil oluşturulamadı: " +
+                    profileError.message,
+                    "error"
+                );
 
-        if(transaction.type === "income"){
+                return;
+            }
 
-            income += amount;
 
-        }
-        else if(transaction.type === "expense"){
-
-            expense += amount;
-
-        }
-
-    });
-
-
-    const balance =
-        income - expense;
-
-
-    document.getElementById(
-        "dashboardIncome"
-    ).textContent =
-        money(income);
-
-
-    document.getElementById(
-        "dashboardExpense"
-    ).textContent =
-        money(expense);
-
-
-    document.getElementById(
-        "dashboardBalance"
-    ).textContent =
-        money(balance);
-
-}
-
-
-/* =========================================================
-   SON İŞLEMLER
-========================================================= */
-
-function renderRecentTransactions(){
-
-    const list =
-        document.getElementById(
-            "recentTransactions"
-        );
-
-
-    if(!list)
-        return;
-
-
-    const recent =
-        transactions.slice(0,7);
-
-
-    if(recent.length === 0){
-
-        list.innerHTML =
-            `
-            <div class="empty">
-                Henüz işlem bulunmuyor.
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        recent.map(transaction => {
-
-            const isIncome =
-                transaction.type === "income";
-
-
-            return `
-
-            <div class="transaction-item">
-
-                <div class="transaction-info">
-
-                    <div class="transaction-icon ${
-                        isIncome
-                        ? "income-icon"
-                        : "expense-icon"
-                    }">
-
-                        ${isIncome ? "↑" : "↓"}
-
-                    </div>
-
-
-                    <div>
-
-                        <div class="transaction-category">
-                            ${escapeHtml(
-                                transaction.category
-                            )}
-                        </div>
-
-                        <div class="transaction-description">
-                            ${escapeHtml(
-                                transaction.description ||
-                                "Açıklama yok"
-                            )}
-                        </div>
-
-                        <div class="transaction-date">
-                            ${formatDate(
-                                transaction.transaction_date
-                            )}
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="transaction-right">
-
-                    <div class="transaction-amount ${
-                        isIncome
-                        ? "income"
-                        : "expense"
-                    }">
-
-                        ${isIncome ? "+" : "-"}${money(
-                            transaction.amount
-                        )}
-
-                    </div>
-
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteTransaction('${transaction.id}')"
-                    >
-                        ×
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   SİL
-========================================================= */
-
-async function deleteTransaction(id){
-
-    if(
-        !confirm(
-            "Bu işlemi silmek istediğinize emin misiniz?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("transactions")
-        .delete()
-        .eq("id",id)
-        .eq("user_id",currentUser.id);
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "İşlem silinemedi."
-        );
-
-        return;
-
-    }
-
-
-    await loadTransactions();
-
-}
-
-
-/* =========================================================
-   GRAFİK
-========================================================= */
-
-function updateChart(){
-
-    const canvas =
-        document.getElementById(
-            "expenseChart"
-        );
-
-
-    if(expenseChart){
-
-        expenseChart.destroy();
-
-        expenseChart = null;
-
-    }
-
-
-    const categories = {};
-
-
-    transactions
-    .filter(
-        transaction =>
-            transaction.type === "expense"
-    )
-    .forEach(transaction => {
-
-        const category =
-            transaction.category ||
-            "Diğer";
-
-
-        categories[category] =
-            (
-                categories[category] || 0
-            )
-            +
-            Number(
-                transaction.amount || 0
+            showMessage(
+                "registerMessage",
+                "Kayıt başarılı! Giriş yapılıyor...",
+                "success"
             );
 
-    });
+
+            setTimeout(async () => {
+
+                currentUser = data.user;
+
+                await loadApp();
+
+            }, 700);
+
+        });
 
 
-    const labels =
-        Object.keys(categories);
+    /* =========================
+       LOAD APP
+    ========================= */
+
+    async function loadApp() {
+
+        document.getElementById("loginScreen")
+            .style.display = "none";
+
+        document.getElementById("registerScreen")
+            .style.display = "none";
+
+        document.getElementById("app")
+            .style.display = "block";
 
 
-    const values =
-        Object.values(categories);
+        await loadProfile();
 
+        setDefaultDates();
 
-    if(labels.length === 0){
-
-        return;
+        await loadDashboard();
 
     }
 
 
-    expenseChart =
-        new Chart(
+    /* =========================
+       PROFILE
+    ========================= */
 
-            canvas,
+    async function loadProfile() {
 
-            {
+        if (!currentUser) return;
 
-                type:"doughnut",
 
-                data:{
+        const { data, error } =
+            await supabaseClient
+                .from("profiles")
+                .select("first_name,last_name")
+                .eq("id", currentUser.id)
+                .maybeSingle();
 
-                    labels:labels,
 
-                    datasets:[{
+        if (error || !data) {
 
-                        data:values
+            const emailName =
+                currentUser.email
+                    ? currentUser.email.split("@")[0]
+                    : "Kullanıcı";
+
+            document.getElementById("userName")
+                .textContent = emailName;
+
+            document.getElementById("userAvatar")
+                .textContent =
+                emailName.charAt(0).toUpperCase();
+
+            return;
+        }
+
+
+        const fullName =
+            `${data.first_name} ${data.last_name}`;
+
+
+        document.getElementById("userName")
+            .textContent = fullName;
+
+
+        document.getElementById("userAvatar")
+            .textContent =
+            data.first_name.charAt(0).toUpperCase();
+
+    }
+
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    async function loadDashboard() {
+
+        if (!currentUser) return;
+
+
+        const { data, error } =
+            await supabaseClient
+                .from("transactions")
+                .select("*")
+                .eq("user_id", currentUser.id)
+                .order("transaction_date", {
+                    ascending: false
+                });
+
+
+        if (error) {
+
+            console.error(error);
+
+            return;
+        }
+
+
+        const transactions = data || [];
+
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+
+        transactions.forEach(transaction => {
+
+            const amount =
+                Number(transaction.amount) || 0;
+
+            if (transaction.type === "income") {
+
+                totalIncome += amount;
+
+            } else {
+
+                totalExpense += amount;
+
+            }
+
+        });
+
+
+        const balance =
+            totalIncome - totalExpense;
+
+
+        document.getElementById("totalIncome")
+            .textContent =
+            formatMoney(totalIncome);
+
+
+        document.getElementById("totalExpense")
+            .textContent =
+            formatMoney(totalExpense);
+
+
+        document.getElementById("balance")
+            .textContent =
+            formatMoney(balance);
+
+
+        renderRecentTransactions(transactions);
+
+        renderExpenseChart(transactions);
+
+    }
+
+
+    /* =========================
+       RECENT TRANSACTIONS
+    ========================= */
+
+    function renderRecentTransactions(transactions) {
+
+        const container =
+            document.getElementById(
+                "recentTransactions"
+            );
+
+
+        if (!transactions.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                    Henüz işlem bulunmuyor.
+                </div>`;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            transactions
+                .slice(0, 8)
+                .map(transaction => {
+
+                    const isIncome =
+                        transaction.type === "income";
+
+                    const sign =
+                        isIncome ? "+" : "-";
+
+                    const icon =
+                        isIncome ? "💰" : "💸";
+
+                    const date =
+                        transaction.transaction_date
+                            ? new Date(
+                                transaction.transaction_date
+                              ).toLocaleDateString("tr-TR")
+                            : "";
+
+
+                    return `
+
+                        <div class="transaction">
+
+                            <div class="transaction-left">
+
+                                <div class="
+                                    transaction-icon
+                                    ${isIncome
+                                        ? "transaction-income"
+                                        : "transaction-expense"}
+                                ">
+                                    ${icon}
+                                </div>
+
+                                <div>
+
+                                    <div class="transaction-category">
+                                        ${escapeHtml(
+                                            transaction.category
+                                        )}
+                                    </div>
+
+                                    <div class="transaction-description">
+                                        ${escapeHtml(
+                                            transaction.description ||
+                                            date
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div style="
+                                display:flex;
+                                align-items:center;
+                            ">
+
+                                <div class="
+                                    transaction-amount
+                                    ${isIncome
+                                        ? "amount-income"
+                                        : "amount-expense"}
+                                ">
+                                    ${sign}
+                                    ${formatMoney(
+                                        Number(transaction.amount)
+                                    )}
+                                </div>
+
+                                <button
+                                    class="delete-btn"
+                                    onclick="deleteTransaction('${transaction.id}')"
+                                    title="Sil"
+                                >
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    /* =========================
+       CHART
+    ========================= */
+
+    function renderExpenseChart(transactions) {
+
+        const expenseTransactions =
+            transactions.filter(
+                t => t.type === "expense"
+            );
+
+
+        const categories = {};
+
+        expenseTransactions.forEach(t => {
+
+            const category =
+                t.category || "DİĞER";
+
+            categories[category] =
+                (categories[category] || 0) +
+                Number(t.amount || 0);
+
+        });
+
+
+        const labels =
+            Object.keys(categories);
+
+        const values =
+            Object.values(categories);
+
+
+        const ctx =
+            document.getElementById(
+                "expenseChart"
+            );
+
+
+        if (expenseChart) {
+
+            expenseChart.destroy();
+
+        }
+
+
+        if (!labels.length) {
+
+            return;
+        }
+
+
+        expenseChart =
+            new Chart(ctx, {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels,
+
+                    datasets: [{
+
+                        data: values
 
                     }]
 
                 },
 
-                options:{
+                options: {
 
-                    responsive:true,
+                    responsive: true,
 
-                    plugins:{
+                    plugins: {
 
-                        legend:{
+                        legend: {
 
-                            position:"bottom"
+                            position: "bottom"
 
                         }
 
@@ -3260,108 +1946,412 @@ function updateChart(){
 
                 }
 
+            });
+
+    }
+
+
+    /* =========================
+       INCOME MODAL
+    ========================= */
+
+    function openIncomeModal() {
+
+        document.getElementById("incomeModal")
+            .classList.add("active");
+
+        document.getElementById("incomeDate")
+            .value = today();
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+
+    function closeIncomeModal() {
+
+        document.getElementById("incomeModal")
+            .classList.remove("active");
+
+        document.getElementById("incomeForm")
+            .reset();
+
+        document.getElementById("incomeMessage")
+            .className = "message";
+
+        document.getElementById("incomeDate")
+            .value = today();
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    /* =========================
+       EXPENSE MODAL
+    ========================= */
+
+    function openExpenseModal() {
+
+        document.getElementById("expenseModal")
+            .classList.add("active");
+
+        document.getElementById("expenseDate")
+            .value = today();
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+
+    function closeExpenseModal() {
+
+        document.getElementById("expenseModal")
+            .classList.remove("active");
+
+        document.getElementById("expenseForm")
+            .reset();
+
+        document.getElementById("expenseMessage")
+            .className = "message";
+
+        document.getElementById("expenseDate")
+            .value = today();
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    function handleModalBackground(event, modalId) {
+
+        if (event.target.id === modalId) {
+
+            if (modalId === "incomeModal") {
+
+                closeIncomeModal();
+
+            } else {
+
+                closeExpenseModal();
+
             }
 
-        );
-
-}
-
-
-/* =========================================================
-   PARA FORMAT
-========================================================= */
-
-function money(value){
-
-    return new Intl.NumberFormat(
-        "tr-TR",
-        {
-            style:"currency",
-            currency:"TRY"
         }
-    ).format(
-        Number(value) || 0
-    );
 
-}
+    }
 
 
-/* =========================================================
-   TARİH
-========================================================= */
+    /* =========================
+       INCOME SAVE
+    ========================= */
 
-function formatDate(date){
+    document.getElementById("incomeForm")
+        .addEventListener("submit", async function(e) {
 
-    if(!date)
-        return "";
-
-
-    const parts =
-        date.split("-");
+            e.preventDefault();
 
 
-    if(parts.length !== 3)
-        return date;
+            if (!currentUser) return;
 
 
-    return `
-        ${parts[2]}.${parts[1]}.${parts[0]}
-    `;
+            const category =
+                document.getElementById("incomeCategory")
+                    .value;
 
-}
+            const amount =
+                Number(
+                    document.getElementById("incomeAmount")
+                        .value
+                );
 
+            const description =
+                document.getElementById("incomeDescription")
+                    .value.trim();
 
-/* =========================================================
-   HTML GÜVENLİĞİ
-========================================================= */
-
-function escapeHtml(value){
-
-    return String(value || "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
+            const date =
+                document.getElementById("incomeDate")
+                    .value;
 
 
-/* =========================================================
-   MOBİL MENÜ
-========================================================= */
+            if (!category || !amount || amount <= 0) {
 
-function openMobileMenu(){
+                showMessage(
+                    "incomeMessage",
+                    "Lütfen kategori ve geçerli bir tutar girin.",
+                    "error"
+                );
 
-    document.getElementById(
-        "mobileSidebar"
-    ).classList.add("active");
-
-    document.getElementById(
-        "mobileOverlay"
-    ).classList.add("active");
-
-}
+                return;
+            }
 
 
-function closeMobileMenu(){
+            const { error } =
+                await supabaseClient
+                    .from("transactions")
+                    .insert({
 
-    document.getElementById(
-        "mobileSidebar"
-    ).classList.remove("active");
+                        user_id: currentUser.id,
 
-    document.getElementById(
-        "mobileOverlay"
-    ).classList.remove("active");
+                        type: "income",
 
-}
+                        category,
+
+                        description,
+
+                        amount,
+
+                        transaction_date: date
+
+                    });
 
 
-/* =========================================================
-   BAŞLAT
-========================================================= */
+            if (error) {
 
-checkSession();
+                showMessage(
+                    "incomeMessage",
+                    "Kayıt sırasında hata oluştu: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            closeIncomeModal();
+
+            await loadDashboard();
+
+        });
+
+
+    /* =========================
+       EXPENSE SAVE
+    ========================= */
+
+    document.getElementById("expenseForm")
+        .addEventListener("submit", async function(e) {
+
+            e.preventDefault();
+
+
+            if (!currentUser) return;
+
+
+            const category =
+                document.getElementById("expenseCategory")
+                    .value;
+
+            const amount =
+                Number(
+                    document.getElementById("expenseAmount")
+                        .value
+                );
+
+            const description =
+                document.getElementById("expenseDescription")
+                    .value.trim();
+
+            const date =
+                document.getElementById("expenseDate")
+                    .value;
+
+
+            if (!category || !amount || amount <= 0) {
+
+                showMessage(
+                    "expenseMessage",
+                    "Lütfen kategori ve geçerli bir tutar girin.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const { error } =
+                await supabaseClient
+                    .from("transactions")
+                    .insert({
+
+                        user_id: currentUser.id,
+
+                        type: "expense",
+
+                        category,
+
+                        description,
+
+                        amount,
+
+                        transaction_date: date
+
+                    });
+
+
+            if (error) {
+
+                showMessage(
+                    "expenseMessage",
+                    "Kayıt sırasında hata oluştu: " +
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            closeExpenseModal();
+
+            await loadDashboard();
+
+        });
+
+
+    /* =========================
+       DELETE
+    ========================= */
+
+    async function deleteTransaction(id) {
+
+        if (!confirm(
+            "Bu işlemi silmek istediğine emin misin?"
+        )) {
+
+            return;
+
+        }
+
+
+        const { error } =
+            await supabaseClient
+                .from("transactions")
+                .delete()
+                .eq("id", id)
+                .eq("user_id", currentUser.id);
+
+
+        if (error) {
+
+            alert(
+                "İşlem silinemedi: " +
+                error.message
+            );
+
+            return;
+        }
+
+
+        await loadDashboard();
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    async function logout() {
+
+        await supabaseClient.auth.signOut();
+
+        currentUser = null;
+
+        document.getElementById("app")
+            .style.display = "none";
+
+        showLogin();
+
+    }
+
+
+    /* =========================
+       MOBILE SIDEBAR
+    ========================= */
+
+    function toggleSidebar() {
+
+        document.getElementById("sidebar")
+            .classList.toggle("open");
+
+    }
+
+
+    /* =========================
+       DEFAULT DATES
+    ========================= */
+
+    function setDefaultDates() {
+
+        document.getElementById("incomeDate")
+            .value = today();
+
+        document.getElementById("expenseDate")
+            .value = today();
+
+    }
+
+
+    /* =========================
+       ESCAPE → MODAL CLOSE
+    ========================= */
+
+    document.addEventListener("keydown", function(e) {
+
+        if (e.key !== "Escape") return;
+
+
+        if (
+            document.getElementById("incomeModal")
+                .classList.contains("active")
+        ) {
+
+            closeIncomeModal();
+
+        }
+
+
+        if (
+            document.getElementById("expenseModal")
+                .classList.contains("active")
+        ) {
+
+            closeExpenseModal();
+
+        }
+
+    });
+
+
+    /* =========================
+       SESSION CHECK
+    ========================= */
+
+    async function checkSession() {
+
+        const { data } =
+            await supabaseClient.auth.getSession();
+
+
+        if (data.session) {
+
+            currentUser =
+                data.session.user;
+
+            await loadApp();
+
+        } else {
+
+            showLogin();
+
+        }
+
+    }
+
+
+    checkSession();
 
 </script>
 
