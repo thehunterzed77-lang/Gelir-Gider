@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -26,20 +27,18 @@ body{
     display:none!important;
 }
 
-/* AUTH */
-
 .auth-container{
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:20px;
 }
 
 .auth-box{
     width:100%;
     max-width:430px;
-    background:white;
+    background:#fff;
     padding:35px;
     border-radius:18px;
     box-shadow:0 10px 35px rgba(0,0,0,.1);
@@ -51,7 +50,7 @@ body{
     font-size:30px;
 }
 
-.auth-box .subtitle{
+.subtitle{
     text-align:center;
     color:#6b7280;
     margin-bottom:25px;
@@ -63,13 +62,12 @@ body{
 
 .form-group label{
     display:block;
-    margin-bottom:6px;
     font-weight:bold;
     font-size:14px;
+    margin-bottom:6px;
 }
 
-.form-group input,
-.form-group select{
+input,select{
     width:100%;
     padding:13px;
     border:1px solid #d1d5db;
@@ -78,24 +76,23 @@ body{
     outline:none;
 }
 
-.form-group input:focus,
-.form-group select:focus{
+input:focus,select:focus{
     border-color:#2563eb;
 }
 
 .btn{
     width:100%;
-    border:none;
-    border-radius:9px;
     padding:13px;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
     font-size:15px;
     font-weight:bold;
-    cursor:pointer;
 }
 
 .btn-primary{
     background:#2563eb;
-    color:white;
+    color:#fff;
 }
 
 .btn-primary:hover{
@@ -108,46 +105,31 @@ body{
     margin-top:10px;
 }
 
-.btn-danger{
-    background:#dc2626;
-    color:white;
-}
-
-.auth-message{
-    margin-top:12px;
-    text-align:center;
-    font-size:14px;
-    color:#dc2626;
+.message{
     min-height:20px;
+    text-align:center;
+    margin-top:12px;
+    font-size:14px;
 }
 
-.password-strength{
+.strength{
     height:6px;
-    width:100%;
     background:#e5e7eb;
     border-radius:10px;
     margin-top:7px;
     overflow:hidden;
 }
 
-.password-strength-bar{
+.strength-bar{
     height:100%;
     width:0;
-    transition:.3s;
 }
 
-.password-info{
+.info{
     font-size:12px;
     margin-top:5px;
     color:#6b7280;
 }
-
-.match-info{
-    font-size:12px;
-    margin-top:5px;
-}
-
-/* APP */
 
 #appScreen{
     min-height:100vh;
@@ -162,24 +144,16 @@ body{
     align-items:center;
 }
 
-.header h1{
-    font-size:22px;
-}
-
 .header-right{
     display:flex;
     align-items:center;
     gap:15px;
 }
 
-.user-name{
-    font-size:14px;
-}
-
-.logout-btn{
+.logout{
+    border:0;
     background:#dc2626;
-    color:white;
-    border:none;
+    color:#fff;
     padding:9px 14px;
     border-radius:7px;
     cursor:pointer;
@@ -195,7 +169,7 @@ body{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:18px;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .summary-card{
@@ -211,7 +185,7 @@ body{
     margin-bottom:8px;
 }
 
-.summary-card .value{
+.value{
     font-size:26px;
     font-weight:bold;
 }
@@ -236,18 +210,22 @@ body{
 
 .card{
     background:white;
-    border-radius:14px;
     padding:22px;
+    border-radius:14px;
     box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
 .card h2{
     margin-bottom:18px;
-    font-size:20px;
 }
 
-.transaction-list{
-    margin-top:15px;
+.chart-container{
+    height:300px;
+    position:relative;
+}
+
+.filter{
+    margin-bottom:15px;
 }
 
 .transaction{
@@ -256,10 +234,6 @@ body{
     align-items:center;
     padding:14px 0;
     border-bottom:1px solid #e5e7eb;
-}
-
-.transaction:last-child{
-    border-bottom:none;
 }
 
 .transaction-left{
@@ -287,8 +261,8 @@ body{
     font-weight:bold;
 }
 
-.delete-btn{
-    border:none;
+.delete{
+    border:0;
     background:#fee2e2;
     color:#dc2626;
     padding:7px 10px;
@@ -296,31 +270,14 @@ body{
     cursor:pointer;
 }
 
-.filter-row{
-    display:flex;
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.filter-row select{
-    flex:1;
-    padding:11px;
-    border:1px solid #d1d5db;
-    border-radius:8px;
-}
-
 .empty{
     text-align:center;
     color:#6b7280;
-    padding:25px 0;
-}
-
-.chart-container{
-    position:relative;
-    height:300px;
+    padding:25px;
 }
 
 @media(max-width:800px){
+
     .summary{
         grid-template-columns:1fr;
     }
@@ -331,115 +288,217 @@ body{
 
     .header{
         flex-direction:column;
-        gap:12px;
         align-items:flex-start;
+        gap:12px;
     }
 
-    .header-right{
-        width:100%;
-        justify-content:space-between;
-    }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+
+<!-- GİRİŞ EKRANI -->
 
 <div id="loginScreen" class="auth-container">
+
     <div class="auth-box">
 
         <h1>Para Planım</h1>
-        <div class="subtitle">Hesabınıza giriş yapın</div>
+
+        <div class="subtitle">
+            Hesabınıza giriş yapın
+        </div>
 
         <div class="form-group">
+
             <label>E-posta</label>
-            <input id="loginEmail" type="email" placeholder="ornek@mail.com">
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="E-posta adresiniz">
+
         </div>
 
         <div class="form-group">
+
             <label>Şifre</label>
-            <input id="loginPassword" type="password" placeholder="Şifreniz">
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Şifreniz">
+
         </div>
 
-        <button class="btn btn-primary" onclick="login()">
+        <button
+            class="btn btn-primary"
+            onclick="login()">
+
             Giriş Yap
+
         </button>
 
-        <button class="btn btn-secondary" onclick="showRegister()">
+        <button
+            class="btn btn-secondary"
+            onclick="showRegister()">
+
             Yeni Hesap Oluştur
+
         </button>
 
-        <div id="loginMessage" class="auth-message"></div>
+        <div
+            id="loginMessage"
+            class="message">
+        </div>
 
     </div>
+
 </div>
 
 
-<!-- REGISTER -->
+<!-- KAYIT EKRANI -->
 
 <div id="registerScreen" class="auth-container hidden">
+
     <div class="auth-box">
 
         <h1>Hesap Oluştur</h1>
-        <div class="subtitle">Yeni hesabınızı oluşturun</div>
+
+        <div class="subtitle">
+            Yeni Para Planım hesabınızı oluşturun
+        </div>
+
 
         <div class="form-group">
+
             <label>Ad</label>
-            <input id="firstName" type="text" placeholder="Adınız">
+
+            <input
+                id="firstName"
+                type="text"
+                placeholder="Adınız">
+
         </div>
 
+
         <div class="form-group">
+
             <label>Soyad</label>
-            <input id="lastName" type="text" placeholder="Soyadınız">
+
+            <input
+                id="lastName"
+                type="text"
+                placeholder="Soyadınız">
+
         </div>
 
+
         <div class="form-group">
+
             <label>E-posta</label>
-            <input id="registerEmail" type="email" placeholder="ornek@mail.com">
+
+            <input
+                id="registerEmail"
+                type="email"
+                placeholder="E-posta adresiniz">
+
         </div>
 
+
         <div class="form-group">
+
             <label>Telefon</label>
-            <input id="phone" type="tel" placeholder="05XXXXXXXXX">
+
+            <input
+                id="phone"
+                type="tel"
+                maxlength="11"
+                placeholder="05XXXXXXXXX">
+
         </div>
 
+
         <div class="form-group">
+
             <label>Şifre</label>
-            <input id="registerPassword" type="password" placeholder="Şifreniz" oninput="checkPassword()">
 
-            <div class="password-strength">
-                <div id="strengthBar" class="password-strength-bar"></div>
+            <input
+                id="registerPassword"
+                type="password"
+                placeholder="Şifreniz"
+                oninput="checkPassword()">
+
+            <div class="strength">
+
+                <div
+                    id="strengthBar"
+                    class="strength-bar">
+                </div>
+
             </div>
 
-            <div id="strengthText" class="password-info">
-                En az 6 karakter kullanın.
+            <div
+                id="strengthText"
+                class="info">
+
+                En az 6 karakter.
+
             </div>
+
         </div>
+
 
         <div class="form-group">
-            <label>Şifre Tekrar</label>
-            <input id="passwordConfirm" type="password" placeholder="Şifrenizi tekrar girin" oninput="checkPasswordMatch()">
 
-            <div id="matchText" class="match-info"></div>
+            <label>Şifre Tekrar</label>
+
+            <input
+                id="passwordConfirm"
+                type="password"
+                placeholder="Şifrenizi tekrar girin"
+                oninput="checkMatch()">
+
+            <div
+                id="matchText"
+                class="info">
+            </div>
+
         </div>
 
-        <button class="btn btn-primary" onclick="register()">
+
+        <button
+            class="btn btn-primary"
+            onclick="register()">
+
             Hesap Oluştur
+
         </button>
 
-        <button class="btn btn-secondary" onclick="showLogin()">
+
+        <button
+            class="btn btn-secondary"
+            onclick="showLogin()">
+
             Giriş Ekranına Dön
+
         </button>
 
-        <div id="registerMessage" class="auth-message"></div>
+
+        <div
+            id="registerMessage"
+            class="message">
+        </div>
 
     </div>
+
 </div>
 
 
-<!-- APP -->
+<!-- ANA UYGULAMA -->
 
 <div id="appScreen" class="hidden">
 
@@ -448,32 +507,71 @@ body{
         <h1>Para Planım</h1>
 
         <div class="header-right">
-            <span id="userName" class="user-name"></span>
 
-            <button class="logout-btn" onclick="logout()">
+            <span id="userName"></span>
+
+            <button
+                class="logout"
+                onclick="logout()">
+
                 Çıkış Yap
+
             </button>
+
         </div>
 
     </div>
 
+
     <div class="container">
+
+
+        <!-- ÖZET -->
 
         <div class="summary">
 
             <div class="summary-card">
+
                 <h3>Toplam Gelir</h3>
-                <div id="totalIncome" class="value income">₺0,00</div>
+
+                <div
+                    id="totalIncome"
+                    class="value income">
+
+                    ₺0,00
+
+                </div>
+
             </div>
 
+
             <div class="summary-card">
+
                 <h3>Toplam Gider</h3>
-                <div id="totalExpense" class="value expense">₺0,00</div>
+
+                <div
+                    id="totalExpense"
+                    class="value expense">
+
+                    ₺0,00
+
+                </div>
+
             </div>
 
+
             <div class="summary-card">
+
                 <h3>Bakiye</h3>
-                <div id="balance" class="value balance">₺0,00</div>
+
+                <div
+                    id="balance"
+                    class="value balance">
+
+                    ₺0,00
+
+                </div>
+
             </div>
 
         </div>
@@ -481,50 +579,94 @@ body{
 
         <div class="grid">
 
-            <!-- EKLE -->
+
+            <!-- İŞLEM EKLE -->
 
             <div class="card">
 
                 <h2>İşlem Ekle</h2>
 
+
                 <div class="form-group">
-                    <label>İşlem Türü</label>
+
+                    <label>Tür</label>
 
                     <select id="transactionType">
-                        <option value="income">Gelir</option>
-                        <option value="expense">Gider</option>
+
+                        <option value="income">
+                            Gelir
+                        </option>
+
+                        <option value="expense">
+                            Gider
+                        </option>
+
                     </select>
+
                 </div>
 
+
                 <div class="form-group">
+
                     <label>Kategori</label>
 
-                    <input id="category" type="text" placeholder="Örn: Maaş, Market, Fatura">
+                    <input
+                        id="category"
+                        type="text"
+                        placeholder="Örn: Maaş, Market, Fatura">
+
                 </div>
 
+
                 <div class="form-group">
+
                     <label>Açıklama</label>
 
-                    <input id="description" type="text" placeholder="Açıklama">
+                    <input
+                        id="description"
+                        type="text"
+                        placeholder="Açıklama">
+
                 </div>
 
+
                 <div class="form-group">
+
                     <label>Tutar</label>
 
-                    <input id="amount" type="number" step="0.01" placeholder="0">
+                    <input
+                        id="amount"
+                        type="number"
+                        step="0.01"
+                        placeholder="0">
+
                 </div>
+
 
                 <div class="form-group">
+
                     <label>Tarih</label>
 
-                    <input id="transactionDate" type="date">
+                    <input
+                        id="transactionDate"
+                        type="date">
+
                 </div>
 
-                <button class="btn btn-primary" onclick="addTransaction()">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="addTransaction()">
+
                     İşlem Ekle
+
                 </button>
 
-                <div id="transactionMessage" class="auth-message"></div>
+
+                <div
+                    id="transactionMessage"
+                    class="message">
+                </div>
 
             </div>
 
@@ -536,7 +678,9 @@ body{
                 <h2>Gider Dağılımı</h2>
 
                 <div class="chart-container">
+
                     <canvas id="expenseChart"></canvas>
+
                 </div>
 
             </div>
@@ -546,15 +690,23 @@ body{
 
         <!-- İŞLEMLER -->
 
-        <div class="card" style="margin-top:20px;">
+        <div
+            class="card"
+            style="margin-top:20px;">
 
             <h2>İşlemler</h2>
 
-            <div class="filter-row">
 
-                <select id="monthFilter" onchange="loadTransactions()">
+            <div class="filter">
 
-                    <option value="">Tüm Aylar</option>
+                <select
+                    id="monthFilter"
+                    onchange="loadTransactions()">
+
+                    <option value="">
+                        Tüm Aylar
+                    </option>
+
                     <option value="01">Ocak</option>
                     <option value="02">Şubat</option>
                     <option value="03">Mart</option>
@@ -572,7 +724,8 @@ body{
 
             </div>
 
-            <div id="transactionList" class="transaction-list"></div>
+
+            <div id="transactionList"></div>
 
         </div>
 
@@ -583,59 +736,74 @@ body{
 
 <script>
 
-const SUPABASE_URL = "https://dvyitgovuciergwlbigj.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+const SUPABASE_URL =
+"https://dvyitgovuciergwlbigj.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
+const SUPABASE_KEY =
+"sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+
+
+const supabaseClient =
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+
 
 let currentUser = null;
 let expenseChart = null;
 let transactions = [];
 
 
-/* EKRAN DEĞİŞTİRME */
+/* EKRANLAR */
 
 function showLogin(){
 
-    document.getElementById("registerScreen").classList.add("hidden");
+    document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
 
-    document.getElementById("appScreen").classList.add("hidden");
+    document
+        .getElementById("registerScreen")
+        .classList.add("hidden");
 
-    document.getElementById("loginScreen").classList.remove("hidden");
-
-    document.getElementById("loginMessage").textContent = "";
+    document
+        .getElementById("appScreen")
+        .classList.add("hidden");
 
 }
 
 
 function showRegister(){
 
-    document.getElementById("loginScreen").classList.add("hidden");
+    document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
 
-    document.getElementById("appScreen").classList.add("hidden");
+    document
+        .getElementById("registerScreen")
+        .classList.remove("hidden");
 
-    document.getElementById("registerScreen").classList.remove("hidden");
-
-    document.getElementById("registerMessage").textContent = "";
+    document
+        .getElementById("appScreen")
+        .classList.add("hidden");
 
 }
 
 
-/* ŞİFRE GÜCÜ */
+/* ŞİFRE */
 
-function getPasswordStrength(password){
+function passwordStrength(password){
 
-    let score = 0;
+    let score=0;
 
-    if(password.length >= 6) score++;
+    if(password.length>=6) score++;
 
-    if(password.length >= 10) score++;
+    if(password.length>=10) score++;
 
-    if(/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+    if(/[a-z]/.test(password) &&
+       /[A-Z]/.test(password)) score++;
 
     if(/[0-9]/.test(password)) score++;
 
@@ -648,74 +816,99 @@ function getPasswordStrength(password){
 
 function checkPassword(){
 
-    const password = document.getElementById("registerPassword").value;
+    const password =
+        document.getElementById(
+            "registerPassword"
+        ).value;
 
-    const bar = document.getElementById("strengthBar");
+    const bar =
+        document.getElementById(
+            "strengthBar"
+        );
 
-    const text = document.getElementById("strengthText");
+    const text =
+        document.getElementById(
+            "strengthText"
+        );
 
-    const score = getPasswordStrength(password);
 
-    if(password.length === 0){
+    const score =
+        passwordStrength(password);
 
-        bar.style.width = "0%";
-        text.textContent = "En az 6 karakter kullanın.";
+
+    if(!password){
+
+        bar.style.width="0%";
+        text.textContent="En az 6 karakter.";
 
         return;
-    }
-
-    if(score <= 1){
-
-        bar.style.width = "25%";
-        bar.style.background = "#dc2626";
-        text.textContent = "Zayıf şifre";
-
-    }else if(score <= 3){
-
-        bar.style.width = "60%";
-        bar.style.background = "#f59e0b";
-        text.textContent = "Orta seviye şifre";
-
-    }else{
-
-        bar.style.width = "100%";
-        bar.style.background = "#16a34a";
-        text.textContent = "Güçlü şifre";
 
     }
 
-    checkPasswordMatch();
+
+    if(score<=1){
+
+        bar.style.width="25%";
+        bar.style.background="#dc2626";
+        text.textContent="Zayıf şifre";
+
+    }
+    else if(score<=3){
+
+        bar.style.width="60%";
+        bar.style.background="#f59e0b";
+        text.textContent="Orta seviye şifre";
+
+    }
+    else{
+
+        bar.style.width="100%";
+        bar.style.background="#16a34a";
+        text.textContent="Güçlü şifre";
+
+    }
+
+    checkMatch();
 
 }
 
 
-function checkPasswordMatch(){
+function checkMatch(){
 
     const password =
-        document.getElementById("registerPassword").value;
+        document.getElementById(
+            "registerPassword"
+        ).value;
 
     const confirm =
-        document.getElementById("passwordConfirm").value;
+        document.getElementById(
+            "passwordConfirm"
+        ).value;
 
     const text =
-        document.getElementById("matchText");
+        document.getElementById(
+            "matchText"
+        );
 
-    if(confirm === ""){
 
-        text.textContent = "";
+    if(!confirm){
+
+        text.textContent="";
 
         return;
+
     }
 
-    if(password === confirm){
 
-        text.textContent = "✓ Şifreler aynı";
-        text.style.color = "#16a34a";
+    if(password===confirm){
+
+        text.textContent="✓ Şifreler aynı";
+        text.style.color="#16a34a";
 
     }else{
 
-        text.textContent = "✕ Şifreler eşleşmiyor";
-        text.style.color = "#dc2626";
+        text.textContent="✕ Şifreler eşleşmiyor";
+        text.style.color="#dc2626";
 
     }
 
@@ -727,126 +920,288 @@ function checkPasswordMatch(){
 async function register(){
 
     const firstName =
-        document.getElementById("firstName").value.trim();
+        document.getElementById(
+            "firstName"
+        ).value.trim();
 
     const lastName =
-        document.getElementById("lastName").value.trim();
+        document.getElementById(
+            "lastName"
+        ).value.trim();
 
     const email =
-        document.getElementById("registerEmail").value.trim();
+        document.getElementById(
+            "registerEmail"
+        ).value.trim();
 
     const phone =
-        document.getElementById("phone").value.trim();
+        document.getElementById(
+            "phone"
+        ).value.trim();
 
     const password =
-        document.getElementById("registerPassword").value;
+        document.getElementById(
+            "registerPassword"
+        ).value;
 
     const confirm =
-        document.getElementById("passwordConfirm").value;
+        document.getElementById(
+            "passwordConfirm"
+        ).value;
 
     const message =
-        document.getElementById("registerMessage");
+        document.getElementById(
+            "registerMessage"
+        );
 
 
-    message.style.color = "#dc2626";
+    message.style.color="#dc2626";
 
 
-    if(!firstName || !lastName || !email || !phone || !password || !confirm){
+    if(
+        !firstName ||
+        !lastName ||
+        !email ||
+        !phone ||
+        !password ||
+        !confirm
+    ){
 
-        message.textContent = "Lütfen tüm alanları doldurun.";
+        message.textContent =
+            "Lütfen tüm alanları doldurun.";
 
         return;
+
     }
 
 
-    if(password.length < 6){
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
 
-        message.textContent = "Şifre en az 6 karakter olmalı.";
+        message.textContent =
+            "Geçerli bir e-posta adresi girin.";
 
         return;
+
     }
 
 
-    if(password !== confirm){
+    if(!/^05\d{9}$/.test(phone)){
 
-        message.textContent = "Şifreler eşleşmiyor.";
+        message.textContent =
+            "Telefon numarası 05XXXXXXXXX şeklinde olmalı.";
 
         return;
+
     }
 
 
-    if(getPasswordStrength(password) < 3){
+    if(password.length<6){
+
+        message.textContent =
+            "Şifre en az 6 karakter olmalı.";
+
+        return;
+
+    }
+
+
+    if(password!==confirm){
+
+        message.textContent =
+            "Şifreler eşleşmiyor.";
+
+        return;
+
+    }
+
+
+    if(passwordStrength(password)<3){
 
         message.textContent =
             "Daha güçlü bir şifre kullanın.";
 
         return;
+
     }
 
 
-    message.style.color = "#2563eb";
+    message.style.color="#2563eb";
 
-    message.textContent = "Hesap oluşturuluyor...";
+    message.textContent =
+        "Telefon numarası kontrol ediliyor...";
 
 
-    const {data,error} =
-        await supabaseClient.auth.signUp({
+    /* TELEFON KONTROL */
 
-            email: email,
+    const {
+        data:phoneUser,
+        error:phoneError
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select("id")
+    .eq("phone",phone)
+    .maybeSingle();
 
-            password: password,
 
-            options:{
-                data:{
-                    first_name:firstName,
-                    last_name:lastName,
-                    phone:phone
-                }
+    if(phoneError){
+
+        console.error(phoneError);
+
+        message.style.color="#dc2626";
+
+        message.textContent =
+            "Telefon kontrolü yapılamadı.";
+
+        return;
+
+    }
+
+
+    if(phoneUser){
+
+        message.style.color="#dc2626";
+
+        message.textContent =
+            "Bu telefon numarası zaten kayıtlı.";
+
+        return;
+
+    }
+
+
+    message.style.color="#2563eb";
+
+    message.textContent =
+        "Hesap oluşturuluyor...";
+
+
+    /* SUPABASE HESAP */
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.signUp({
+
+        email:email,
+
+        password:password,
+
+        options:{
+
+            data:{
+                first_name:firstName,
+                last_name:lastName,
+                phone:phone
             }
 
-        });
+        }
+
+    });
 
 
     if(error){
 
-        message.style.color = "#dc2626";
+        console.error(error);
 
-        message.textContent = error.message;
+        message.style.color="#dc2626";
+
+
+        const errorText =
+            error.message.toLowerCase();
+
+
+        if(
+            errorText.includes("already registered") ||
+            errorText.includes("already exists") ||
+            errorText.includes("user already")
+        ){
+
+            message.textContent =
+                "Bu e-posta adresi zaten kayıtlı.";
+
+        }else{
+
+            message.textContent =
+                error.message;
+
+        }
 
         return;
+
     }
 
 
     if(!data.user){
 
-        message.style.color = "#dc2626";
+        message.style.color="#dc2626";
 
         message.textContent =
             "Hesap oluşturulamadı.";
 
         return;
+
     }
 
 
-    /*
-    Supabase'de Confirm Email kapalıysa
-    session burada gelir.
-    */
-
     if(!data.session){
 
-        message.style.color = "#dc2626";
+        message.style.color="#dc2626";
 
         message.textContent =
             "Hesap oluşturuldu ancak otomatik giriş yapılamadı. Supabase'de Confirm email seçeneğini kapatın.";
 
         return;
+
     }
 
 
-    currentUser = data.user;
+    /* PROFİL */
 
-    message.style.color = "#16a34a";
+    const {
+        error:profileError
+    } =
+    await supabaseClient
+    .from("profiles")
+    .insert({
+
+        id:data.user.id,
+
+        first_name:firstName,
+
+        last_name:lastName,
+
+        phone:phone
+
+    });
+
+
+    if(profileError){
+
+        console.error(profileError);
+
+        message.style.color="#dc2626";
+
+
+        if(profileError.code==="23505"){
+
+            message.textContent =
+                "Bu telefon numarası zaten kayıtlı.";
+
+        }else{
+
+            message.textContent =
+                "Profil oluşturulurken hata oluştu.";
+
+        }
+
+        return;
+
+    }
+
+
+    message.style.color="#16a34a";
 
     message.textContent =
         "Hesabınız oluşturuldu.";
@@ -866,99 +1221,123 @@ async function register(){
 async function login(){
 
     const email =
-        document.getElementById("loginEmail").value.trim();
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
 
     const password =
-        document.getElementById("loginPassword").value;
+        document.getElementById(
+            "loginPassword"
+        ).value;
 
     const message =
-        document.getElementById("loginMessage");
-
-
-    message.textContent = "";
+        document.getElementById(
+            "loginMessage"
+        );
 
 
     if(!email || !password){
+
+        message.style.color="#dc2626";
 
         message.textContent =
             "E-posta ve şifreyi girin.";
 
         return;
+
     }
 
 
-    message.style.color = "#2563eb";
+    message.style.color="#2563eb";
 
-    message.textContent = "Giriş yapılıyor...";
+    message.textContent =
+        "Giriş yapılıyor...";
 
 
-    const {data,error} =
-        await supabaseClient.auth.signInWithPassword({
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.signInWithPassword({
 
-            email:email,
+        email:email,
 
-            password:password
+        password:password
 
-        });
+    });
 
 
     if(error){
 
-        message.style.color = "#dc2626";
+        message.style.color="#dc2626";
 
-        message.textContent = error.message;
+        message.textContent =
+            "E-posta veya şifre hatalı.";
 
         return;
+
     }
 
-
-    currentUser = data.user;
 
     showApp(data.user);
 
 }
 
 
-/* UYGULAMAYI AÇ */
+/* UYGULAMA */
 
 async function showApp(user){
 
-    currentUser = user;
+    currentUser=user;
 
 
-    document.getElementById("loginScreen")
+    document
+        .getElementById("loginScreen")
         .classList.add("hidden");
 
-    document.getElementById("registerScreen")
+    document
+        .getElementById("registerScreen")
         .classList.add("hidden");
 
-    document.getElementById("appScreen")
+    document
+        .getElementById("appScreen")
         .classList.remove("hidden");
 
 
-    document.getElementById("transactionDate").value =
-        new Date().toISOString().split("T")[0];
-
-
-    const {data:profile} =
-        await supabaseClient
-        .from("profiles")
-        .select("first_name,last_name")
-        .eq("id",user.id)
-        .maybeSingle();
+    const {
+        data:profile
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select("first_name,last_name")
+    .eq("id",user.id)
+    .maybeSingle();
 
 
     if(profile){
 
-        document.getElementById("userName").textContent =
-            `${profile.first_name} ${profile.last_name}`;
+        document.getElementById(
+            "userName"
+        ).textContent =
+            profile.first_name+" "+
+            profile.last_name;
 
     }else{
 
-        document.getElementById("userName").textContent =
+        document.getElementById(
+            "userName"
+        ).textContent =
             user.email;
 
     }
+
+
+    document.getElementById(
+        "transactionDate"
+    ).value =
+        new Date()
+        .toISOString()
+        .split("T")[0];
 
 
     loadTransactions();
@@ -970,8 +1349,10 @@ async function showApp(user){
 
 async function checkSession(){
 
-    const {data} =
-        await supabaseClient.auth.getSession();
+    const {
+        data
+    } =
+    await supabaseClient.auth.getSession();
 
 
     if(data.session){
@@ -993,9 +1374,9 @@ async function logout(){
 
     await supabaseClient.auth.signOut();
 
-    currentUser = null;
+    currentUser=null;
 
-    transactions = [];
+    transactions=[];
 
     showLogin();
 
@@ -1007,73 +1388,106 @@ async function logout(){
 async function addTransaction(){
 
     const type =
-        document.getElementById("transactionType").value;
+        document.getElementById(
+            "transactionType"
+        ).value;
 
     const category =
-        document.getElementById("category").value.trim();
+        document.getElementById(
+            "category"
+        ).value.trim();
 
     const description =
-        document.getElementById("description").value.trim();
+        document.getElementById(
+            "description"
+        ).value.trim();
 
     const amount =
-        parseFloat(document.getElementById("amount").value);
+        parseFloat(
+            document.getElementById(
+                "amount"
+            ).value
+        );
 
     const date =
-        document.getElementById("transactionDate").value;
+        document.getElementById(
+            "transactionDate"
+        ).value;
 
     const message =
-        document.getElementById("transactionMessage");
+        document.getElementById(
+            "transactionMessage"
+        );
 
 
-    if(!category || !amount || amount <= 0 || !date){
+    if(
+        !category ||
+        !amount ||
+        amount<=0 ||
+        !date
+    ){
+
+        message.style.color="#dc2626";
 
         message.textContent =
             "Kategori, tutar ve tarih zorunludur.";
 
         return;
+
     }
 
 
-    const {error} =
-        await supabaseClient
-        .from("transactions")
-        .insert({
+    const {
+        error
+    } =
+    await supabaseClient
+    .from("transactions")
+    .insert({
 
-            user_id:currentUser.id,
+        user_id:currentUser.id,
 
-            type:type,
+        type:type,
 
-            category:category,
+        category:category,
 
-            description:description,
+        description:description,
 
-            amount:amount,
+        amount:amount,
 
-            transaction_date:date
+        transaction_date:date
 
-        });
+    });
 
 
     if(error){
+
+        message.style.color="#dc2626";
 
         message.textContent =
             error.message;
 
         return;
+
     }
 
 
-    message.style.color = "#16a34a";
+    message.style.color="#16a34a";
 
     message.textContent =
         "İşlem eklendi.";
 
 
-    document.getElementById("category").value = "";
+    document.getElementById(
+        "category"
+    ).value="";
 
-    document.getElementById("description").value = "";
+    document.getElementById(
+        "description"
+    ).value="";
 
-    document.getElementById("amount").value = "";
+    document.getElementById(
+        "amount"
+    ).value="";
 
 
     loadTransactions();
@@ -1081,7 +1495,7 @@ async function addTransaction(){
 }
 
 
-/* İŞLEMLERİ YÜKLE */
+/* İŞLEMLER */
 
 async function loadTransactions(){
 
@@ -1093,11 +1507,16 @@ async function loadTransactions(){
         .from("transactions")
         .select("*")
         .eq("user_id",currentUser.id)
-        .order("transaction_date",{ascending:false});
+        .order(
+            "transaction_date",
+            {ascending:false}
+        );
 
 
     const month =
-        document.getElementById("monthFilter").value;
+        document.getElementById(
+            "monthFilter"
+        ).value;
 
 
     if(month){
@@ -1109,17 +1528,19 @@ async function loadTransactions(){
             `${year}-${month}-01`;
 
         let nextMonth =
-            parseInt(month)+1;
+            Number(month)+1;
 
-        let nextYear = year;
+        let nextYear=year;
 
-        if(nextMonth === 13){
 
-            nextMonth = 1;
+        if(nextMonth===13){
+
+            nextMonth=1;
 
             nextYear++;
 
         }
+
 
         const end =
             `${nextYear}-${String(nextMonth).padStart(2,"0")}-01`;
@@ -1133,8 +1554,11 @@ async function loadTransactions(){
     }
 
 
-    const {data,error} =
-        await query;
+    const {
+        data,
+        error
+    } =
+    await query;
 
 
     if(error){
@@ -1142,102 +1566,114 @@ async function loadTransactions(){
         console.error(error);
 
         return;
+
     }
 
 
-    transactions = data || [];
+    transactions=data||[];
 
     updateScreen();
 
 }
 
 
-/* EKRANI GÜNCELLE */
+/* EKRAN */
 
 function updateScreen(){
 
-    let income = 0;
-
-    let expense = 0;
+    let income=0;
+    let expense=0;
 
 
     transactions.forEach(t=>{
 
-        if(t.type === "income"){
+        if(t.type==="income"){
 
-            income += Number(t.amount);
+            income+=Number(t.amount);
 
         }else{
 
-            expense += Number(t.amount);
+            expense+=Number(t.amount);
 
         }
 
     });
 
 
-    document.getElementById("totalIncome").textContent =
-        formatMoney(income);
+    document.getElementById(
+        "totalIncome"
+    ).textContent =
+        money(income);
 
-    document.getElementById("totalExpense").textContent =
-        formatMoney(expense);
 
-    document.getElementById("balance").textContent =
-        formatMoney(income-expense);
+    document.getElementById(
+        "totalExpense"
+    ).textContent =
+        money(expense);
+
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+        money(income-expense);
 
 
     const list =
-        document.getElementById("transactionList");
+        document.getElementById(
+            "transactionList"
+        );
 
 
-    if(transactions.length === 0){
+    if(transactions.length===0){
 
         list.innerHTML =
-            `<div class="empty">Henüz işlem bulunmuyor.</div>`;
+            '<div class="empty">Henüz işlem bulunmuyor.</div>';
 
     }else{
 
         list.innerHTML =
-            transactions.map(t=>`
+        transactions.map(t=>`
 
-                <div class="transaction">
+            <div class="transaction">
 
-                    <div class="transaction-left">
+                <div class="transaction-left">
 
-                        <div class="transaction-title">
-                            ${escapeHtml(t.category)}
-                        </div>
-
-                        <div class="transaction-meta">
-                            ${escapeHtml(t.description || "")}
-                            •
-                            ${formatDate(t.transaction_date)}
-                        </div>
-
+                    <div class="transaction-title">
+                        ${escapeHtml(t.category)}
                     </div>
 
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount ${t.type === "income" ? "income" : "expense"}">
-
-                            ${t.type === "income" ? "+" : "-"}
-                            ${formatMoney(Number(t.amount))}
-
-                        </div>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteTransaction('${t.id}')">
-
-                            Sil
-
-                        </button>
-
+                    <div class="transaction-meta">
+                        ${escapeHtml(t.description||"")}
+                        •
+                        ${formatDate(t.transaction_date)}
                     </div>
 
                 </div>
 
-            `).join("");
+
+                <div class="transaction-right">
+
+                    <div class="transaction-amount ${t.type==="income"?"income":"expense"}">
+
+                        ${t.type==="income"?"+":"-"}
+                        ${money(Number(t.amount))}
+
+                    </div>
+
+
+                    <button
+                        class="delete"
+                        onclick="deleteTransaction('${t.id}')">
+
+                        Sil
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
 
     }
 
@@ -1251,19 +1687,21 @@ function updateScreen(){
 
 async function deleteTransaction(id){
 
-    if(!confirm("Bu işlemi silmek istediğinize emin misiniz?")){
+    if(
+        !confirm(
+            "Bu işlemi silmek istediğinize emin misiniz?"
+        )
+    ) return;
 
-        return;
 
-    }
-
-
-    const {error} =
-        await supabaseClient
-        .from("transactions")
-        .delete()
-        .eq("id",id)
-        .eq("user_id",currentUser.id);
+    const {
+        error
+    } =
+    await supabaseClient
+    .from("transactions")
+    .delete()
+    .eq("id",id)
+    .eq("user_id",currentUser.id);
 
 
     if(error){
@@ -1271,6 +1709,7 @@ async function deleteTransaction(id){
         alert(error.message);
 
         return;
+
     }
 
 
@@ -1284,20 +1723,24 @@ async function deleteTransaction(id){
 function updateChart(){
 
     const expenses =
-        transactions.filter(t=>t.type === "expense");
+        transactions.filter(
+            t=>t.type==="expense"
+        );
 
 
-    const categories = {};
+    const categories={};
+
 
     expenses.forEach(t=>{
 
         if(!categories[t.category]){
 
-            categories[t.category] = 0;
+            categories[t.category]=0;
 
         }
 
-        categories[t.category] += Number(t.amount);
+        categories[t.category]+=
+            Number(t.amount);
 
     });
 
@@ -1310,7 +1753,9 @@ function updateChart(){
 
 
     const ctx =
-        document.getElementById("expenseChart");
+        document.getElementById(
+            "expenseChart"
+        );
 
 
     if(expenseChart){
@@ -1321,56 +1766,56 @@ function updateChart(){
 
 
     expenseChart =
-        new Chart(ctx,{
+    new Chart(ctx,{
 
-            type:"doughnut",
+        type:"doughnut",
 
-            data:{
+        data:{
 
-                labels:labels,
+            labels:labels,
 
-                datasets:[{
+            datasets:[{
 
-                    data:values
+                data:values
 
-                }]
+            }]
 
-            },
+        },
 
-            options:{
+        options:{
 
-                responsive:true,
+            responsive:true,
 
-                maintainAspectRatio:false,
+            maintainAspectRatio:false,
 
-                plugins:{
+            plugins:{
 
-                    legend:{
+                legend:{
 
-                        position:"bottom"
-
-                    }
+                    position:"bottom"
 
                 }
 
             }
 
-        });
+        }
+
+    });
 
 }
 
 
 /* PARA */
 
-function formatMoney(value){
+function money(value){
 
-    return new Intl.NumberFormat("tr-TR",{
-
-        style:"currency",
-
-        currency:"TRY"
-
-    }).format(value);
+    return new Intl.NumberFormat(
+        "tr-TR",
+        {
+            style:"currency",
+            currency:"TRY"
+        }
+    ).format(value);
 
 }
 
@@ -1381,15 +1826,14 @@ function formatDate(date){
 
     if(!date) return "";
 
-    const parts =
-        date.split("-");
+    const p=date.split("-");
 
-    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    return `${p[2]}.${p[1]}.${p[0]}`;
 
 }
 
 
-/* HTML GÜVENLİĞİ */
+/* HTML */
 
 function escapeHtml(text){
 
@@ -1403,21 +1847,6 @@ function escapeHtml(text){
         .replaceAll("'","&#039;");
 
 }
-
-
-/* SUPABASE SESSION DEĞİŞİMİ */
-
-supabaseClient.auth.onAuthStateChange(
-    (event,session)=>{
-
-        if(event === "SIGNED_OUT"){
-
-            showLogin();
-
-        }
-
-    }
-);
 
 
 /* BAŞLAT */
