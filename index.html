@@ -1,10 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Gelir Gider Takip</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -88,17 +88,9 @@ text-align:center;
 box-shadow:0 3px 12px rgba(0,0,0,.08)
 }
 
-.income{
-color:#159447
-}
-
-.expense{
-color:#d93636
-}
-
-.balance{
-color:#2864d7
-}
+.income{color:#159447}
+.expense{color:#d93636}
+.balance{color:#2864d7}
 
 .form-grid{
 display:grid;
@@ -143,7 +135,7 @@ display:none
 
 .message{
 text-align:center;
-margin-top:8px;
+margin-top:10px;
 line-height:1.5
 }
 
@@ -154,8 +146,12 @@ margin-bottom:15px
 
 .password-info{
 font-size:13px;
-margin-top:2px;
-min-height:20px
+min-height:20px;
+margin-top:2px
+}
+
+.back-button{
+background:#777
 }
 
 @media(max-width:700px){
@@ -182,7 +178,7 @@ text-align:center
 
 <body>
 
-<div id="authScreen">
+<div id="loginScreen">
 
 <div class="card auth">
 
@@ -192,18 +188,76 @@ text-align:center
 
 <input
 type="email"
-id="email"
+id="loginEmail"
 placeholder="E-posta"
 >
 
 <input
 type="password"
-id="password"
+id="loginPassword"
+placeholder="Şifre"
+>
+
+<button onclick="login()">
+Giriş Yap
+</button>
+
+<button
+class="secondary"
+onclick="showRegister()">
+Yeni Hesap Oluştur
+</button>
+
+<div id="loginMessage" class="message"></div>
+
+</div>
+
+</div>
+
+
+<div id="registerScreen" class="hidden">
+
+<div class="card auth">
+
+<h1>📝 Yeni Hesap</h1>
+
+<p>Hesabını oluştur</p>
+
+<input
+type="text"
+id="firstName"
+placeholder="Ad"
+>
+
+<input
+type="text"
+id="lastName"
+placeholder="Soyad"
+>
+
+<input
+type="email"
+id="registerEmail"
+placeholder="E-posta"
+>
+
+<input
+type="tel"
+id="phone"
+placeholder="Telefon Numarası"
+>
+
+<input
+type="password"
+id="registerPassword"
 placeholder="Şifre"
 oninput="checkPasswordStrength()"
 >
 
-<div id="passwordStrength" class="password-info"></div>
+<div
+id="passwordStrength"
+class="password-info">
+</div>
 
 <input
 type="password"
@@ -212,19 +266,25 @@ placeholder="Şifre Tekrar"
 oninput="checkPasswordMatch()"
 >
 
-<div id="passwordMatch" class="password-info"></div>
+<div
+id="passwordMatch"
+class="password-info">
+</div>
 
-<button onclick="login()">
-Giriş Yap
+<button onclick="register()">
+Hesap Oluştur
 </button>
 
 <button
-class="secondary"
-onclick="register()">
-Yeni Hesap Oluştur
+class="back-button"
+onclick="showLogin()">
+Giriş Ekranına Dön
 </button>
 
-<div id="authMessage" class="message"></div>
+<div
+id="registerMessage"
+class="message">
+</div>
 
 </div>
 
@@ -244,10 +304,14 @@ Yeni Hesap Oluştur
 
 <div class="container">
 
-
 <div class="user-info">
 
+<span id="userName"></span>
+<br>
+
 <span id="userEmail"></span>
+
+<br>
 
 <button
 onclick="logout()"
@@ -310,13 +374,8 @@ class="balance">
 
 <select id="type">
 
-<option value="income">
-Gelir
-</option>
-
-<option value="expense">
-Gider
-</option>
+<option value="income">Gelir</option>
+<option value="expense">Gider</option>
 
 </select>
 
@@ -408,7 +467,6 @@ Tüm İşlemleri Göster
 
 </div>
 
-
 </div>
 
 </div>
@@ -416,9 +474,11 @@ Tüm İşlemleri Göster
 
 <script>
 
-const SUPABASE_URL="https://dvyitgovuciergwlbigj.supabase.co";
+const SUPABASE_URL=
+"https://dvyitgovuciergwlbigj.supabase.co";
 
-const SUPABASE_KEY="sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
+const SUPABASE_KEY=
+"sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
 
 const supabaseClient=
 window.supabase.createClient(
@@ -433,22 +493,205 @@ document.getElementById("date").value=
 new Date().toISOString().split("T")[0];
 
 
-async function register(){
+function showLogin(){
 
-const email=
-document.getElementById("email").value.trim();
+document.getElementById(
+"registerScreen"
+).classList.add("hidden");
+
+document.getElementById(
+"appScreen"
+).classList.add("hidden");
+
+document.getElementById(
+"loginScreen"
+).classList.remove("hidden");
+
+}
+
+
+function showRegister(){
+
+document.getElementById(
+"loginScreen"
+).classList.add("hidden");
+
+document.getElementById(
+"registerScreen"
+).classList.remove("hidden");
+
+document.getElementById(
+"loginMessage"
+).textContent="";
+
+}
+
+
+function getPasswordStrength(password){
+
+let score=0;
+
+if(password.length>=6)score++;
+
+if(password.length>=10)score++;
+
+if(/[a-z]/.test(password)&&/[A-Z]/.test(password))
+score++;
+
+if(/[0-9]/.test(password))
+score++;
+
+if(/[^A-Za-z0-9]/.test(password))
+score++;
+
+return score;
+
+}
+
+
+function checkPasswordStrength(){
 
 const password=
-document.getElementById("password").value;
+document.getElementById(
+"registerPassword"
+).value;
+
+const element=
+document.getElementById(
+"passwordStrength"
+);
+
+if(!password){
+
+element.textContent="";
+return;
+
+}
+
+const score=
+getPasswordStrength(password);
+
+if(score<=1){
+
+element.textContent=
+"🔴 Şifre güvenliği: Zayıf";
+
+element.style.color="#d93636";
+
+}
+
+else if(score<=3){
+
+element.textContent=
+"🟠 Şifre güvenliği: Orta";
+
+element.style.color="#e68a00";
+
+}
+
+else{
+
+element.textContent=
+"🟢 Şifre güvenliği: Güçlü";
+
+element.style.color="#159447";
+
+}
+
+checkPasswordMatch();
+
+}
+
+
+function checkPasswordMatch(){
+
+const password=
+document.getElementById(
+"registerPassword"
+).value;
 
 const confirmPassword=
-document.getElementById("passwordConfirm").value;
+document.getElementById(
+"passwordConfirm"
+).value;
+
+const element=
+document.getElementById(
+"passwordMatch"
+);
+
+if(!confirmPassword){
+
+element.textContent="";
+return;
+
+}
+
+if(password===confirmPassword){
+
+element.textContent=
+"🟢 Şifreler eşleşiyor";
+
+element.style.color="#159447";
+
+}
+
+else{
+
+element.textContent=
+"🔴 Şifreler eşleşmiyor";
+
+element.style.color="#d93636";
+
+}
+
+}
 
 
-if(!email||!password||!confirmPassword){
+async function register(){
 
-return showAuthMessage(
-"E-posta ve şifre alanlarını doldur."
+const firstName=
+document.getElementById(
+"firstName"
+).value.trim();
+
+const lastName=
+document.getElementById(
+"lastName"
+).value.trim();
+
+const email=
+document.getElementById(
+"registerEmail"
+).value.trim();
+
+const phone=
+document.getElementById(
+"phone"
+).value.trim();
+
+const password=
+document.getElementById(
+"registerPassword"
+).value;
+
+const confirmPassword=
+document.getElementById(
+"passwordConfirm"
+).value;
+
+
+if(
+!firstName||
+!lastName||
+!email||
+!phone||
+!password||
+!confirmPassword
+){
+
+return showRegisterMessage(
+"Lütfen tüm alanları doldur."
 );
 
 }
@@ -456,7 +699,7 @@ return showAuthMessage(
 
 if(password.length<6){
 
-return showAuthMessage(
+return showRegisterMessage(
 "Şifre en az 6 karakter olmalı."
 );
 
@@ -465,7 +708,7 @@ return showAuthMessage(
 
 if(password!==confirmPassword){
 
-return showAuthMessage(
+return showRegisterMessage(
 "Şifreler eşleşmiyor."
 );
 
@@ -474,7 +717,7 @@ return showAuthMessage(
 
 if(getPasswordStrength(password)<3){
 
-return showAuthMessage(
+return showRegisterMessage(
 "Lütfen daha güçlü bir şifre oluştur."
 );
 
@@ -483,31 +726,59 @@ return showAuthMessage(
 
 const{data,error}=
 await supabaseClient.auth.signUp({
+
 email:email,
-password:password
+
+password:password,
+
 });
 
 
 if(error){
 
-return showAuthMessage(error.message);
+return showRegisterMessage(
+error.message
+);
+
+}
+
+
+if(!data.user){
+
+return showRegisterMessage(
+"Hesap oluşturulamadı."
+);
+
+}
+
+
+const{error:profileError}=
+await supabaseClient
+.from("profiles")
+.insert({
+
+id:data.user.id,
+
+first_name:firstName,
+
+last_name:lastName,
+
+phone:phone
+
+});
+
+
+if(profileError){
+
+return showRegisterMessage(
+"Profil oluşturulamadı: "+
+profileError.message
+);
 
 }
 
 
-if(data.user){
-
-showAuthMessage(
-"Hesabın başarıyla oluşturuldu. Giriş yapılıyor...",
-true
-);
-
-setTimeout(
-()=>showApp(data.user),
-500
-);
-
-}
+showApp(data.user);
 
 }
 
@@ -515,15 +786,19 @@ setTimeout(
 async function login(){
 
 const email=
-document.getElementById("email").value.trim();
+document.getElementById(
+"loginEmail"
+).value.trim();
 
 const password=
-document.getElementById("password").value;
+document.getElementById(
+"loginPassword"
+).value;
 
 
 if(!email||!password){
 
-return showAuthMessage(
+return showLoginMessage(
 "E-posta ve şifre gir."
 );
 
@@ -532,14 +807,17 @@ return showAuthMessage(
 
 const{data,error}=
 await supabaseClient.auth.signInWithPassword({
+
 email:email,
+
 password:password
+
 });
 
 
 if(error){
 
-return showAuthMessage(
+return showLoginMessage(
 error.message
 );
 
@@ -551,154 +829,48 @@ showApp(data.user);
 }
 
 
-function getPasswordStrength(password){
+async function showApp(user){
 
-let score=0;
+document.getElementById(
+"loginScreen"
+).classList.add("hidden");
 
+document.getElementById(
+"registerScreen"
+).classList.add("hidden");
 
-if(password.length>=6){
-
-score++;
-
-}
-
-
-if(password.length>=10){
-
-score++;
-
-}
+document.getElementById(
+"appScreen"
+).classList.remove("hidden");
 
 
-if(
-/[a-z]/.test(password)&&
-/[A-Z]/.test(password)
-){
-
-score++;
-
-}
+document.getElementById(
+"userEmail"
+).textContent=
+user.email;
 
 
-if(/[0-9]/.test(password)){
+const{data:profile}=
+await supabaseClient
+.from("profiles")
+.select("first_name,last_name")
+.eq("id",user.id)
+.maybeSingle();
 
-score++;
 
-}
+if(profile){
 
-
-if(/[^A-Za-z0-9]/.test(password)){
-
-score++;
+document.getElementById(
+"userName"
+).textContent=
+profile.first_name+
+" "+
+profile.last_name;
 
 }
 
 
-return score;
-
-}
-
-
-function checkPasswordStrength(){
-
-const password=
-document.getElementById("password").value;
-
-const element=
-document.getElementById("passwordStrength");
-
-
-if(!password){
-
-element.textContent="";
-
-return;
-
-}
-
-
-const score=
-getPasswordStrength(password);
-
-
-if(score<=1){
-
-element.textContent=
-"🔴 Şifre güvenliği: Zayıf";
-
-element.style.color=
-"#d93636";
-
-}
-
-
-else if(score<=3){
-
-element.textContent=
-"🟠 Şifre güvenliği: Orta";
-
-element.style.color=
-"#e68a00";
-
-}
-
-
-else{
-
-element.textContent=
-"🟢 Şifre güvenliği: Güçlü";
-
-element.style.color=
-"#159447";
-
-}
-
-
-checkPasswordMatch();
-
-}
-
-
-function checkPasswordMatch(){
-
-const password=
-document.getElementById("password").value;
-
-const confirmPassword=
-document.getElementById("passwordConfirm").value;
-
-const element=
-document.getElementById("passwordMatch");
-
-
-if(!confirmPassword){
-
-element.textContent="";
-
-return;
-
-}
-
-
-if(password===confirmPassword){
-
-element.textContent=
-"🟢 Şifreler eşleşiyor";
-
-element.style.color=
-"#159447";
-
-}
-
-else{
-
-element.textContent=
-"🔴 Şifreler eşleşmiyor";
-
-element.style.color=
-"#d93636";
-
-}
+loadTransactions();
 
 }
 
@@ -720,29 +892,6 @@ data.session.user
 }
 
 
-function showApp(user){
-
-document.getElementById(
-"authScreen"
-).classList.add("hidden");
-
-
-document.getElementById(
-"appScreen"
-).classList.remove("hidden");
-
-
-document.getElementById(
-"userEmail"
-).textContent=
-user.email;
-
-
-loadTransactions();
-
-}
-
-
 async function logout(){
 
 await supabaseClient.auth.signOut();
@@ -752,57 +901,44 @@ document.getElementById(
 "appScreen"
 ).classList.add("hidden");
 
-
-document.getElementById(
-"authScreen"
-).classList.remove("hidden");
+showLogin();
 
 
 document.getElementById(
-"email"
+"loginEmail"
 ).value="";
 
-
 document.getElementById(
-"password"
+"loginPassword"
 ).value="";
-
-
-document.getElementById(
-"passwordConfirm"
-).value="";
-
-
-document.getElementById(
-"passwordStrength"
-).textContent="";
-
-
-document.getElementById(
-"passwordMatch"
-).textContent="";
-
 
 }
 
 
-function showAuthMessage(
-text,
-success=false
-){
+function showLoginMessage(text){
 
 const element=
 document.getElementById(
-"authMessage"
+"loginMessage"
 );
-
 
 element.textContent=text;
 
-element.style.color=
-success
-?"#159447"
-:"#d93636";
+element.style.color="#d93636";
+
+}
+
+
+function showRegisterMessage(text){
+
+const element=
+document.getElementById(
+"registerMessage"
+);
+
+element.textContent=text;
+
+element.style.color="#d93636";
 
 }
 
@@ -829,18 +965,15 @@ document.getElementById(
 "type"
 ).value;
 
-
 const category=
 document.getElementById(
 "category"
 ).value;
 
-
 const description=
 document.getElementById(
 "description"
 ).value.trim();
-
 
 const amount=
 parseFloat(
@@ -848,7 +981,6 @@ document.getElementById(
 "amount"
 ).value
 );
-
 
 const date=
 document.getElementById(
@@ -904,7 +1036,6 @@ document.getElementById(
 "description"
 ).value="";
 
-
 document.getElementById(
 "amount"
 ).value="";
@@ -923,11 +1054,7 @@ await supabaseClient.auth.getUser();
 const user=userData.user;
 
 
-if(!user){
-
-return;
-
-}
+if(!user)return;
 
 
 const selectedMonth=
@@ -952,34 +1079,27 @@ if(selectedMonth){
 const parts=
 selectedMonth.split("-");
 
-
 const year=
 Number(parts[0]);
-
 
 const month=
 Number(parts[1]);
 
-
 const startDate=
 `${year}-${String(month).padStart(2,"0")}-01`;
-
 
 const nextYear=
 month===12
 ?year+1
 :year;
 
-
 const nextMonth=
 month===12
 ?1
 :month+1;
 
-
 const endDate=
 `${nextYear}-${String(nextMonth).padStart(2,"0")}-01`;
-
 
 query=
 query
@@ -1014,12 +1134,10 @@ let totalIncome=0;
 
 let totalExpense=0;
 
-
 const list=
 document.getElementById(
 "transactionList"
 );
-
 
 list.innerHTML="";
 
@@ -1031,27 +1149,17 @@ const amount=
 Number(transaction.amount);
 
 
-if(
-transaction.type==="income"
-){
-
+if(transaction.type==="income")
 totalIncome+=amount;
 
-}
-
-else{
-
+else
 totalExpense+=amount;
-
-}
 
 
 const div=
 document.createElement("div");
 
-
-div.className=
-"transaction";
+div.className="transaction";
 
 
 div.innerHTML=`
@@ -1074,13 +1182,11 @@ transaction.category
 
 </div>
 
-
 <div>
 ${formatDate(
 transaction.transaction_date
 )}
 </div>
-
 
 <div class="${
 transaction.type==="income"
@@ -1103,7 +1209,6 @@ minimumFractionDigits:2
 
 </div>
 
-
 <button
 class="delete"
 onclick="deleteTransaction('${transaction.id}')">
@@ -1120,9 +1225,7 @@ list.appendChild(div);
 });
 
 
-if(
-transactions.length===0
-){
+if(transactions.length===0){
 
 list.innerHTML=
 "<p>Bu dönemde işlem bulunamadı.</p>";
@@ -1178,15 +1281,9 @@ totalExpense
 
 async function deleteTransaction(id){
 
-if(
-!confirm(
+if(!confirm(
 "Bu işlemi silmek istediğine emin misin?"
-)
-){
-
-return;
-
-}
+))return;
 
 
 const{error}=
@@ -1217,7 +1314,6 @@ document.getElementById(
 "monthFilter"
 ).value="";
 
-
 loadTransactions();
 
 }
@@ -1227,7 +1323,6 @@ function formatDate(date){
 
 const parts=
 date.split("-");
-
 
 return parts[2]+
 "."+
@@ -1249,11 +1344,8 @@ document.getElementById(
 );
 
 
-if(financeChart){
-
+if(financeChart)
 financeChart.destroy();
-
-}
 
 
 financeChart=
@@ -1272,12 +1364,10 @@ labels:[
 
 datasets:[
 {
-
 data:[
 income,
 expense
 ]
-
 }
 ]
 
@@ -1288,7 +1378,6 @@ options:{
 responsive:true,
 
 plugins:{
-
 legend:{
 position:"bottom"
 }
@@ -1321,3 +1410,4 @@ checkSession();
 
 </body>
 </html>
+```
