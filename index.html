@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -23,14 +24,10 @@ body{
     min-height:100vh;
 }
 
-.container{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-}
 
+/* ================================================= */
 /* AUTH */
+/* ================================================= */
 
 .auth-container{
     min-height:100vh;
@@ -43,7 +40,7 @@ body{
 .auth-box{
     width:100%;
     max-width:430px;
-    background:white;
+    background:#fff;
     padding:35px;
     border-radius:20px;
     box-shadow:0 10px 35px rgba(0,0,0,.08);
@@ -92,37 +89,16 @@ body{
     border-color:#2563eb;
 }
 
-.password-strength{
-    height:6px;
-    background:#e5e7eb;
-    border-radius:10px;
-    margin-top:7px;
-    overflow:hidden;
-}
-
-.password-strength-bar{
-    height:100%;
-    width:0%;
-    transition:.3s;
-}
-
-.password-info{
-    font-size:12px;
-    margin-top:5px;
-    color:#6b7280;
-}
-
 .btn{
     width:100%;
     border:none;
     padding:14px;
     border-radius:10px;
     background:#2563eb;
-    color:white;
+    color:#fff;
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    margin-top:5px;
 }
 
 .btn:hover{
@@ -154,22 +130,49 @@ body{
     min-height:20px;
 }
 
+.password-strength{
+    height:6px;
+    background:#e5e7eb;
+    border-radius:10px;
+    margin-top:7px;
+    overflow:hidden;
+}
+
+.password-strength-bar{
+    height:100%;
+    width:0%;
+    transition:.3s;
+}
+
+.password-info{
+    font-size:12px;
+    margin-top:5px;
+    color:#6b7280;
+}
+
+
+/* ================================================= */
 /* APP */
+/* ================================================= */
 
 #appScreen{
     display:none;
 }
 
+
+/* ================================================= */
+/* HEADER */
+/* ================================================= */
+
 .header{
-    background:white;
+    background:#fff;
     border-bottom:1px solid #e5e7eb;
-    padding:15px 0;
 }
 
 .header-inner{
-    max-width:1100px;
+    max-width:1150px;
     margin:auto;
-    padding:0 20px;
+    padding:15px 20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -204,20 +207,78 @@ body{
     font-weight:bold;
 }
 
-.welcome{
-    margin:25px 0;
+
+/* ================================================= */
+/* NAVIGATION */
+/* ================================================= */
+
+.navigation{
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
 }
 
-.welcome h1{
+.navigation-inner{
+    max-width:1150px;
+    margin:auto;
+    padding:10px 20px;
+    display:flex;
+    gap:10px;
+}
+
+.nav-btn{
+    border:none;
+    background:#f3f4f6;
+    padding:11px 20px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#4b5563;
+}
+
+.nav-btn.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+
+/* ================================================= */
+/* CONTAINER */
+/* ================================================= */
+
+.container{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+    padding:25px 20px;
+}
+
+
+/* ================================================= */
+/* PAGE */
+/* ================================================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
+    margin-bottom:5px;
     font-size:28px;
 }
 
-.welcome p{
+.page-subtitle{
     color:#6b7280;
-    margin-top:5px;
+    margin-bottom:25px;
 }
 
+
+/* ================================================= */
 /* SUMMARY */
+/* ================================================= */
 
 .summary{
     display:grid;
@@ -227,7 +288,7 @@ body{
 }
 
 .card{
-    background:white;
+    background:#fff;
     border-radius:15px;
     padding:20px;
     box-shadow:0 3px 12px rgba(0,0,0,.05);
@@ -256,32 +317,30 @@ body{
     color:#2563eb;
 }
 
-/* CONTENT */
 
-.grid{
+/* ================================================= */
+/* FORM + LIST */
+/* ================================================= */
+
+.content-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:400px 1fr;
     gap:20px;
+}
+
+.form-card,
+.list-card,
+.chart-card{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
 }
 
 .section-title{
     font-size:20px;
     font-weight:bold;
-    margin-bottom:15px;
-}
-
-.transaction-form{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 3px 12px rgba(0,0,0,.05);
-}
-
-.transaction-list{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    margin-bottom:18px;
 }
 
 .transaction{
@@ -299,7 +358,7 @@ body{
 .transaction-left{
     display:flex;
     flex-direction:column;
-    gap:5px;
+    gap:4px;
 }
 
 .transaction-category{
@@ -334,26 +393,7 @@ body{
     height:32px;
     border-radius:8px;
     cursor:pointer;
-}
-
-.filter-area{
-    display:flex;
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.filter-area select{
-    padding:10px;
-    border:1px solid #d1d5db;
-    border-radius:8px;
-}
-
-.chart-container{
-    margin-top:20px;
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 3px 12px rgba(0,0,0,.05);
+    font-size:18px;
 }
 
 .empty{
@@ -362,15 +402,53 @@ body{
     color:#9ca3af;
 }
 
+
+/* ================================================= */
+/* FILTER */
+/* ================================================= */
+
+.filter-area{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.filter-area select{
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+}
+
+
+/* ================================================= */
+/* CHART */
+/* ================================================= */
+
+.chart-card{
+    margin-top:20px;
+}
+
+.chart-wrapper{
+    max-width:450px;
+    margin:auto;
+}
+
+
+/* ================================================= */
 /* RESPONSIVE */
+/* ================================================= */
 
-@media(max-width:800px){
+@media(max-width:850px){
 
-    .summary{
+    .content-grid{
         grid-template-columns:1fr;
     }
 
-    .grid{
+}
+
+@media(max-width:650px){
+
+    .summary{
         grid-template-columns:1fr;
     }
 
@@ -384,37 +462,26 @@ body{
         justify-content:space-between;
     }
 
-}
-
-@media(max-width:500px){
-
-    .auth-box{
-        padding:25px 20px;
+    .navigation-inner{
+        overflow-x:auto;
     }
 
-    .welcome h1{
-        font-size:23px;
-    }
-
-    .transaction{
-        align-items:flex-start;
-    }
-
-    .transaction-right{
-        flex-direction:column;
-        align-items:flex-end;
-        gap:5px;
+    .nav-btn{
+        white-space:nowrap;
     }
 
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ========================= -->
+
+<!-- ================================================= -->
 <!-- LOGIN -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
 <div id="loginScreen" class="auth-container">
 
@@ -428,37 +495,56 @@ body{
             Gelir ve giderlerini kolayca takip et
         </div>
 
+
         <div class="input-group">
+
             <label>E-posta</label>
+
             <input
                 type="email"
                 id="loginEmail"
                 placeholder="ornek@mail.com"
             >
+
         </div>
 
+
         <div class="input-group">
+
             <label>Şifre</label>
+
             <input
                 type="password"
                 id="loginPassword"
                 placeholder="Şifreniz"
             >
+
         </div>
 
+
         <button
-            class="btn"
             id="loginButton"
+            class="btn"
             onclick="login()"
         >
             Giriş Yap
         </button>
 
-        <div id="loginMessage" class="message"></div>
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
 
         <div class="auth-link">
+
             Hesabın yok mu?
-            <a onclick="showRegister()">Kayıt Ol</a>
+
+            <a onclick="showRegister()">
+                Kayıt Ol
+            </a>
+
         </div>
 
     </div>
@@ -466,11 +552,15 @@ body{
 </div>
 
 
-<!-- ========================= -->
+<!-- ================================================= -->
 <!-- REGISTER -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
-<div id="registerScreen" class="auth-container" style="display:none;">
+<div
+    id="registerScreen"
+    class="auth-container"
+    style="display:none;"
+>
 
     <div class="auth-box">
 
@@ -482,35 +572,50 @@ body{
             Yeni hesap oluştur
         </div>
 
+
         <div class="input-group">
+
             <label>Ad</label>
+
             <input
                 type="text"
                 id="firstName"
                 placeholder="Adınız"
             >
+
         </div>
 
+
         <div class="input-group">
+
             <label>Soyad</label>
+
             <input
                 type="text"
                 id="lastName"
                 placeholder="Soyadınız"
             >
+
         </div>
 
+
         <div class="input-group">
+
             <label>E-posta</label>
+
             <input
                 type="email"
                 id="registerEmail"
                 placeholder="ornek@mail.com"
             >
+
         </div>
 
+
         <div class="input-group">
+
             <label>Telefon</label>
+
             <input
                 type="tel"
                 id="registerPhone"
@@ -519,9 +624,12 @@ body{
                 inputmode="numeric"
                 oninput="formatPhone(this)"
             >
+
         </div>
 
+
         <div class="input-group">
+
             <label>Şifre</label>
 
             <input
@@ -532,10 +640,12 @@ body{
             >
 
             <div class="password-strength">
+
                 <div
                     id="passwordStrengthBar"
                     class="password-strength-bar"
                 ></div>
+
             </div>
 
             <div
@@ -545,7 +655,9 @@ body{
 
         </div>
 
+
         <div class="input-group">
+
             <label>Şifre Tekrar</label>
 
             <input
@@ -562,19 +674,30 @@ body{
 
         </div>
 
+
         <button
-            class="btn"
             id="registerButton"
+            class="btn"
             onclick="register()"
         >
             Hesap Oluştur
         </button>
 
-        <div id="registerMessage" class="message"></div>
+
+        <div
+            id="registerMessage"
+            class="message"
+        ></div>
+
 
         <div class="auth-link">
+
             Zaten hesabın var mı?
-            <a onclick="showLogin()">Giriş Yap</a>
+
+            <a onclick="showLogin()">
+                Giriş Yap
+            </a>
+
         </div>
 
     </div>
@@ -582,11 +705,14 @@ body{
 </div>
 
 
-<!-- ========================= -->
+<!-- ================================================= -->
 <!-- APP -->
-<!-- ========================= -->
+<!-- ================================================= -->
 
 <div id="appScreen">
+
+
+    <!-- HEADER -->
 
     <div class="header">
 
@@ -596,6 +722,7 @@ body{
                 Para<span>Planım</span>
             </div>
 
+
             <div class="user-area">
 
                 <div
@@ -604,6 +731,7 @@ body{
                 >
                     Kullanıcı
                 </div>
+
 
                 <button
                     class="logout-btn"
@@ -619,68 +747,129 @@ body{
     </div>
 
 
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <div class="navigation-inner">
+
+            <button
+                id="navDashboard"
+                class="nav-btn active"
+                onclick="showPage('dashboard')"
+            >
+                🏠 Ana Sayfa
+            </button>
+
+
+            <button
+                id="navIncome"
+                class="nav-btn"
+                onclick="showPage('income')"
+            >
+                💰 Gelir
+            </button>
+
+
+            <button
+                id="navExpense"
+                class="nav-btn"
+                onclick="showPage('expense')"
+            >
+                💸 Gider
+            </button>
+
+        </div>
+
+    </div>
+
+
     <div class="container">
 
-        <div class="welcome">
 
-            <h1>
-                Hoş geldin, <span id="welcomeName"></span> 👋
+        <!-- ================================================= -->
+        <!-- DASHBOARD -->
+        <!-- ================================================= -->
+
+        <div
+            id="dashboardPage"
+            class="page active"
+        >
+
+            <h1 class="page-title">
+                Genel Bakış
             </h1>
 
-            <p>
+            <p class="page-subtitle">
                 Finansal durumunu buradan takip edebilirsin.
             </p>
 
-        </div>
+
+            <div class="summary">
 
 
-        <!-- SUMMARY -->
+                <div class="card">
 
-        <div class="summary">
+                    <div class="card-title">
+                        Toplam Gelir
+                    </div>
 
-            <div class="card">
+                    <div
+                        id="dashboardIncome"
+                        class="card-value income"
+                    >
+                        ₺0,00
+                    </div>
 
-                <div class="card-title">
-                    Toplam Gelir
                 </div>
 
-                <div
-                    id="totalIncome"
-                    class="card-value income"
-                >
-                    ₺0,00
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Toplam Gider
+                    </div>
+
+                    <div
+                        id="dashboardExpense"
+                        class="card-value expense"
+                    >
+                        ₺0,00
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Bakiye
+                    </div>
+
+                    <div
+                        id="dashboardBalance"
+                        class="card-value balance"
+                    >
+                        ₺0,00
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <div class="card">
+            <div class="chart-card">
 
-                <div class="card-title">
-                    Toplam Gider
+                <div class="section-title">
+                    Gider Dağılımı
                 </div>
 
-                <div
-                    id="totalExpense"
-                    class="card-value expense"
-                >
-                    ₺0,00
-                </div>
+                <div class="chart-wrapper">
 
-            </div>
+                    <canvas
+                        id="expenseChart"
+                    ></canvas>
 
-
-            <div class="card">
-
-                <div class="card-title">
-                    Bakiye
-                </div>
-
-                <div
-                    id="balance"
-                    class="card-value balance"
-                >
-                    ₺0,00
                 </div>
 
             </div>
@@ -688,120 +877,78 @@ body{
         </div>
 
 
-        <!-- FILTER -->
+        <!-- ================================================= -->
+        <!-- INCOME PAGE -->
+        <!-- ================================================= -->
 
-        <div class="filter-area">
+        <div
+            id="incomePage"
+            class="page"
+        >
 
-            <select
-                id="monthFilter"
-                onchange="loadTransactions()"
-            >
+            <h1 class="page-title">
+                💰 Gelir
+            </h1>
 
-                <option value="all">
-                    Tüm Aylar
-                </option>
-
-                <option value="1">Ocak</option>
-                <option value="2">Şubat</option>
-                <option value="3">Mart</option>
-                <option value="4">Nisan</option>
-                <option value="5">Mayıs</option>
-                <option value="6">Haziran</option>
-                <option value="7">Temmuz</option>
-                <option value="8">Ağustos</option>
-                <option value="9">Eylül</option>
-                <option value="10">Ekim</option>
-                <option value="11">Kasım</option>
-                <option value="12">Aralık</option>
-
-            </select>
-
-        </div>
+            <p class="page-subtitle">
+                Gelirlerini buradan ekleyebilir ve takip edebilirsin.
+            </p>
 
 
-        <div class="grid">
+            <div class="summary">
 
-            <!-- ADD TRANSACTION -->
+                <div class="card">
 
-            <div>
+                    <div class="card-title">
+                        Toplam Gelir
+                    </div>
 
-                <div class="transaction-form">
+                    <div
+                        id="incomePageTotal"
+                        class="card-value income"
+                    >
+                        ₺0,00
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="content-grid">
+
+
+                <!-- FORM -->
+
+                <div class="form-card">
 
                     <div class="section-title">
-                        Yeni İşlem Ekle
-                    </div>
-
-                    <div class="input-group">
-
-                        <label>
-                            İşlem Türü
-                        </label>
-
-                        <select id="transactionType">
-
-                            <option value="income">
-                                Gelir
-                            </option>
-
-                            <option value="expense">
-                                Gider
-                            </option>
-
-                        </select>
-
+                        Gelir Ekle
                     </div>
 
 
                     <div class="input-group">
 
                         <label>
-                            Kategori
+                            Gelir Kategorisi
                         </label>
 
-                        <select id="transactionCategory">
+                        <select id="incomeCategory">
 
-                            <option value="Maaş">
-                                Maaş
+                            <option value="MAAŞ">
+                                MAAŞ
                             </option>
 
-                            <option value="Ek Gelir">
-                                Ek Gelir
+                            <option value="KİRA">
+                                KİRA
                             </option>
 
-                            <option value="Yemek">
-                                Yemek
+                            <option value="YATIRIM">
+                                YATIRIM
                             </option>
 
-                            <option value="Market">
-                                Market
-                            </option>
-
-                            <option value="Fatura">
-                                Fatura
-                            </option>
-
-                            <option value="Kira">
-                                Kira
-                            </option>
-
-                            <option value="Ulaşım">
-                                Ulaşım
-                            </option>
-
-                            <option value="Alışveriş">
-                                Alışveriş
-                            </option>
-
-                            <option value="Eğlence">
-                                Eğlence
-                            </option>
-
-                            <option value="Sağlık">
-                                Sağlık
-                            </option>
-
-                            <option value="Diğer">
-                                Diğer
+                            <option value="DÖVİZ">
+                                DÖVİZ
                             </option>
 
                         </select>
@@ -817,8 +964,8 @@ body{
 
                         <input
                             type="text"
-                            id="transactionDescription"
-                            placeholder="Örn: Market alışverişi"
+                            id="incomeDescription"
+                            placeholder="Örn: Eylül maaşı"
                         >
 
                     </div>
@@ -832,7 +979,7 @@ body{
 
                         <input
                             type="number"
-                            id="transactionAmount"
+                            id="incomeAmount"
                             placeholder="0.00"
                             min="0"
                             step="0.01"
@@ -849,7 +996,7 @@ body{
 
                         <input
                             type="date"
-                            id="transactionDate"
+                            id="incomeDate"
                         >
 
                     </div>
@@ -857,57 +1004,340 @@ body{
 
                     <button
                         class="btn"
-                        onclick="addTransaction()"
+                        onclick="addIncome()"
                     >
-                        İşlemi Ekle
+                        Gelir Ekle
                     </button>
 
+
                     <div
-                        id="transactionMessage"
+                        id="incomeMessage"
                         class="message"
                     ></div>
 
                 </div>
 
 
-                <!-- CHART -->
+                <!-- LIST -->
 
-                <div class="chart-container">
-
-                    <div class="section-title">
-                        Gider Dağılımı
-                    </div>
-
-                    <canvas id="expenseChart"></canvas>
-
-                </div>
-
-            </div>
-
-
-            <!-- TRANSACTION LIST -->
-
-            <div>
-
-                <div class="transaction-list">
+                <div class="list-card">
 
                     <div class="section-title">
-                        İşlemler
+                        Gelirlerim
                     </div>
 
-                    <div id="transactionList">
 
-                        <div class="empty">
-                            Henüz işlem bulunmuyor.
-                        </div>
+                    <div class="filter-area">
+
+                        <select
+                            id="incomeMonthFilter"
+                            onchange="renderIncomePage()"
+                        >
+
+                            <option value="all">
+                                Tüm Aylar
+                            </option>
+
+                            <option value="1">
+                                Ocak
+                            </option>
+
+                            <option value="2">
+                                Şubat
+                            </option>
+
+                            <option value="3">
+                                Mart
+                            </option>
+
+                            <option value="4">
+                                Nisan
+                            </option>
+
+                            <option value="5">
+                                Mayıs
+                            </option>
+
+                            <option value="6">
+                                Haziran
+                            </option>
+
+                            <option value="7">
+                                Temmuz
+                            </option>
+
+                            <option value="8">
+                                Ağustos
+                            </option>
+
+                            <option value="9">
+                                Eylül
+                            </option>
+
+                            <option value="10">
+                                Ekim
+                            </option>
+
+                            <option value="11">
+                                Kasım
+                            </option>
+
+                            <option value="12">
+                                Aralık
+                            </option>
+
+                        </select>
 
                     </div>
+
+
+                    <div id="incomeList"></div>
 
                 </div>
 
             </div>
 
         </div>
+
+
+        <!-- ================================================= -->
+        <!-- EXPENSE PAGE -->
+        <!-- ================================================= -->
+
+        <div
+            id="expensePage"
+            class="page"
+        >
+
+            <h1 class="page-title">
+                💸 Gider
+            </h1>
+
+            <p class="page-subtitle">
+                Giderlerini buradan ekleyebilir ve takip edebilirsin.
+            </p>
+
+
+            <div class="summary">
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Toplam Gider
+                    </div>
+
+                    <div
+                        id="expensePageTotal"
+                        class="card-value expense"
+                    >
+                        ₺0,00
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="content-grid">
+
+
+                <!-- FORM -->
+
+                <div class="form-card">
+
+                    <div class="section-title">
+                        Gider Ekle
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Gider Kategorisi
+                        </label>
+
+                        <select id="expenseCategory">
+
+                            <option value="FATURA">
+                                FATURA
+                            </option>
+
+                            <option value="KİRA">
+                                KİRA
+                            </option>
+
+                            <option value="ABONELİK">
+                                ABONELİK
+                            </option>
+
+                            <option value="MARKET">
+                                MARKET
+                            </option>
+
+                            <option value="RESTORAN">
+                                RESTORAN
+                            </option>
+
+                            <option value="EĞLENCE">
+                                EĞLENCE
+                            </option>
+
+                            <option value="KREDİ">
+                                KREDİ
+                            </option>
+
+                            <option value="KREDİ KARTI">
+                                KREDİ KARTI
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Açıklama
+                        </label>
+
+                        <input
+                            type="text"
+                            id="expenseDescription"
+                            placeholder="Örn: Elektrik faturası"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Tutar
+                        </label>
+
+                        <input
+                            type="number"
+                            id="expenseAmount"
+                            placeholder="0.00"
+                            min="0"
+                            step="0.01"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Tarih
+                        </label>
+
+                        <input
+                            type="date"
+                            id="expenseDate"
+                        >
+
+                    </div>
+
+
+                    <button
+                        class="btn"
+                        onclick="addExpense()"
+                    >
+                        Gider Ekle
+                    </button>
+
+
+                    <div
+                        id="expenseMessage"
+                        class="message"
+                    ></div>
+
+                </div>
+
+
+                <!-- LIST -->
+
+                <div class="list-card">
+
+                    <div class="section-title">
+                        Giderlerim
+                    </div>
+
+
+                    <div class="filter-area">
+
+                        <select
+                            id="expenseMonthFilter"
+                            onchange="renderExpensePage()"
+                        >
+
+                            <option value="all">
+                                Tüm Aylar
+                            </option>
+
+                            <option value="1">
+                                Ocak
+                            </option>
+
+                            <option value="2">
+                                Şubat
+                            </option>
+
+                            <option value="3">
+                                Mart
+                            </option>
+
+                            <option value="4">
+                                Nisan
+                            </option>
+
+                            <option value="5">
+                                Mayıs
+                            </option>
+
+                            <option value="6">
+                                Haziran
+                            </option>
+
+                            <option value="7">
+                                Temmuz
+                            </option>
+
+                            <option value="8">
+                                Ağustos
+                            </option>
+
+                            <option value="9">
+                                Eylül
+                            </option>
+
+                            <option value="10">
+                                Ekim
+                            </option>
+
+                            <option value="11">
+                                Kasım
+                            </option>
+
+                            <option value="12">
+                                Aralık
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div id="expenseList"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
@@ -916,9 +1346,9 @@ body{
 
 <script>
 
-/* ========================================= */
+/* ================================================= */
 /* SUPABASE */
-/* ========================================= */
+/* ================================================= */
 
 const SUPABASE_URL =
 "https://dvyitgovuciergwlbigj.supabase.co";
@@ -933,18 +1363,20 @@ window.supabase.createClient(
 );
 
 
-/* ========================================= */
+/* ================================================= */
 /* GLOBAL */
-/* ========================================= */
+/* ================================================= */
 
 let currentUser = null;
+
 let transactions = [];
+
 let expenseChart = null;
 
 
-/* ========================================= */
+/* ================================================= */
 /* SCREEN */
-/* ========================================= */
+/* ================================================= */
 
 function showLogin(){
 
@@ -974,9 +1406,70 @@ function showRegister(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
+/* PAGE NAVIGATION */
+/* ================================================= */
+
+function showPage(page){
+
+    document.querySelectorAll(".page")
+        .forEach(element => {
+
+            element.classList.remove("active");
+
+        });
+
+
+    document.querySelectorAll(".nav-btn")
+        .forEach(element => {
+
+            element.classList.remove("active");
+
+        });
+
+
+    if(page === "dashboard"){
+
+        document.getElementById("dashboardPage")
+            .classList.add("active");
+
+        document.getElementById("navDashboard")
+            .classList.add("active");
+
+    }
+
+
+    if(page === "income"){
+
+        document.getElementById("incomePage")
+            .classList.add("active");
+
+        document.getElementById("navIncome")
+            .classList.add("active");
+
+        renderIncomePage();
+
+    }
+
+
+    if(page === "expense"){
+
+        document.getElementById("expensePage")
+            .classList.add("active");
+
+        document.getElementById("navExpense")
+            .classList.add("active");
+
+        renderExpensePage();
+
+    }
+
+}
+
+
+/* ================================================= */
 /* PHONE */
-/* ========================================= */
+/* ================================================= */
 
 function formatPhone(input){
 
@@ -988,28 +1481,34 @@ function formatPhone(input){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* PASSWORD */
-/* ========================================= */
+/* ================================================= */
 
 function passwordStrength(password){
 
     let score = 0;
 
+
     if(password.length >= 6)
         score++;
+
 
     if(password.length >= 8)
         score++;
 
+
     if(/[A-Z]/.test(password))
         score++;
+
 
     if(/[0-9]/.test(password))
         score++;
 
+
     if(/[^A-Za-z0-9]/.test(password))
         score++;
+
 
     return score;
 
@@ -1019,24 +1518,32 @@ function passwordStrength(password){
 function checkPassword(){
 
     const password =
-        document.getElementById("registerPassword").value;
+        document.getElementById("registerPassword")
+        .value;
+
 
     const bar =
         document.getElementById("passwordStrengthBar");
 
+
     const text =
         document.getElementById("passwordStrengthText");
+
 
     const score =
         passwordStrength(password);
 
+
     if(!password){
 
         bar.style.width = "0%";
+
         text.textContent = "";
 
         return;
+
     }
+
 
     bar.style.width =
         Math.min(score * 20,100) + "%";
@@ -1070,6 +1577,7 @@ function checkPassword(){
 
     }
 
+
     checkMatch();
 
 }
@@ -1078,13 +1586,18 @@ function checkPassword(){
 function checkMatch(){
 
     const password =
-        document.getElementById("registerPassword").value;
+        document.getElementById("registerPassword")
+        .value;
+
 
     const confirm =
-        document.getElementById("registerPasswordConfirm").value;
+        document.getElementById("registerPasswordConfirm")
+        .value;
+
 
     const text =
         document.getElementById("passwordMatchText");
+
 
     if(!confirm){
 
@@ -1093,6 +1606,7 @@ function checkMatch(){
         return;
 
     }
+
 
     if(password === confirm){
 
@@ -1116,9 +1630,9 @@ function checkMatch(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* REGISTER */
-/* ========================================= */
+/* ================================================= */
 
 async function register(){
 
@@ -1127,10 +1641,12 @@ async function register(){
         .value
         .trim();
 
+
     const lastName =
         document.getElementById("lastName")
         .value
         .trim();
+
 
     const email =
         document.getElementById("registerEmail")
@@ -1138,31 +1654,36 @@ async function register(){
         .trim()
         .toLowerCase();
 
+
     const phone =
         document.getElementById("registerPhone")
         .value
         .trim();
 
+
     const password =
         document.getElementById("registerPassword")
         .value;
+
 
     const confirmPassword =
         document.getElementById("registerPasswordConfirm")
         .value;
 
+
     const message =
         document.getElementById("registerMessage");
+
 
     const button =
         document.getElementById("registerButton");
 
 
     message.textContent = "";
-    message.style.color = "#dc2626";
 
+    message.style.color =
+        "#dc2626";
 
-    /* ZORUNLU ALAN */
 
     if(
         !firstName ||
@@ -1181,10 +1702,9 @@ async function register(){
     }
 
 
-    /* EMAIL */
-
     const emailRegex =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
     if(!emailRegex.test(email)){
 
@@ -1196,10 +1716,9 @@ async function register(){
     }
 
 
-    /* PHONE */
-
     const phoneRegex =
         /^05\d{9}$/;
+
 
     if(!phoneRegex.test(phone)){
 
@@ -1210,8 +1729,6 @@ async function register(){
 
     }
 
-
-    /* PASSWORD */
 
     if(password.length < 6){
 
@@ -1246,21 +1763,19 @@ async function register(){
     button.disabled = true;
 
     button.textContent =
-        "Kontrol ediliyor...";
+        "Telefon kontrol ediliyor...";
 
 
-    /* ========================================= */
     /* TELEFON KONTROLÜ */
-    /* ========================================= */
 
     const {
-        data: phoneExists,
-        error: phoneError
+        data:phoneExists,
+        error:phoneError
     } =
         await supabaseClient.rpc(
             "check_phone_exists",
             {
-                phone_number: phone
+                phone_number:phone
             }
         );
 
@@ -1297,13 +1812,11 @@ async function register(){
     }
 
 
-    /* ========================================= */
-    /* SUPABASE AUTH REGISTER */
-    /* ========================================= */
-
     button.textContent =
         "Hesap oluşturuluyor...";
 
+
+    /* AUTH */
 
     const {
         data,
@@ -1311,9 +1824,9 @@ async function register(){
     } =
         await supabaseClient.auth.signUp({
 
-            email: email,
+            email:email,
 
-            password: password,
+            password:password,
 
             options:{
 
@@ -1336,22 +1849,8 @@ async function register(){
 
         console.error(error);
 
-        if(
-            error.message
-            .toLowerCase()
-            .includes("already")
-        ){
-
-            message.textContent =
-                "Bu e-posta adresi zaten kayıtlı.";
-
-        }
-        else{
-
-            message.textContent =
-                error.message;
-
-        }
+        message.textContent =
+            "Bu e-posta adresi zaten kayıtlı veya kayıt sırasında hata oluştu.";
 
         button.disabled = false;
 
@@ -1378,14 +1877,10 @@ async function register(){
     }
 
 
-    /* ========================================= */
-    /* SESSION KONTROLÜ */
-    /* ========================================= */
-
     if(!data.session){
 
         message.textContent =
-            "Hesap oluşturuldu fakat oturum açılamadı. Supabase'de e-posta doğrulamasının kapalı olduğundan emin olun.";
+            "Hesap oluşturuldu ancak oturum açılamadı. Supabase'de e-posta doğrulamasının kapalı olduğundan emin olun.";
 
         button.disabled = false;
 
@@ -1397,9 +1892,7 @@ async function register(){
     }
 
 
-    /* ========================================= */
-    /* PROFILE EKLE */
-    /* ========================================= */
+    /* PROFILE */
 
     const {
         error:profileError
@@ -1423,10 +1916,8 @@ async function register(){
 
         console.error(profileError);
 
-        /* AUTH HESABI OLUŞMUŞ OLABİLİR */
-
         message.textContent =
-            "Hesap oluşturuldu ancak profil bilgileri kaydedilemedi.";
+            "Profil bilgileri kaydedilemedi.";
 
         button.disabled = false;
 
@@ -1438,15 +1929,16 @@ async function register(){
     }
 
 
+    currentUser =
+        data.user;
+
+
     message.style.color =
         "#16a34a";
 
+
     message.textContent =
-        "Hesabınız başarıyla oluşturuldu. Giriş yapılıyor...";
-
-
-    currentUser =
-        data.user;
+        "Hesabınız oluşturuldu. Giriş yapılıyor...";
 
 
     setTimeout(() => {
@@ -1458,9 +1950,9 @@ async function register(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* LOGIN */
-/* ========================================= */
+/* ================================================= */
 
 async function login(){
 
@@ -1470,12 +1962,15 @@ async function login(){
         .trim()
         .toLowerCase();
 
+
     const password =
         document.getElementById("loginPassword")
         .value;
 
+
     const message =
         document.getElementById("loginMessage");
+
 
     const button =
         document.getElementById("loginButton");
@@ -1507,7 +2002,8 @@ async function login(){
         data,
         error
     } =
-        await supabaseClient.auth.signInWithPassword({
+        await supabaseClient.auth
+        .signInWithPassword({
 
             email:email,
 
@@ -1551,9 +2047,9 @@ async function login(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* SHOW APP */
-/* ========================================= */
+/* ================================================= */
 
 async function showApp(){
 
@@ -1584,8 +2080,6 @@ async function showApp(){
         return;
 
 
-    /* PROFILE */
-
     const {
         data:profile
     } =
@@ -1597,6 +2091,7 @@ async function showApp(){
 
 
     let firstName = "";
+
     let lastName = "";
 
 
@@ -1629,41 +2124,55 @@ async function showApp(){
         fullName || "Kullanıcı";
 
 
-    document.getElementById("welcomeName")
-        .textContent =
-        firstName || "Kullanıcı";
+    setDefaultDates();
 
 
-    /* TARİH */
+    await loadTransactions();
+
+}
+
+
+/* ================================================= */
+/* DEFAULT DATES */
+/* ================================================= */
+
+function setDefaultDates(){
 
     const today =
         new Date();
 
+
     const year =
         today.getFullYear();
+
 
     const month =
         String(today.getMonth()+1)
         .padStart(2,"0");
+
 
     const day =
         String(today.getDate())
         .padStart(2,"0");
 
 
-    document.getElementById("transactionDate")
-        .value =
+    const date =
         `${year}-${month}-${day}`;
 
 
-    loadTransactions();
+    document.getElementById("incomeDate")
+        .value = date;
+
+
+    document.getElementById("expenseDate")
+        .value = date;
 
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* SESSION */
-/* ========================================= */
+/* ================================================= */
 
 async function checkSession(){
 
@@ -1690,9 +2199,9 @@ async function checkSession(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* LOGOUT */
-/* ========================================= */
+/* ================================================= */
 
 async function logout(){
 
@@ -1702,6 +2211,7 @@ async function logout(){
 
     transactions = [];
 
+
     if(expenseChart){
 
         expenseChart.destroy();
@@ -1710,54 +2220,47 @@ async function logout(){
 
     }
 
+
     showLogin();
 
 }
 
 
-/* ========================================= */
-/* ADD TRANSACTION */
-/* ========================================= */
+/* ================================================= */
+/* ADD INCOME */
+/* ================================================= */
 
-async function addTransaction(){
+async function addIncome(){
 
-    if(!currentUser){
-
-        alert("Oturum bulunamadı.");
-
+    if(!currentUser)
         return;
 
-    }
-
-
-    const type =
-        document.getElementById("transactionType")
-        .value;
 
     const category =
-        document.getElementById("transactionCategory")
+        document.getElementById("incomeCategory")
         .value;
 
+
     const description =
-        document.getElementById("transactionDescription")
+        document.getElementById("incomeDescription")
         .value
         .trim();
 
+
     const amount =
         parseFloat(
-            document.getElementById("transactionAmount")
+            document.getElementById("incomeAmount")
             .value
         );
 
-    const transactionDate =
-        document.getElementById("transactionDate")
+
+    const date =
+        document.getElementById("incomeDate")
         .value;
 
+
     const message =
-        document.getElementById("transactionMessage");
-
-
-    message.textContent = "";
+        document.getElementById("incomeMessage");
 
 
     if(!amount || amount <= 0){
@@ -1773,7 +2276,7 @@ async function addTransaction(){
     }
 
 
-    if(!transactionDate){
+    if(!date){
 
         message.style.color =
             "#dc2626";
@@ -1795,7 +2298,7 @@ async function addTransaction(){
 
             user_id:currentUser.id,
 
-            type:type,
+            type:"income",
 
             category:category,
 
@@ -1803,7 +2306,7 @@ async function addTransaction(){
 
             amount:amount,
 
-            transaction_date:transactionDate
+            transaction_date:date
 
         });
 
@@ -1816,7 +2319,7 @@ async function addTransaction(){
             "#dc2626";
 
         message.textContent =
-            "İşlem eklenirken hata oluştu.";
+            "Gelir eklenirken hata oluştu.";
 
         return;
 
@@ -1827,13 +2330,14 @@ async function addTransaction(){
         "#16a34a";
 
     message.textContent =
-        "İşlem başarıyla eklendi.";
+        "Gelir başarıyla eklendi.";
 
 
-    document.getElementById("transactionDescription")
+    document.getElementById("incomeDescription")
         .value = "";
 
-    document.getElementById("transactionAmount")
+
+    document.getElementById("incomeAmount")
         .value = "";
 
 
@@ -1842,9 +2346,129 @@ async function addTransaction(){
 }
 
 
-/* ========================================= */
+/* ================================================= */
+/* ADD EXPENSE */
+/* ================================================= */
+
+async function addExpense(){
+
+    if(!currentUser)
+        return;
+
+
+    const category =
+        document.getElementById("expenseCategory")
+        .value;
+
+
+    const description =
+        document.getElementById("expenseDescription")
+        .value
+        .trim();
+
+
+    const amount =
+        parseFloat(
+            document.getElementById("expenseAmount")
+            .value
+        );
+
+
+    const date =
+        document.getElementById("expenseDate")
+        .value;
+
+
+    const message =
+        document.getElementById("expenseMessage");
+
+
+    if(!amount || amount <= 0){
+
+        message.style.color =
+            "#dc2626";
+
+        message.textContent =
+            "Geçerli bir tutar girin.";
+
+        return;
+
+    }
+
+
+    if(!date){
+
+        message.style.color =
+            "#dc2626";
+
+        message.textContent =
+            "Tarih seçin.";
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+        .from("transactions")
+        .insert({
+
+            user_id:currentUser.id,
+
+            type:"expense",
+
+            category:category,
+
+            description:description,
+
+            amount:amount,
+
+            transaction_date:date
+
+        });
+
+
+    if(error){
+
+        console.error(error);
+
+        message.style.color =
+            "#dc2626";
+
+        message.textContent =
+            "Gider eklenirken hata oluştu.";
+
+        return;
+
+    }
+
+
+    message.style.color =
+        "#16a34a";
+
+    message.textContent =
+        "Gider başarıyla eklendi.";
+
+
+    document.getElementById("expenseDescription")
+        .value = "";
+
+
+    document.getElementById("expenseAmount")
+        .value = "";
+
+
+    await loadTransactions();
+
+}
+
+
+/* ================================================= */
 /* LOAD TRANSACTIONS */
-/* ========================================= */
+/* ================================================= */
 
 async function loadTransactions(){
 
@@ -1852,67 +2476,15 @@ async function loadTransactions(){
         return;
 
 
-    const month =
-        document.getElementById("monthFilter")
-        .value;
-
-
-    let query =
-        supabaseClient
-        .from("transactions")
-        .select("*")
-        .eq("user_id",currentUser.id)
-        .order("transaction_date",{ascending:false});
-
-
-    if(month !== "all"){
-
-        const year =
-            new Date().getFullYear();
-
-        const monthNumber =
-            String(month)
-            .padStart(2,"0");
-
-
-        const startDate =
-            `${year}-${monthNumber}-01`;
-
-
-        const nextMonth =
-            parseInt(month) + 1;
-
-
-        let endDate;
-
-
-        if(nextMonth === 13){
-
-            endDate =
-                `${year+1}-01-01`;
-
-        }
-        else{
-
-            endDate =
-                `${year}-${String(nextMonth).padStart(2,"0")}-01`;
-
-        }
-
-
-        query =
-            query
-            .gte("transaction_date",startDate)
-            .lt("transaction_date",endDate);
-
-    }
-
-
     const {
         data,
         error
     } =
-        await query;
+        await supabaseClient
+        .from("transactions")
+        .select("*")
+        .eq("user_id",currentUser.id)
+        .order("transaction_date",{ascending:false});
 
 
     if(error){
@@ -1928,18 +2500,25 @@ async function loadTransactions(){
         data || [];
 
 
-    updateScreen();
+    updateDashboard();
+
+    renderIncomePage();
+
+    renderExpensePage();
+
+    updateChart();
 
 }
 
 
-/* ========================================= */
-/* UPDATE SCREEN */
-/* ========================================= */
+/* ================================================= */
+/* DASHBOARD */
+/* ================================================= */
 
-function updateScreen(){
+function updateDashboard(){
 
     let totalIncome = 0;
+
     let totalExpense = 0;
 
 
@@ -1967,108 +2546,275 @@ function updateScreen(){
         totalIncome - totalExpense;
 
 
-    document.getElementById("totalIncome")
+    document.getElementById("dashboardIncome")
         .textContent =
         money(totalIncome);
 
 
-    document.getElementById("totalExpense")
+    document.getElementById("dashboardExpense")
         .textContent =
         money(totalExpense);
 
 
-    document.getElementById("balance")
+    document.getElementById("dashboardBalance")
         .textContent =
         money(balance);
-
-
-    /* TRANSACTIONS */
-
-    const list =
-        document.getElementById("transactionList");
-
-
-    if(transactions.length === 0){
-
-        list.innerHTML =
-            `<div class="empty">
-                Henüz işlem bulunmuyor.
-            </div>`;
-
-    }
-    else{
-
-        list.innerHTML =
-            transactions.map(transaction => {
-
-                const isIncome =
-                    transaction.type === "income";
-
-
-                const sign =
-                    isIncome ? "+" : "-";
-
-
-                const amountClass =
-                    isIncome ? "income" : "expense";
-
-
-                return `
-
-                <div class="transaction">
-
-                    <div class="transaction-left">
-
-                        <div class="transaction-category">
-                            ${escapeHtml(transaction.category)}
-                        </div>
-
-                        <div class="transaction-description">
-                            ${escapeHtml(
-                                transaction.description || "Açıklama yok"
-                            )}
-                        </div>
-
-                        <div class="transaction-date">
-                            ${formatDate(
-                                transaction.transaction_date
-                            )}
-                        </div>
-
-                    </div>
-
-                    <div class="transaction-right">
-
-                        <div class="transaction-amount ${amountClass}">
-                            ${sign}${money(transaction.amount)}
-                        </div>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteTransaction('${transaction.id}')"
-                        >
-                            ×
-                        </button>
-
-                    </div>
-
-                </div>
-
-                `;
-
-            }).join("");
-
-    }
-
-
-    updateChart();
 
 }
 
 
-/* ========================================= */
-/* DELETE */
-/* ========================================= */
+/* ================================================= */
+/* FILTER BY MONTH */
+/* ================================================= */
+
+function filterByMonth(data,month){
+
+    if(month === "all")
+        return data;
+
+
+    return data.filter(transaction => {
+
+        const transactionMonth =
+            Number(
+                transaction.transaction_date
+                .split("-")[1]
+            );
+
+
+        return transactionMonth ===
+            Number(month);
+
+    });
+
+}
+
+
+/* ================================================= */
+/* RENDER INCOME */
+/* ================================================= */
+
+function renderIncomePage(){
+
+    const incomeTransactions =
+        transactions.filter(
+            transaction =>
+                transaction.type === "income"
+        );
+
+
+    const month =
+        document.getElementById("incomeMonthFilter")
+        ?.value || "all";
+
+
+    const filtered =
+        filterByMonth(
+            incomeTransactions,
+            month
+        );
+
+
+    const total =
+        filtered.reduce(
+            (sum,t) =>
+                sum + Number(t.amount),
+            0
+        );
+
+
+    document.getElementById("incomePageTotal")
+        .textContent =
+        money(total);
+
+
+    const list =
+        document.getElementById("incomeList");
+
+
+    if(!list)
+        return;
+
+
+    if(filtered.length === 0){
+
+        list.innerHTML =
+            `<div class="empty">
+                Henüz gelir bulunmuyor.
+            </div>`;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        filtered.map(transaction => {
+
+            return `
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-category">
+                        ${escapeHtml(transaction.category)}
+                    </div>
+
+                    <div class="transaction-description">
+                        ${escapeHtml(
+                            transaction.description ||
+                            "Açıklama yok"
+                        )}
+                    </div>
+
+                    <div class="transaction-date">
+                        ${formatDate(
+                            transaction.transaction_date
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="transaction-right">
+
+                    <div class="transaction-amount income">
+                        +${money(transaction.amount)}
+                    </div>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteTransaction('${transaction.id}')"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ================================================= */
+/* RENDER EXPENSE */
+/* ================================================= */
+
+function renderExpensePage(){
+
+    const expenseTransactions =
+        transactions.filter(
+            transaction =>
+                transaction.type === "expense"
+        );
+
+
+    const month =
+        document.getElementById("expenseMonthFilter")
+        ?.value || "all";
+
+
+    const filtered =
+        filterByMonth(
+            expenseTransactions,
+            month
+        );
+
+
+    const total =
+        filtered.reduce(
+            (sum,t) =>
+                sum + Number(t.amount),
+            0
+        );
+
+
+    document.getElementById("expensePageTotal")
+        .textContent =
+        money(total);
+
+
+    const list =
+        document.getElementById("expenseList");
+
+
+    if(!list)
+        return;
+
+
+    if(filtered.length === 0){
+
+        list.innerHTML =
+            `<div class="empty">
+                Henüz gider bulunmuyor.
+            </div>`;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        filtered.map(transaction => {
+
+            return `
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-category">
+                        ${escapeHtml(transaction.category)}
+                    </div>
+
+                    <div class="transaction-description">
+                        ${escapeHtml(
+                            transaction.description ||
+                            "Açıklama yok"
+                        )}
+                    </div>
+
+                    <div class="transaction-date">
+                        ${formatDate(
+                            transaction.transaction_date
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="transaction-right">
+
+                    <div class="transaction-amount expense">
+                        -${money(transaction.amount)}
+                    </div>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteTransaction('${transaction.id}')"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ================================================= */
+/* DELETE TRANSACTION */
+/* ================================================= */
 
 async function deleteTransaction(id){
 
@@ -2105,14 +2851,14 @@ async function deleteTransaction(id){
     }
 
 
-    loadTransactions();
+    await loadTransactions();
 
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* CHART */
-/* ========================================= */
+/* ================================================= */
 
 function updateChart(){
 
@@ -2133,11 +2879,14 @@ function updateChart(){
 
 
     transactions
-    .filter(t => t.type === "expense")
-    .forEach(t => {
+    .filter(
+        transaction =>
+            transaction.type === "expense"
+    )
+    .forEach(transaction => {
 
         const category =
-            t.category || "Diğer";
+            transaction.category || "Diğer";
 
 
         if(!categories[category])
@@ -2145,7 +2894,7 @@ function updateChart(){
 
 
         categories[category] +=
-            Number(t.amount) || 0;
+            Number(transaction.amount) || 0;
 
     });
 
@@ -2158,39 +2907,42 @@ function updateChart(){
         Object.values(categories);
 
 
-    if(labels.length === 0){
-
+    if(labels.length === 0)
         return;
-
-    }
 
 
     expenseChart =
-        new Chart(canvas,{
+        new Chart(
 
-            type:"doughnut",
+            canvas,
 
-            data:{
+            {
 
-                labels:labels,
+                type:"doughnut",
 
-                datasets:[{
+                data:{
 
-                    data:values
+                    labels:labels,
 
-                }]
+                    datasets:[{
 
-            },
+                        data:values
 
-            options:{
+                    }]
 
-                responsive:true,
+                },
 
-                plugins:{
+                options:{
 
-                    legend:{
+                    responsive:true,
 
-                        position:"bottom"
+                    plugins:{
+
+                        legend:{
+
+                            position:"bottom"
+
+                        }
 
                     }
 
@@ -2198,23 +2950,29 @@ function updateChart(){
 
             }
 
-        });
+        );
 
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* MONEY */
-/* ========================================= */
+/* ================================================= */
 
 function money(value){
 
     return new Intl.NumberFormat(
+
         "tr-TR",
+
         {
+
             style:"currency",
+
             currency:"TRY"
+
         }
+
     ).format(
         Number(value) || 0
     );
@@ -2222,9 +2980,9 @@ function money(value){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* DATE */
-/* ========================================= */
+/* ================================================= */
 
 function formatDate(date){
 
@@ -2240,14 +2998,16 @@ function formatDate(date){
         return date;
 
 
-    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    return `
+        ${parts[2]}.${parts[1]}.${parts[0]}
+    `;
 
 }
 
 
-/* ========================================= */
-/* HTML SECURITY */
-/* ========================================= */
+/* ================================================= */
+/* SECURITY */
+/* ================================================= */
 
 function escapeHtml(value){
 
@@ -2261,9 +3021,9 @@ function escapeHtml(value){
 }
 
 
-/* ========================================= */
+/* ================================================= */
 /* START */
-/* ========================================= */
+/* ================================================= */
 
 checkSession();
 
