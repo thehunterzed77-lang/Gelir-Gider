@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -154,13 +153,6 @@ button:hover{
     margin-bottom:15px;
 }
 
-.code-input{
-    text-align:center;
-    font-size:26px;
-    letter-spacing:8px;
-    font-weight:bold;
-}
-
 @media(max-width:700px){
 
     .summary{
@@ -184,9 +176,8 @@ button:hover{
 
 <body>
 
-
 <!-- ========================= -->
-<!-- GİRİŞ / KAYIT EKRANI -->
+<!-- GİRİŞ / KAYIT -->
 <!-- ========================= -->
 
 <div id="authScreen">
@@ -199,17 +190,11 @@ button:hover{
             Hesabına giriş yap
         </p>
 
-
-        <!-- E-POSTA -->
-
         <input
             type="email"
             id="email"
             placeholder="E-posta"
         >
-
-
-        <!-- ŞİFRE -->
 
         <input
             type="password"
@@ -217,11 +202,9 @@ button:hover{
             placeholder="Şifre"
         >
 
-
         <button onclick="login()">
             Giriş Yap
         </button>
-
 
         <button
             class="secondary"
@@ -230,67 +213,8 @@ button:hover{
             Yeni Hesap Oluştur
         </button>
 
-
         <div
             id="authMessage"
-            class="message"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<!-- ========================= -->
-<!-- KOD DOĞRULAMA EKRANI -->
-<!-- ========================= -->
-
-<div id="verifyScreen" class="hidden">
-
-    <div class="card auth">
-
-        <h1>📧 E-posta Doğrulama</h1>
-
-        <p>
-            E-posta adresine gönderilen
-            <strong>6 haneli kodu</strong>
-            aşağıya gir.
-        </p>
-
-
-        <input
-            type="text"
-            id="verificationCode"
-            class="code-input"
-            maxlength="6"
-            inputmode="numeric"
-            placeholder="000000"
-        >
-
-
-        <button onclick="verifyCode()">
-            Kodu Doğrula
-        </button>
-
-
-        <button
-            class="secondary"
-            onclick="resendCode()"
-        >
-            Kodu Tekrar Gönder
-        </button>
-
-
-        <button
-            class="secondary"
-            onclick="backToLogin()"
-        >
-            Geri Dön
-        </button>
-
-
-        <div
-            id="verifyMessage"
             class="message"
         ></div>
 
@@ -315,9 +239,7 @@ button:hover{
 
     </div>
 
-
     <div class="container">
-
 
         <!-- KULLANICI -->
 
@@ -353,7 +275,6 @@ button:hover{
 
             </div>
 
-
             <div class="box">
 
                 <h3>Toplam Gider</h3>
@@ -366,7 +287,6 @@ button:hover{
                 </h2>
 
             </div>
-
 
             <div class="box">
 
@@ -390,9 +310,7 @@ button:hover{
 
             <h2>➕ Yeni İşlem</h2>
 
-
             <div class="form-grid">
-
 
                 <select id="type">
 
@@ -405,7 +323,6 @@ button:hover{
                     </option>
 
                 </select>
-
 
                 <select id="category">
 
@@ -423,13 +340,11 @@ button:hover{
 
                 </select>
 
-
                 <input
                     type="text"
                     id="description"
                     placeholder="Açıklama"
                 >
-
 
                 <input
                     type="number"
@@ -438,14 +353,12 @@ button:hover{
                     step="0.01"
                 >
 
-
                 <input
                     type="date"
                     id="date"
                 >
 
             </div>
-
 
             <button onclick="addTransaction()">
                 İşlemi Ekle
@@ -460,13 +373,11 @@ button:hover{
 
             <h2>📅 Ay Filtrele</h2>
 
-
             <input
                 type="month"
                 id="monthFilter"
                 onchange="loadTransactions()"
             >
-
 
             <button
                 class="secondary"
@@ -484,12 +395,9 @@ button:hover{
 
             <h2>📊 Gelir - Gider</h2>
 
-
             <div class="chart-container">
 
-                <canvas
-                    id="financeChart"
-                ></canvas>
+                <canvas id="financeChart"></canvas>
 
             </div>
 
@@ -506,7 +414,6 @@ button:hover{
 
         </div>
 
-
     </div>
 
 </div>
@@ -521,10 +428,8 @@ button:hover{
 const SUPABASE_URL =
     "https://dvyitgovuciergwlbigj.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_H_7LfiyftQEa_TIBMNItVg_cfWHV6Te";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -537,7 +442,7 @@ let financeChart = null;
 
 
 /* =====================================
-   TARİH
+   TARİHİ BUGÜN YAP
 ===================================== */
 
 document.getElementById("date").value =
@@ -558,12 +463,10 @@ async function register(){
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("password")
             .value;
-
 
     if(!email || !password){
 
@@ -574,7 +477,6 @@ async function register(){
         return;
     }
 
-
     if(password.length < 6){
 
         showAuthMessage(
@@ -584,16 +486,13 @@ async function register(){
         return;
     }
 
-
     const {data,error} =
         await supabaseClient.auth.signUp({
 
             email:email,
-
             password:password
 
         });
-
 
     if(error){
 
@@ -604,154 +503,20 @@ async function register(){
         return;
     }
 
-
-    /*
-       Kayıt başarılı.
-       Şimdi OTP ekranını açıyoruz.
-    */
-
-    document
-        .getElementById("authScreen")
-        .classList.add("hidden");
-
-
-    document
-        .getElementById("verifyScreen")
-        .classList.remove("hidden");
-
-
-    document
-        .getElementById("verifyMessage")
-        .textContent =
-        email +
-        " adresine doğrulama kodu gönderildi.";
-
-}
-
-
-/* =====================================
-   KOD DOĞRULA
-===================================== */
-
-async function verifyCode(){
-
-    const email =
-        document
-            .getElementById("email")
-            .value
-            .trim();
-
-
-    const token =
-        document
-            .getElementById(
-                "verificationCode"
-            )
-            .value
-            .trim();
-
-
-    if(!email || !token){
-
-        showVerifyMessage(
-            "E-posta ve 6 haneli kod gerekli."
-        );
-
-        return;
-    }
-
-
-    if(token.length !== 6){
-
-        showVerifyMessage(
-            "Kod 6 haneli olmalı."
-        );
-
-        return;
-    }
-
-
-    const {data,error} =
-        await supabaseClient.auth.verifyOtp({
-
-            email:email,
-
-            token:token,
-
-            type:"signup"
-
-        });
-
-
-    if(error){
-
-        showVerifyMessage(
-            "Kod doğrulanamadı: " +
-            error.message
-        );
-
-        return;
-    }
-
-
     if(data.user){
 
-        showApp(
-            data.user
+        showAuthMessage(
+            "Hesabın başarıyla oluşturuldu. Giriş yapılıyor...",
+            true
         );
 
+        setTimeout(() => {
+
+            showApp(data.user);
+
+        }, 500);
+
     }
-
-}
-
-
-/* =====================================
-   KODU TEKRAR GÖNDER
-===================================== */
-
-async function resendCode(){
-
-    const email =
-        document
-            .getElementById("email")
-            .value
-            .trim();
-
-
-    if(!email){
-
-        showVerifyMessage(
-            "E-posta adresi bulunamadı."
-        );
-
-        return;
-    }
-
-
-    const {error} =
-        await supabaseClient.auth.resend({
-
-            type:"signup",
-
-            email:email
-
-        });
-
-
-    if(error){
-
-        showVerifyMessage(
-            error.message
-        );
-
-        return;
-    }
-
-
-    showVerifyMessage(
-        "Yeni doğrulama kodu gönderildi.",
-        true
-    );
 
 }
 
@@ -768,12 +533,10 @@ async function login(){
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("password")
             .value;
-
 
     if(!email || !password){
 
@@ -784,55 +547,22 @@ async function login(){
         return;
     }
 
-
     const {data,error} =
         await supabaseClient.auth.signInWithPassword({
 
             email:email,
-
             password:password
 
         });
 
-
     if(error){
 
-        /*
-           Kullanıcı doğrulanmamışsa
-           tekrar kod ekranına gönder.
-        */
-
-        if(
+        showAuthMessage(
             error.message
-                .toLowerCase()
-                .includes("email not confirmed")
-        ){
-
-            document
-                .getElementById("authScreen")
-                .classList.add("hidden");
-
-
-            document
-                .getElementById("verifyScreen")
-                .classList.remove("hidden");
-
-
-            showVerifyMessage(
-                "E-postan henüz doğrulanmamış. Kodunu gir."
-            );
-
-        }else{
-
-            showAuthMessage(
-                error.message
-            );
-
-        }
+        );
 
         return;
     }
-
 
     showApp(
         data.user
@@ -849,7 +579,6 @@ async function checkSession(){
 
     const {data} =
         await supabaseClient.auth.getSession();
-
 
     if(data.session){
 
@@ -872,42 +601,16 @@ function showApp(user){
         .getElementById("authScreen")
         .classList.add("hidden");
 
-
-    document
-        .getElementById("verifyScreen")
-        .classList.add("hidden");
-
-
     document
         .getElementById("appScreen")
         .classList.remove("hidden");
-
 
     document
         .getElementById("userEmail")
         .textContent =
         user.email;
 
-
     loadTransactions();
-
-}
-
-
-/* =====================================
-   GERİ DÖN
-===================================== */
-
-function backToLogin(){
-
-    document
-        .getElementById("verifyScreen")
-        .classList.add("hidden");
-
-
-    document
-        .getElementById("authScreen")
-        .classList.remove("hidden");
 
 }
 
@@ -920,21 +623,27 @@ async function logout(){
 
     await supabaseClient.auth.signOut();
 
-
     document
         .getElementById("appScreen")
         .classList.add("hidden");
-
 
     document
         .getElementById("authScreen")
         .classList.remove("hidden");
 
+    document
+        .getElementById("email")
+        .value = "";
+
+    document
+        .getElementById("password")
+        .value = "";
+
 }
 
 
 /* =====================================
-   MESAJLAR
+   MESAJ
 ===================================== */
 
 function showAuthMessage(
@@ -947,33 +656,8 @@ function showAuthMessage(
             "authMessage"
         );
 
-
     element.textContent =
         text;
-
-
-    element.style.color =
-        success
-        ? "#159447"
-        : "#d93636";
-
-}
-
-
-function showVerifyMessage(
-    text,
-    success=false
-){
-
-    const element =
-        document.getElementById(
-            "verifyMessage"
-        );
-
-
-    element.textContent =
-        text;
-
 
     element.style.color =
         success
@@ -992,10 +676,8 @@ async function addTransaction(){
     const {data} =
         await supabaseClient.auth.getUser();
 
-
     const user =
         data.user;
-
 
     if(!user){
 
@@ -1006,24 +688,20 @@ async function addTransaction(){
         return;
     }
 
-
     const type =
         document.getElementById(
             "type"
         ).value;
-
 
     const category =
         document.getElementById(
             "category"
         ).value;
 
-
     const description =
         document.getElementById(
             "description"
         ).value.trim();
-
 
     const amount =
         parseFloat(
@@ -1032,12 +710,10 @@ async function addTransaction(){
             ).value
         );
 
-
     const date =
         document.getElementById(
             "date"
         ).value;
-
 
     if(
         !description ||
@@ -1053,26 +729,19 @@ async function addTransaction(){
         return;
     }
 
-
     const {error} =
         await supabaseClient
             .from("transactions")
             .insert({
 
                 user_id:user.id,
-
                 type:type,
-
                 category:category,
-
                 description:description,
-
                 amount:amount,
-
                 transaction_date:date
 
             });
-
 
     if(error){
 
@@ -1084,16 +753,13 @@ async function addTransaction(){
         return;
     }
 
-
     document.getElementById(
         "description"
     ).value = "";
 
-
     document.getElementById(
         "amount"
     ).value = "";
-
 
     loadTransactions();
 
@@ -1109,19 +775,15 @@ async function loadTransactions(){
     const {data:userData} =
         await supabaseClient.auth.getUser();
 
-
     const user =
         userData.user;
 
-
     if(!user) return;
-
 
     const selectedMonth =
         document.getElementById(
             "monthFilter"
         ).value;
-
 
     let query =
         supabaseClient
@@ -1138,40 +800,32 @@ async function loadTransactions(){
                 }
             );
 
-
     if(selectedMonth){
 
         const parts =
             selectedMonth.split("-");
 
-
         const year =
             Number(parts[0]);
-
 
         const month =
             Number(parts[1]);
 
-
         const startDate =
             `${year}-${String(month).padStart(2,"0")}-01`;
-
 
         const nextYear =
             month === 12
             ? year + 1
             : year;
 
-
         const nextMonth =
             month === 12
             ? 1
             : month + 1;
 
-
         const endDate =
             `${nextYear}-${String(nextMonth).padStart(2,"0")}-01`;
-
 
         query =
             query
@@ -1186,10 +840,8 @@ async function loadTransactions(){
 
     }
 
-
     const {data,error} =
         await query;
-
 
     if(error){
 
@@ -1200,7 +852,6 @@ async function loadTransactions(){
 
         return;
     }
-
 
     updateScreen(
         data || []
@@ -1221,15 +872,12 @@ function updateScreen(
 
     let totalExpense = 0;
 
-
     const list =
         document.getElementById(
             "transactionList"
         );
 
-
     list.innerHTML = "";
-
 
     transactions.forEach(
         transaction => {
@@ -1238,7 +886,6 @@ function updateScreen(
                 Number(
                     transaction.amount
                 );
-
 
             if(
                 transaction.type ===
@@ -1253,16 +900,13 @@ function updateScreen(
 
             }
 
-
             const div =
                 document.createElement(
                     "div"
                 );
 
-
             div.className =
                 "transaction";
-
 
             div.innerHTML = `
 
@@ -1284,7 +928,6 @@ function updateScreen(
 
                 </div>
 
-
                 <div>
 
                     ${formatDate(
@@ -1292,7 +935,6 @@ function updateScreen(
                     )}
 
                 </div>
-
 
                 <div class="${
                     transaction.type === "income"
@@ -1315,7 +957,6 @@ function updateScreen(
 
                 </div>
 
-
                 <button
                     class="delete"
                     onclick="deleteTransaction(
@@ -1327,12 +968,10 @@ function updateScreen(
 
             `;
 
-
             list.appendChild(div);
 
         }
     );
-
 
     if(
         transactions.length === 0
@@ -1342,7 +981,6 @@ function updateScreen(
             "<p>Bu dönemde işlem bulunamadı.</p>";
 
     }
-
 
     document.getElementById(
         "totalIncome"
@@ -1355,7 +993,6 @@ function updateScreen(
             }
         );
 
-
     document.getElementById(
         "totalExpense"
     ).textContent =
@@ -1366,7 +1003,6 @@ function updateScreen(
                 minimumFractionDigits:2
             }
         );
-
 
     document.getElementById(
         "balance"
@@ -1381,7 +1017,6 @@ function updateScreen(
                 minimumFractionDigits:2
             }
         );
-
 
     updateChart(
         totalIncome,
@@ -1407,7 +1042,6 @@ async function deleteTransaction(id){
 
     }
 
-
     const {error} =
         await supabaseClient
             .from("transactions")
@@ -1416,7 +1050,6 @@ async function deleteTransaction(id){
                 "id",
                 id
             );
-
 
     if(error){
 
@@ -1427,7 +1060,6 @@ async function deleteTransaction(id){
 
         return;
     }
-
 
     loadTransactions();
 
@@ -1444,7 +1076,6 @@ function clearFilter(){
         "monthFilter"
     ).value = "";
 
-
     loadTransactions();
 
 }
@@ -1458,7 +1089,6 @@ function formatDate(date){
 
     const parts =
         date.split("-");
-
 
     return (
         parts[2] +
@@ -1485,13 +1115,11 @@ function updateChart(
             "financeChart"
         );
 
-
     if(financeChart){
 
         financeChart.destroy();
 
     }
-
 
     financeChart =
         new Chart(
@@ -1549,10 +1177,8 @@ function escapeHtml(text){
             "div"
         );
 
-
     div.textContent =
         text;
-
 
     return div.innerHTML;
 
@@ -1569,4 +1195,3 @@ checkSession();
 
 </body>
 </html>
-```
